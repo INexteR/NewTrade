@@ -16,15 +16,9 @@
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="6.0.2" />
   </ItemGroup>
 	<ItemGroup>
-	  <Reference Include="MVVM">
-	    <HintPath>..\MVVM\bin\Debug\net7.0-windows\MVVM.dll</HintPath>
-	  </Reference>
-	  <Reference Include="ShopModel">
-	    <HintPath>..\ShopModel\bin\Debug\net7.0\ShopModel.dll</HintPath>
-	  </Reference>
-	  <Reference Include="ShopViewModels">
-	    <HintPath>..\ShopViewModels\bin\Debug\net7.0\ShopViewModels.dll</HintPath>
-	  </Reference>
+	  <ProjectReference Include="..\MVVM\MVVM.csproj" />
+	  <ProjectReference Include="..\ShopModel\ShopModel.csproj" />
+	  <ProjectReference Include="..\ShopViewModels\ShopViewModels.csproj" />
 	</ItemGroup>
 
 </Project>
