@@ -15,15 +15,20 @@ namespace ShopViewModels
     {
         private readonly Shop _shop;
 
-        public ICommand Login { get; }
+        public RelayCommand Login { get; }
 
         public string Name => _shop.Name;
+        public LoginViewModel() // Конструктор для режима разработки
+        {
+            Login = new RelayCommand<LoginPassword>(LoginExecute, LoginCanExecute);
+            _shop = new Shop();
+        }
 
-        public LoginViewModel(Shop shop, LoginPassword lp)
+        public LoginViewModel(Shop shop)
         {
             _shop = shop;
             _shop.Authorization.StatusMessageChanged += OnStatusMessageChanged;
-            Login = new AsyncRelayCommand<Properties>(LoginExecute, LoginCanExecute, lp, nameof(LoginPassword.Login), nameof(LoginPassword.Password));
+            Login = new RelayCommand<LoginPassword>(LoginExecute, LoginCanExecute);
         }
 
         private void OnStatusMessageChanged(string? statusMessage)
@@ -31,16 +36,28 @@ namespace ShopViewModels
             StatusMessage = statusMessage;
         }
 
-        private async Task LoginExecute(Properties properties)
+        private bool loginExecuting;
+        private async void LoginExecute(LoginPassword loginPassword)
         {
-            string login = properties.Get<string>("Login");
-            string password = properties.Get<string>("Password");
-            await _shop.Authorization.Login(login, password);
+            if (loginExecuting)
+            {
+                throw new Exception("Авторизация уже выполняется");
+            }
+            loginExecuting = true;
+            Login.RaiseCanExecuteChanged();
+
+            if (loginPassword == null)
+            {
+                throw new ArgumentNullException(nameof(loginPassword));
+            }
+            await _shop.Authorization.Login(loginPassword.Login, loginPassword.Password);
+            loginExecuting = false;
+            Login.RaiseCanExecuteChanged();
         }
 
-        private bool LoginCanExecute(Properties properties)
+        private bool LoginCanExecute(LoginPassword loginPassword)
         {
-            return !properties.HasErrors;
+            return !(loginExecuting || (loginPassword?.HasErrors ?? false));
         }
 
         private string? _statusMessage;

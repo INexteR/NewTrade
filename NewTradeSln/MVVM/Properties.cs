@@ -1,22 +1,48 @@
-﻿using MVVM.ViewModels;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace MVVM.ViewModels
 {
-    public abstract class Properties : ViewModelBase
+    public abstract class ViewModelBase : BaseInpc
     {
-        private readonly Dictionary<string, object> _properties;
+        private readonly Dictionary<string, object?> _properties = new();
 
-        protected Properties()
+        protected T? Get<T>([CallerMemberName] string propertyName = "")
         {
-            _properties = new();
+            T? value;
+            if (_properties.TryGetValue(propertyName, out object? _prop))
+            {
+                value = (T?)_prop;
+            }
+            else
+            {
+                value = default;
+            }
+            return value;
         }
 
-        public abstract bool HasErrors { get; }
+        protected void Set<T>(T? newValue, [CallerMemberName] string propertyName = "")
+        {
+            T? oldValue;
+            if (_properties.TryGetValue(propertyName, out object? _prop))
+            {
+                oldValue = (T?)_prop;
+            }
+            else
+            {
+                oldValue = default;
+            }
+            if (!Equals(oldValue, newValue))
+            {
+                OnPropertyChanging(propertyName, oldValue, newValue);
+                OnPropertyChanging(propertyName);
+                OnPropertyChanged(propertyName);
+                OnPropertyChanged(propertyName, oldValue, newValue);
+            }
+        }
 
-        public T Get<T>(string propertyName) => (T)_properties[propertyName];
 
-        protected override void OnPropertyChanges(string propertyName, object oldValue, object newValue)
+        protected override void OnPropertyChanging(string propertyName, object? oldValue, object? newValue)
         {
             _properties[propertyName] = newValue;
         }

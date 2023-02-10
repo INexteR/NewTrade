@@ -3,55 +3,79 @@ using MVVM.ViewModels;
 
 namespace ShopViewModels
 {
-    public class LoginPassword : Properties, IDataErrorInfo
+    public class LoginPassword : ValidationBase
     {
-        private string _login = string.Empty;
+        public LoginPassword()
+        {
+            Login = string.Empty;
+            Password = string.Empty;
+        }
+
         public string Login
         {
-            get => _login;
-            set => Set(ref _login, value);
+            get => Get<string>()!;
+            set => Set(value ?? string.Empty);
         }
 
-        private string _password = string.Empty;
         public string Password
         {
-            get => _password;
+            get => Get<string>()!;
 
-            set => Set(ref _password, value);
+            set => Set(value ?? string.Empty);
         }
 
-        public string this[string columnName]
-        {
-            get
-            {
-                string error = string.Empty;
-                return columnName switch
-                {
-                    nameof(Login) => error.Validate(Login, loginError),
-                    nameof(Password) => error.Validate(Password, passwordError),
-                    _ => error
-                };
-            }
-        }
+        //public string this[string columnName]
+        //{
+        //    get
+        //    {
+        //        string error = string.Empty;
+        //        return columnName switch
+        //        {
+        //            nameof(Login) => error.Validate(Login, loginError),
+        //            nameof(Password) => error.Validate(Password, passwordError),
+        //            _ => error
+        //        };
+        //    }
+        //}
 
         const string loginError = "Введите логин";
         const string passwordError = "Введите пароль";
 
-        public string Error =>
-            string.Empty.Validate(Login, $"{loginError}\n").Validate(Password, passwordError);
+        //public string Error =>
+        //    string.Empty.Validate(Login, $"{loginError}\n").Validate(Password, passwordError);
 
-        public override bool HasErrors => !string.IsNullOrEmpty(Error);
-    }
-
-    file static class StringValidation
-    {
-        public static string Validate(this string error, string propValue, string message)
+        protected override void OnPropertyChanged(string propertyName, object? oldValue, object? newValue)
         {
-            if (string.IsNullOrWhiteSpace(propValue))
+            base.OnPropertyChanged(propertyName, oldValue, newValue);
+            switch (propertyName)
             {
-                error += message;
+                case nameof(Login):
+                    string? login = (string?)newValue;
+                    if (string.IsNullOrWhiteSpace(login))
+                        AddError(loginError, propertyName);
+                    else
+                        ClearErrors(propertyName);
+                    break;
+                case nameof(Password):
+                    string? password = (string?)newValue;
+                    if (string.IsNullOrWhiteSpace(password))
+                        AddError(passwordError, propertyName);
+                    else
+                        ClearErrors(propertyName);
+                    break;
             }
-            return error;
         }
     }
+
+    //file static class StringValidation
+    //{
+    //    public static string Validate(this string error, string propValue, string message)
+    //    {
+    //        if (string.IsNullOrWhiteSpace(propValue))
+    //        {
+    //            error += message;
+    //        }
+    //        return error;
+    //    }
+    //}
 }

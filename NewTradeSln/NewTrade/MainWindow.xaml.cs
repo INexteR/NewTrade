@@ -37,7 +37,7 @@ namespace NewTrade
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new LoginViewModel(new(), (LoginPassword)Resources["lp"]);
+            DataContext = new LoginViewModel(new());// Это не есть хорошо. Тогда лучше локатор делать.
         }
 
         private void Button_Loaded(object sender, RoutedEventArgs e)

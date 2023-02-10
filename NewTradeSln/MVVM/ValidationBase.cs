@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MVVM.ViewModels
 {
-    public abstract class ValidationBase : Properties, INotifyDataErrorInfo
+    public abstract class ValidationBase : ViewModelBase, INotifyDataErrorInfo
     {
         private readonly Dictionary<string, List<string>> _errors;
 
@@ -34,9 +34,10 @@ namespace MVVM.ViewModels
             {
                 OnErrorsChanged(propertyName);
             }
+            OnErrorsChanged(propertyName); 
         }
 
-        public override bool HasErrors => _errors.Count > 0;
+        public bool HasErrors => _errors.Count > 0;
 
         public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
 
