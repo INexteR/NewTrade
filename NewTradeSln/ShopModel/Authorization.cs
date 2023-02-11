@@ -6,17 +6,18 @@ namespace ShopModel
     {
         public async Task Login(string login, string password)
         {
-            await using var context = await Context.GetAsync();
-            await foreach (var user in context.Users)
-            {
-                if (Eq(user.UserLogin, login) && Eq(user.UserPassword, password))
-                {
-                    CurrentUser = user;
-                    StatusMessage = "Пользователь авторизован";
-                    return;
-                }
-            }
-            StatusMessage = "Пользователь не найден";
+            await Task.Run(() => Thread.Sleep(10_000));
+            //await using var context = await Context.GetAsync();
+            //await foreach (var user in context.Users)
+            //{
+            //    if (Eq(user.UserLogin, login) && Eq(user.UserPassword, password))
+            //    {
+            //        CurrentUser = user;
+            //        StatusMessage = "Пользователь авторизован";
+            //        return;
+            //    }
+            //}
+            //StatusMessage = "Пользователь не найден";
         }
 
         private static bool Eq(string s1, string s2)

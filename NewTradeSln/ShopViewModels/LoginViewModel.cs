@@ -47,7 +47,9 @@ namespace ShopViewModels
 
         private bool LoginCanExecute(LoginPassword loginPassword)
         {
-            return !(loginExecuting || (loginPassword?.HasErrors ?? false));
+            return !(loginExecuting ||
+                     string.IsNullOrWhiteSpace(loginPassword?.Login) ||
+                     string.IsNullOrWhiteSpace(loginPassword.Password));
         }
 
         private string? _statusMessage;
