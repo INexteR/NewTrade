@@ -11,10 +11,12 @@
         Width="800"
         FontSize="18"
         WindowStartupLocation="CenterScreen"
-        DataContext="{DynamicResource vm}">
+        DataContext="{Binding LoginViewModel, Source={StaticResource locator}}">
+    <d:Window.DataContext>
+        <vms:LoginViewModel/>
+    </d:Window.DataContext>
     <Window.Resources>
         <vms:LoginPassword x:Key="lp"/>
-        <vms:LoginViewModel x:Key="vm"/>
     </Window.Resources>
     <Grid>
         <StackPanel VerticalAlignment="Center"
@@ -35,8 +37,6 @@
                     Margin="0 10" x:Name="btn">
             </Button>
             <Button Content="Гость"
-                    Loaded="Button_Loaded"
-                    Unloaded="Button_Unloaded"
                     Margin="0 0 0 10" />
             <TextBlock Text="{Binding StatusMessage}" />
         </StackPanel>

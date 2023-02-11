@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using MVVM.ViewModels;
+﻿using MVVM.ViewModels;
 
 namespace ShopViewModels
 {

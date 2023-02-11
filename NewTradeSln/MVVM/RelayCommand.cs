@@ -1,74 +1,78 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
+using System.Windows.Threading;
 
-namespace MVVM.Commands
+namespace MVVM.ViewModels
 {
-    public class RelayCommand : CommandBase
+    #region Класс команд - RelayCommand
+    /// <summary>Класс реализующий <see cref="ICommand"/>.</summary>
+    public partial class RelayCommand : ICommand
     {
-        private readonly Action<object?> _execute;
-        private readonly Func<object?, bool>? _canExecute;
-        private readonly string[] _properties;
+        private readonly CanExecuteHandler<object?> canExecute;
+        private readonly ExecuteHandler<object?> execute;
+        private readonly EventHandler requerySuggested;
 
-        public RelayCommand(Action<object?> execute)
+        /// <summary>Событие извещающее об изменении состояния команды.</summary>
+        public event EventHandler? CanExecuteChanged;
+
+        /// <summary>Конструктор команды.</summary>
+        /// <param name="execute">Выполняемый метод команды.</param>
+        /// <param name="canExecute">Метод, возвращающий состояние команды.</param>
+        public RelayCommand(ExecuteHandler<object?> execute, CanExecuteHandler<object?> canExecute)
         {
-            _execute = execute;
-            _properties = Array.Empty<string>();
+            dispatcher = Application.Current.Dispatcher;
+            this.execute = execute ?? throw Exceptions.executeException;
+            this.canExecute = canExecute ?? throw Exceptions.canExecuteException;
+
+            requerySuggested = (o, e) => Invalidate();
+            CommandManager.RequerySuggested += requerySuggested;
         }
 
-        public RelayCommand(Action<object?> execute, Func<object?, bool> canExecute, INotifyPropertyChanged notify, params string[] properties) : this(execute)
-        {
-            _canExecute = canExecute;
-            _properties = properties;
-            notify.PropertyChanged += OnPropertyChanged;
-        }
+        /// <inheritdoc cref="RelayCommand(ExecuteHandler{object?}, CanExecuteHandler{object?})"/>
+        public RelayCommand(ExecuteHandler<object?> execute)
+        :this(execute, obj => true)
+        { }
 
-        private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
-        {
-            if (_properties.Contains(e.PropertyName))
-            {
-                OnCanExecuteChanged();
-            }
-        }
+        /// <inheritdoc cref="RelayCommand(ExecuteHandler{object?}, CanExecuteHandler{object?})"/>
+        public RelayCommand(ExecuteHandler execute, CanExecuteHandler canExecute)
+                : this
+                (
+                      execute is not null ? p => execute() : throw Exceptions.executeException,
+                      canExecute is not null ? p => canExecute() : throw Exceptions.canExecuteException
+                )
+        { }
 
-        public override void Execute(object? parameter)
-        {
-            _execute(parameter);
-        }
+        /// <inheritdoc cref="RelayCommand(ExecuteHandler{object?}, CanExecuteHandler{object?})"/>
+        public RelayCommand(ExecuteHandler execute)
+                : this
+                (
+                      execute is not null ? p => execute() : throw Exceptions.executeException
+                )
+        { }
 
-        public override bool CanExecute(object? parameter)
+        private readonly Dispatcher dispatcher;
+
+        /// <summary>Метод, подымающий событие <see cref="CanExecuteChanged"/>.</summary>
+        public void RaiseCanExecuteChanged()
         {
-            return _canExecute?.Invoke(parameter) ?? true;
+            if (dispatcher.CheckAccess())
+                Invalidate();
+            else
+                dispatcher.BeginInvoke(Invalidate);
         }
+        private void Invalidate()
+            => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+
+        /// <summary>Вызов метода, возвращающего состояние команды.</summary>
+        /// <param name="parameter">Параметр команды.</param>
+        /// <returns><see langword="true"/> - если выполнение команды разрешено.</returns>
+        public bool CanExecute(object? parameter) => canExecute(parameter);
+
+        /// <summary>Вызов выполняющего метода команды.</summary>
+        /// <param name="parameter">Параметр команды.</param>
+        public void Execute(object? parameter) => execute(parameter);
     }
-
-    public class RelayCommand<T> : RelayCommand
-    {
-        private readonly Action<T> _execute;
-        private readonly Func<T, bool>? _canExecute;
-
-        public RelayCommand(Action<T> execute) : base(null!)
-        {
-            _execute = execute;
-        }
-        public RelayCommand(Action<T> execute, Func<T, bool> canExecute, INotifyPropertyChanged notify, params string[] properties) 
-            : base(null!, null!, notify, properties)
-        {
-            _execute = execute;
-            _canExecute = canExecute;
-        }
-
-        public override void Execute(object? parameter)
-        {
-            _execute((T)parameter!);
-        }
-
-        public override bool CanExecute(object? parameter)
-        {
-            return _canExecute?.Invoke((T)parameter!) ?? true;
-        }
-    }
+    #endregion
 }
+

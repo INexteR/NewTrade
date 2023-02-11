@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MVVM.ViewModels;
-using MVVM.Commands;
-using System.Windows.Input;
-using System.ComponentModel;
+﻿using MVVM.ViewModels;
 using ShopModel;
 
 namespace ShopViewModels
@@ -15,12 +7,11 @@ namespace ShopViewModels
     {
         private readonly Shop _shop;
 
-        public RelayCommand Login { get; }
+        public RelayCommand<LoginPassword> Login => GetCommand<LoginPassword>(LoginExecute, LoginCanExecute);
 
         public string Name => _shop.Name;
         public LoginViewModel() // Конструктор для режима разработки
         {
-            Login = new RelayCommand<LoginPassword>(LoginExecute, LoginCanExecute);
             _shop = new Shop();
         }
 
@@ -28,7 +19,6 @@ namespace ShopViewModels
         {
             _shop = shop;
             _shop.Authorization.StatusMessageChanged += OnStatusMessageChanged;
-            Login = new RelayCommand<LoginPassword>(LoginExecute, LoginCanExecute);
         }
 
         private void OnStatusMessageChanged(string? statusMessage)

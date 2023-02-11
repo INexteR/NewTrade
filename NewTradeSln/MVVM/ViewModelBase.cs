@@ -1,54 +1,39 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace MVVM.ViewModels
 {
-    public abstract class BaseInpc : INotifyPropertyChanged, INotifyPropertyChanging
+    public  abstract partial class ViewModelBase : BaseInpc
     {
-        protected BaseInpc() { }
+        private readonly Dictionary<string, object?> _properties = new();
 
-        public event PropertyChangedEventHandler? PropertyChanged;
-        public event PropertyChangingEventHandler? PropertyChanging;
-
-        protected void Set<T>(ref T? storage, T? newValue, [CallerMemberName] string propertyName = "")
+        protected T? Get<T>([CallerMemberName] string propertyName = "")
         {
-            if (!Equals(storage, newValue)) // В WPF для сравненияиспользуется метод object.Equals(object).
+            T? value;
+            if (_properties.TryGetValue(propertyName, out object? _prop))
             {
-                T? oldValue = storage;
-                storage = newValue;
-                OnPropertyChanging(propertyName, oldValue, newValue);
-                OnPropertyChanging(propertyName);
-                OnPropertyChanged(propertyName);
-                OnPropertyChanged(propertyName, oldValue, newValue);
+                value = (T?)_prop;
             }
+            else
+            {
+                value = default;
+            }
+            return value;
         }
 
-        public static PropertyChangedEventArgs AllChanged { get; } = new(string.Empty);
-        public static PropertyChangingEventArgs AllChanging { get; } = new(string.Empty);
-
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        protected void Set<T>(T? newValue, [CallerMemberName] string propertyName = "")
         {
-            PropertyChangedEventArgs args = AllChanged;
-            if (!string.IsNullOrWhiteSpace(propertyName))
-                args = new(propertyName);
-            PropertyChanged?.Invoke(this, args);
+            T? oldValue;
+            if (_properties.TryGetValue(propertyName, out object? _prop))
+            {
+                oldValue = (T?)_prop;
+            }
+            else
+            {
+                oldValue = default;
+            }
+            _properties[propertyName] = newValue;
+            Set(ref oldValue, newValue, propertyName);
         }
-        protected void OnPropertyChanging([CallerMemberName] string propertyName = "")
-        {
-            PropertyChangingEventArgs args = AllChanging;
-            if (!string.IsNullOrWhiteSpace(propertyName))
-                args = new(propertyName);
-            PropertyChanging?.Invoke(this, args);
-        }
-
-        protected static readonly PropertyChangedEventArgs allProperties = new(string.Empty);
-
-        protected void OnPropertyChanged(PropertyChangedEventArgs args)
-        {
-            PropertyChanged?.Invoke(this, args);
-        }
-        protected virtual void OnPropertyChanging(string propertyName, object? oldValue, object? newValue) { }
-        protected virtual void OnPropertyChanged(string propertyName, object? oldValue, object? newValue) { }
     }
 }

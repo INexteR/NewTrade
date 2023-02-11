@@ -2,14 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MVVM.ViewModels
 {
-    public abstract class ValidationBase : ViewModelBase, INotifyDataErrorInfo
+    public abstract partial class ValidationBase : ViewModelBase, INotifyDataErrorInfo
     {
         private readonly Dictionary<string, List<string>> _errors;
 
