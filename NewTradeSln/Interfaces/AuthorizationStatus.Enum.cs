@@ -1,13 +1,14 @@
 ﻿
 namespace Interfaces
 {
-    /// <summary>
-    /// Состояние авторизации
-    /// </summary>
+    /// <summary>Состояние авторизации.</summary>
     public enum AuthorizationStatus
     {
-        None, //Не выполнена
-        Authorized, //Выполнена
-        InProcessing //В процессе обработки
+        /// <summary>Не выполнена.</summary>
+        None,
+        /// <summary>Выполнена.</summary>
+        Authorized,
+        /// <summary>В процессе обработки.</summary>
+        InProcessing
     }
 }

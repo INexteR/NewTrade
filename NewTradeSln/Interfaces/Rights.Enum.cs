@@ -2,15 +2,18 @@
 
 namespace Interfaces
 {
-    /// <summary>
-    /// Возможные комбинации прав
-    /// </summary>
+    /// <summary>Возможные комбинации прав.</summary>
     [Flags]
     public enum Rights
     {
-        Viewing = 0, //Просмотр
-        Adding = 1, //Добавление
-        Deleting = 2, //Удаление
-        Editing = 4 //Редактирование
+        /// <summary>Просмотр.</summary>
+        Viewing = 0, 
+        /// <summary>Добавление.</summary>
+        Adding = 1, 
+        /// <summary>Удаление.</summary>
+        Deleting = 2, 
+        /// <summary>Редактирование.</summary>
+        Editing = 4 
     }
+
 }

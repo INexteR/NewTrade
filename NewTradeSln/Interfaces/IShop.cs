@@ -1,18 +1,15 @@
 ﻿
 namespace Interfaces
 {
-    /// <summary>
-    /// Целевая модель
-    /// </summary>
-    public interface IShop
+    /// <summary>Целевая модель.</summary>
+    public interface IShop : IAuthorization
     {
-        /// <summary>
-        /// Наименование магазина
-        /// </summary>
+        /// <summary>Наименование магазина.</summary>
         string Name { get; }
-        /// <summary>
-        /// Авторизация - необходимая компонента данной предметной области
-        /// </summary>
-        IAuthorization Authorization { get; }
+
+
+        // Чтобы упростить пока сделаем просто производный интерфейс.
+        ///// <summary>Авторизация - необходимая компонента данной предметной области.</summary>
+        //IAuthorization Authorization { get; }
     }
 }
