@@ -1,6 +1,4 @@
-﻿
-
-namespace Interfaces
+﻿namespace Interfaces
 {
     /// <summary>Возможные комбинации прав.</summary>
     [Flags]
@@ -15,5 +13,4 @@ namespace Interfaces
         /// <summary>Редактирование.</summary>
         Editing = 4 
     }
-
 }
