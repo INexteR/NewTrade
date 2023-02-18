@@ -1,4 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using ShopModel.Entities;
 
 namespace ShopModel
@@ -18,7 +22,6 @@ namespace ShopModel
         {
             return Task.Run(Get);
         }
-
         public Context()
         {
         }
@@ -159,9 +162,9 @@ namespace ShopModel
 
                 entity.HasIndex(e => e.ProductUnit, "k0_idx");
 
-                entity.HasIndex(e => e.ProductManufacturer, "k1_idx");
+                entity.HasIndex(e => e.ProductSupplier, "k1");
 
-                entity.HasIndex(e => e.ProductSupplier, "k2_idx");
+                entity.HasIndex(e => e.ProductManufacturer, "k2_idx");
 
                 entity.HasIndex(e => e.ProductCategory, "k3_idx");
 
@@ -176,6 +179,8 @@ namespace ShopModel
 
                 entity.Property(e => e.ProductName).HasColumnType("text");
 
+                entity.Property(e => e.ProductPhoto).HasColumnType("text");
+
                 entity.HasOne(d => d.ProductCategoryNavigation)
                     .WithMany(p => p.Products)
                     .HasForeignKey(d => d.ProductCategory)
@@ -186,13 +191,13 @@ namespace ShopModel
                     .WithMany(p => p.Products)
                     .HasForeignKey(d => d.ProductManufacturer)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("k1");
+                    .HasConstraintName("k2");
 
                 entity.HasOne(d => d.ProductSupplierNavigation)
                     .WithMany(p => p.Products)
                     .HasForeignKey(d => d.ProductSupplier)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("k2");
+                    .HasConstraintName("k1");
 
                 entity.HasOne(d => d.ProductUnitNavigation)
                     .WithMany(p => p.Products)

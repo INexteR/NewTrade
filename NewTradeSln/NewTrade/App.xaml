@@ -2,9 +2,15 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:NewTrade"
+             xmlns:vms="clr-namespace:ShopViewModels;assembly=ShopViewModels"
+             xmlns:m="clr-namespace:ShopModel;assembly=ShopModel"
              StartupUri="MainWindow.xaml"
              Startup="OnAppStartup">
     <Application.Resources>
-        <local:Locator x:Key="locator"/>
+        <vms:Locator x:Key="locator" />
+        <m:Shop x:Key="shop"/>
+        <Image Source="/Resources/logo.png"
+               x:Key="logo"
+               x:Shared="False" />
     </Application.Resources>
 </Application>

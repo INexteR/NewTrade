@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
 namespace MVVM.ViewModels
 {
-    public  abstract partial class ViewModelBase : BaseInpc
+    public  abstract partial class ViewModelBase : BaseInpc, IDisposable
     {
         private readonly Dictionary<string, object?> _properties = new();
 
@@ -35,5 +36,7 @@ namespace MVVM.ViewModels
             _properties[propertyName] = newValue;
             Set(ref oldValue, newValue, propertyName);
         }
+
+        public virtual void Dispose() { }
     }
 }

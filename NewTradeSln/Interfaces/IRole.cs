@@ -12,7 +12,7 @@ namespace Interfaces
         string Name { get; }
 
         /// <summary>Права, которыми располагает роль.</summary>
-        Rights Rights { get; ; }
+        Rights Rights { get; }
     }
 
 }

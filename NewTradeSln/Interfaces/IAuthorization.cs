@@ -31,7 +31,7 @@ namespace Interfaces
         /// <param name="password">Пароль пользователя</param>
         /// <returns><see cref="Task"/> с методом <see cref="Login"/>,
         /// запущенным на выполнение в пуле потоков.</returns>
-        void LoginAsync(string login, string password);
+        Task LoginAsync(string login, string password);
 
         /// <summary>Метод, выполняющий завершение сеанса текущего пользователя.
         /// Обнуляет <see cref="CurrentUser">свойство CurrentUser</see>

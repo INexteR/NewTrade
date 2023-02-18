@@ -6,9 +6,11 @@ namespace Interfaces
     {
         /// <summary>Не выполнена.</summary>
         None,
+        /// <summary>В процессе обработки.</summary>
+        InProcessing,
         /// <summary>Выполнена.</summary>
         Authorized,
-        /// <summary>В процессе обработки.</summary>
-        InProcessing
+        /// <summary>Ошибка.</summary>
+        Fail
     }
 }

@@ -1,4 +1,7 @@
-﻿namespace ShopModel.Entities
+﻿using System;
+using System.Collections.Generic;
+
+namespace ShopModel.Entities
 {
     public partial class Product
     {
@@ -18,11 +21,11 @@
         public sbyte? ProductDiscountAmount { get; set; }
         public int ProductQuantityInStock { get; set; }
         public string ProductDescription { get; set; } = null!;
-        public byte[]? ProductPhoto { get; set; }
+        public string? ProductPhoto { get; set; }
 
         public virtual Category ProductCategoryNavigation { get; set; } = null!;
-        public virtual Supplier ProductManufacturerNavigation { get; set; } = null!;
-        public virtual Manufacturer ProductSupplierNavigation { get; set; } = null!;
+        public virtual Manufacturer ProductManufacturerNavigation { get; set; } = null!;
+        public virtual Supplier ProductSupplierNavigation { get; set; } = null!;
         public virtual Unit ProductUnitNavigation { get; set; } = null!;
         public virtual ICollection<Orderproduct> Orderproducts { get; set; }
     }

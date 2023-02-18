@@ -1,4 +1,5 @@
-﻿namespace NewTrade
+﻿
+namespace NewTrade
 {
     /// <summary>
     /// Interaction logic for App.xaml
@@ -8,7 +9,8 @@
         private void OnAppStartup(object sender, StartupEventArgs e)
         {
             Locator locator = (Locator)FindResource(nameof(locator));
-            locator.LoginViewModel = new(new());
+            Shop shop = (Shop)FindResource(nameof(shop));
+            locator.CurrentViewModel = new LoginViewModel(shop, locator);
         }
     }
 }

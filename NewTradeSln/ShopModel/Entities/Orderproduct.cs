@@ -1,4 +1,7 @@
-﻿namespace ShopModel.Entities
+﻿using System;
+using System.Collections.Generic;
+
+namespace ShopModel.Entities
 {
     public partial class Orderproduct
     {
