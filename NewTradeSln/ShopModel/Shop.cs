@@ -1,15 +1,11 @@
-﻿using Interfaces;
-using Microsoft.EntityFrameworkCore;
-using ShopModel.DTOs;
+﻿using ShopModel.DTOs;
 using ShopModel.Entities;
 
 namespace ShopModel
 {
-    public class Shop
+    public partial class Shop
     {
-        public string Name { get; } = "ООО «Ткани»";
-
-        public Authorization Authorization { get; } = new();
+        //public Authorization Authorization { get; } = new();
 
         //private static ProductDTO ToProductDTO(Product p) => new(p);
 

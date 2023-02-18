@@ -1,18 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Interfaces;
 
 namespace ShopModel.Entities
 {
-    public partial class Role
+    public partial class Role : IRole
     {
-        public Role()
+        public int Id { get; internal set; }
+
+        private string _name = string.Empty;
+        public string Name { get => _name; internal set => _name = value ?? string.Empty; }
+        public Rights Rights { get; internal set; }
+
+        private ICollection<User>? users;
+
+        public virtual ICollection<User> _Users
         {
-            Users = new HashSet<User>();
+            get => users ??= new HashSet<User>();
+            set => users = value;
         }
-
-        public int RoleId { get; set; }
-        public string RoleName { get; set; } = null!;
-
-        public virtual ICollection<User> Users { get; set; }
     }
 }

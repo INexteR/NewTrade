@@ -14,15 +14,21 @@ namespace Interfaces
         string Name { get; }
 
         /// <summary>Отчество.</summary>
-        string Patronymic { get; }
+        string? Patronymic { get; }
 
         /// <summary>Логин.</summary>
         string Login { get; }
 
         /// <summary>Хеш пароля.</summary>
-        byte[] HashPassword { get; }
+        byte[]? HashPassword { get; }
 
         /// <summary>Роль.</summary>
-        IRole UserRole { get; }
+        IRole? Role { get; }
+
+        /// <summary>Проверка стрингового пароля.</summary>
+        /// <param name="password">Пароль.</param>
+        /// <returns><see langword="true"/>, если хеш <paramref name="password"/>
+        /// совпадает с <see cref="HashPassword"/>.</returns>
+        bool CheckPassword(string password);
     }
 }

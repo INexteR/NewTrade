@@ -41,10 +41,10 @@ namespace Interfaces
         /// <summary>Событие подымающиеся при изменении состояния авторизации.</summary>
         event EventHandler<AuthorizationChangedArgs> AuthorizationChanged;
 
-        /// <summary>Защищённый метод для подъёма события <see cref="AuthorizationChanged">AuthorizationChanged</see>.</summary>
-        /// <param name="newStatus">Новый статус.</param>
-        /// <param name="newUser">Новый пользователь. Не <see langword="null"/> только
-        /// для <paramref name="newStatus"/>=<see cref="AuthorizationStatus.Authorized">Authorized</see>.</param>
-        protected void OnAuthorizationChanged(AuthorizationStatus newStatus,  IUser? newUser);
+        ///// <summary>Защищённый метод для подъёма события <see cref="AuthorizationChanged">AuthorizationChanged</see>.</summary>
+        ///// <param name="newStatus">Новый статус.</param>
+        ///// <param name="newUser">Новый пользователь. Не <see langword="null"/> только
+        ///// для <paramref name="newStatus"/>=<see cref="AuthorizationStatus.Authorized">Authorized</see>.</param>
+        //protected void OnAuthorizationChanged(AuthorizationStatus newStatus,  IUser? newUser);
     }
 }
