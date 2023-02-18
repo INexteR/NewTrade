@@ -5,36 +5,26 @@ namespace ShopModel.Entities
     public partial class User : IUser
     {
 
-        public int Id { get; set; }
+        public int Id { get; internal set; }
 
         private string surname = string.Empty;
 
-        public string Surname { get => surname; set => surname = value ?? string.Empty; }
+        public string Surname { get => surname; internal set => surname = value ?? string.Empty; }
 
         private string name = string.Empty;
 
-        public string Name { get => name; set => name = value ?? string.Empty; }
-        public string? Patronymic { get; set; }
+        public string Name { get => name; internal set => name = value ?? string.Empty; }
+        public string? Patronymic { get; internal set; }
 
 
         private string login = string.Empty;
-        public string Login { get => login; set => login = value ?? string.Empty; }
+        public string Login { get => login; internal set => login = value ?? string.Empty; }
 
-        public byte[]? HashPassword { get; set; }
+        /// <summary>Хеш пароля.</summary>
+        internal byte[]? HashPassword { get; set; }
 
         internal virtual Role? Role { get; set; }
+
         IRole? IUser.Role => Role;
-
-        public bool CheckPassword(string password)
-        {
-            // Значит для логина нет пароля (вход без пароля).
-            if (password is null || HashPassword is null)
-                return password is null && HashPassword is null;
-
-            // Получение хеша пароля. В данном случае просто для примера используется дефолтный хеш стринга.
-            byte[] hash = BitConverter.GetBytes(password.GetHashCode());
-
-            return hash.SequenceEqual(HashPassword);
-        }
     }
 }
