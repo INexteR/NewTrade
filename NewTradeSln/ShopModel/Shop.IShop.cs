@@ -1,6 +1,4 @@
 ﻿using Interfaces;
-using Microsoft.EntityFrameworkCore;
-using ShopModel.DTOs;
 using ShopModel.Entities;
 
 namespace ShopModel
@@ -11,11 +9,9 @@ namespace ShopModel
         public AuthorizationStatus Status { get; private set; }
         public IUser? CurrentUser { get; private set; }
 
-        protected void SetAuthorizationStatus(AuthorizationStatus newStatus, IUser? newUser = null)
+        private void OnAuthorizationChanged()
         {
-            Status = newStatus;
-            CurrentUser = newUser;
-            AuthorizationChanged(this, new AuthorizationChangedArgs(newStatus, newUser));
+            AuthorizationChanged(this, new AuthorizationChangedArgs(Status, CurrentUser));
         }
 
         public string Name { get; } = "ООО «Ткани»";
@@ -32,7 +28,7 @@ namespace ShopModel
             // Потом:
             Status = AuthorizationStatus.None;
             CurrentUser = null;
-            AuthorizationChanged(this, new AuthorizationChangedArgs(Status));
+            OnAuthorizationChanged();
         }
 
         public void Login(string login, string password)
@@ -40,15 +36,20 @@ namespace ShopModel
             if (Status != AuthorizationStatus.None)
                 throw new Exception($"Запрос новой авторизации возможен только в сотоянии {AuthorizationStatus.None}.");
             Status = AuthorizationStatus.InProcessing;
-            AuthorizationChanged(this, new AuthorizationChangedArgs(Status));
+            OnAuthorizationChanged();
 
             // Какие-то действия, потом проверка
             if (/* Условие прохождения авторизации */ true)
             {
-            Status = AuthorizationStatus.Authorized;
-            CurrentUser = new User();// 
-
-            }    
+                Status = AuthorizationStatus.Authorized;
+                CurrentUser = new User();// запоминание авторизированого пользователя.
+                OnAuthorizationChanged();
+            }
+            else
+            {
+                Status = AuthorizationStatus.None;
+                OnAuthorizationChanged();
+            }
         }
 
         public Task LoginAsync(string login, string password)
