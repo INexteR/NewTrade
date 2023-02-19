@@ -16,6 +16,9 @@ namespace Interfaces
         /// <summary>Отчество.</summary>
         string? Patronymic { get; }
 
+        /// <summary>Почта.</summary>
+        string? Email { get; }
+
         /// <summary>Логин.</summary>
         string Login { get; }
 

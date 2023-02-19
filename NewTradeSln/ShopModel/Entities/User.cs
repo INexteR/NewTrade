@@ -32,5 +32,7 @@ namespace ShopModel.Entities
         internal virtual Role Role { get; set; } = null!;
 
         IRole? IUser.Role => Role;
+
+        public string? Email { get; internal set; }
     }
 }

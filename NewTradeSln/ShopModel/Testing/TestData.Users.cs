@@ -7,25 +7,38 @@ namespace ShopModel.Testing
     {
         private const string testUsersData = @"users.txt";
         private static readonly string usersDataFullName = Path.Combine(folderFullName, testUsersData);
-
+        private static User[]? users;
         public static IEnumerable<User> GetUsers()
         {
-            var roles = GetRoles();
-            var lines = File.ReadAllLines(usersDataFullName);
-            foreach (var line in lines)
+            // Ициализация users, если не был инициализирован.
+            if (users is null)
             {
-                string[] props = line.Split('\t');
-                yield return new User
+                var lines = File.ReadAllLines(usersDataFullName);
+                users = new User[lines.Length];
+
+                for (int i = 0; i < lines.Length; i++)
                 {
-                    Id = int.Parse(props[0]),
-                    Surname = props[1],
-                    Name = props[2],
-                    Patronymic = props[3],
-                    Login = props[4],
-                    Password = props[5],
-                    HashPassword = ModelHelper.GetHashPassword(props[5]),
-                    Role = roles[int.Parse(props[6]) - 1]
-                };
+                    string line = lines[i];
+                    string[] props = line.Split('\t');
+                    users[i] = new User
+                    {
+                        Id = int.Parse(props[0]),
+                        Surname = props[1],
+                        Name = props[2],
+                        Patronymic = props[3],
+                        Email = props[4],
+                        Login = props[5],
+                        Password = props[6],
+                        HashPassword = ModelHelper.GetHashPassword(props[6]),
+                    };
+                }
+            }
+
+            // Возврат копий, чтобы имитировать запрос к БД.
+            // В каждом запросе возвращаются разные сущности, но с одинаковыми значениями.
+            foreach (var user in users)
+            {
+                yield return user.Clone();
             }
         }
     }

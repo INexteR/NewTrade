@@ -7,13 +7,11 @@
         xmlns:vms="clr-namespace:ShopViewModels;assembly=ShopViewModels"
         xmlns:vs="clr-namespace:NewTrade.Views"
         mc:Ignorable="d"
-        Title="Не знаю как тут отобразить заголовок текущей VM"
         Height="450"
         Width="800"
         FontSize="18"
         WindowStartupLocation="CenterScreen"
-        DataContext="{StaticResource locator}"
-        Content="{Binding CurrentViewModel}">
+        DataContext="{Binding Authorization, Source={StaticResource locator}}">
     <Window.Resources>
         <DataTemplate DataType="{x:Type vms:LoginViewModel}">
             <vs:LoginView />
@@ -22,4 +20,28 @@
             <vs:ProductsView />
         </DataTemplate>
     </Window.Resources>
+    <Window.Style>
+        <Style TargetType="Window">
+            <Setter Property="Title" Value="Авторизация"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding CurrentStatus}"
+                                 Value="Authorized">
+                    <Setter Property="Title" Value="Каталог"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Style>
+    <ContentControl>
+        <ContentControl.Style>
+            <Style TargetType="ContentControl">
+                <Setter Property="Content" Value="{Binding}"/>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding CurrentStatus}"
+                                 Value="Authorized">
+                        <Setter Property="Content" Value="{Binding Products, Source={StaticResource locator}}"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </ContentControl.Style>
+    </ContentControl>
 </Window>

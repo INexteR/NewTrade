@@ -10,18 +10,20 @@ namespace ShopViewModels
     public class ProductsViewModel : ViewModelBase
     {
         private readonly IShop _shop;
-        private readonly IAuthorization _authorization;
-        private readonly Locator _locator;
+        //private readonly IAuthorization _authorization;
 
-        public ICommand Exit => GetCommand(ExitExecute);
+        //public ICommand Exit => GetCommand(ExitExecute);
 
-        public ProductsViewModel(Shop shop, Locator locator)
+        // Это времменое поле. Пока нет нормального объявления интерфейса IShop
+        private readonly Shop? _shopTemp;
+
+        public ProductsViewModel(IShop shop)
         {
             _shop = shop;
-            _authorization = shop;
-            _locator = locator;
+            _shopTemp = shop as Shop;
+            //_authorization = shop;
             //загрузка пока что в конструкторе
-            Products = new ObservableCollection<ReadOnlyProductProxy>(shop.GetProducts().Select(p => new ReadOnlyProductProxy(p)));
+            Products = new ObservableCollection<ReadOnlyProductProxy>(_shopTemp?.GetProducts().Select(p => new ReadOnlyProductProxy(p))??Array.Empty<ReadOnlyProductProxy>());
         }
 
         public string Name => _shop.Name;
@@ -36,16 +38,16 @@ namespace ShopViewModels
         //        return "Гость";
         //    }
         //}
-        public IUser? User => _authorization.CurrentUser;
+        //public IUser? User => _authorization.CurrentUser;
 
-        public IEnumerable<ReadOnlyProductProxy> Products { get; }
+        public ObservableCollection<ReadOnlyProductProxy> Products { get; }
 
-        private void ExitExecute(object? parameter)
-        {
-            _authorization.Exit();
+        //private void ExitExecute(object? parameter)
+        //{
+        //    _authorization.Exit();
 
-            // TODO: Локатор - скорее всего не нужен. Обычно Локатор - это сущность уровня View.
-            _locator.CurrentViewModel = new LoginViewModel(_authorization);
-        }
+        //    // TODO: Локатор - скорее всего не нужен. Обычно Локатор - это сущность уровня View.
+        //    //_locator.CurrentViewModel = new LoginViewModel(_authorization);
+        //}
     }
 }

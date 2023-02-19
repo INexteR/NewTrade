@@ -8,7 +8,7 @@
         /// <param name="password">Пароль.</param>
         /// <returns><see langword="true"/>, если хеш <paramref name="password"/>
         /// совпадает с <see cref="HashPassword"/>.</returns>
-        public static bool CheckPassword(this User user, string password)
+        public static bool CheckPassword(this User user, string? password)
         {
             // Проверка логина без пароля (вход без пароля).
             if (password is null || user.HashPassword is null)

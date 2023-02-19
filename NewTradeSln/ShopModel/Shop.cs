@@ -37,29 +37,39 @@ namespace ShopModel
             }
         }
 
-        public void Login(string? login, string? password)
+        public void Authorize(string? login, string? password)
         {
             lock (authorizationChangedLocker)
             {
-                if (Status != AuthorizationStatus.None)
-                    throw new Exception($"Запрос новой авторизации возможен только в состоянии {AuthorizationStatus.None}.");
+                if (Status is AuthorizationStatus.InProcessing or AuthorizationStatus.Authorized)
+                    throw new Exception($"Запрос новой авторизации возможен в состояниях {AuthorizationStatus.None} и {AuthorizationStatus.Fail}.");
                 Status = AuthorizationStatus.InProcessing;
                 OnAuthorizationChanged();
             }
 
-            if (login is null && password is null) //гость
+            Thread.Sleep(5_000); // Имитация долгой обработки.
+
+            if (login is null) //гость
             {
                 //а может быть вообще в случае гостя никаких действий не производить?
                 //не вызывать метод Login(null, null), а просто сразу выполнить навигацию
                 //установка статуса в авторизованного все равно никакого эффекта не оказывает
-                Status = AuthorizationStatus.Authorized;
+
+                // Нет! VM отражает Модель. Сама по себе она ничего не делает.
+                // Тем более, что у гостя тоже может быть имя. 
+                lock (authorizationChangedLocker)
+                {
+                    Status = AuthorizationStatus.Authorized;
+                    CurrentUser = new User() { Name = "Гость 12345" };
+                    OnAuthorizationChanged();
+                }
                 return;
             }
 
             // Какие-то действия, потом проверка
-            byte[]? hash = ModelHelper.GetHashPassword(password);
+            //byte[]? hash = ModelHelper.GetHashPassword(password);
             var user = TestData.GetUsers()
-                .FirstOrDefault(user => user.Login == login && user.HashPassword == hash);
+                .FirstOrDefault(user => user.Login == login &&  user.CheckPassword(password));
             if (user is not null)
             {
                 lock (authorizationChangedLocker)
@@ -73,14 +83,14 @@ namespace ShopModel
             {
                 lock (authorizationChangedLocker)
                 {
-                    Status = AuthorizationStatus.None;
+                    Status = AuthorizationStatus.Fail;
                     OnAuthorizationChanged();
                 }
             }
         }
 
-        public Task LoginAsync(string? login, string? password)
-            => Task.Run(() => Login(login, password));
+        public Task AuthorizeAsync(string? login, string? password)
+            => Task.Run(() => Authorize(login, password));
 
 
         public IEnumerable<Product> GetProducts()

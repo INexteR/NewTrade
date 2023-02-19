@@ -19,8 +19,9 @@
         <StackPanel VerticalAlignment="Center"
                     HorizontalAlignment="Center"
                     Width="335">
-            <Border Height="123"
-                    Child="{StaticResource logo}" />
+            <Border Height="123">
+                <Image Source="{StaticResource logo}"/>
+            </Border>
             <StackPanel DataContext="{StaticResource lp}">
                 <TextBlock FontSize="24"
                            Text="Вход в учетную запись"
@@ -38,6 +39,20 @@
             <Button Content="Гость"
                     Margin="0 0 0 10" Command="{Binding Guest}"/>
             <TextBlock Text="{Binding CurrentStatus}" />
+            <ProgressBar IsIndeterminate="True" Background="Transparent">
+                <ProgressBar.Style>
+                    <Style TargetType="ProgressBar">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding CurrentStatus}"
+                                                 Value="InProcessing">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ProgressBar.Style>
+            </ProgressBar>
+
         </StackPanel>
     </Grid>
 </UserControl>

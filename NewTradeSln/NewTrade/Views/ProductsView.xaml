@@ -22,15 +22,16 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
-            <Border Child="{StaticResource logo}"
-                    BorderThickness="2"
+            <Border BorderThickness="2"
                     BorderBrush="Black"
                     CornerRadius="3"
-                    Margin="3" />
+                    Margin="3">
+                <Image Source="{StaticResource logo}"/>
+            </Border>
 
             <StackPanel Grid.Column="1"
                         Margin="10 3">
-                <Button Command="{Binding Exit}"
+                <Button Command="{Binding Authorization.Exit, Mode=OneWay, Source={StaticResource locator}}"
                         Content="Выйти" />
                 <TextBlock Margin="0 15 0 0">
                     <Run Text="{Binding Count, Source='Объект, производный от CollectionView, который находится в ресурсах', Mode=OneWay}" />
@@ -47,7 +48,7 @@
                            FontSize="25"
                            FontWeight="DemiBold" />
                 <TextBlock TextAlignment="Right"
-                           DataContext="{Binding User}">
+                           DataContext="{Binding Authorization.CurrentUser, Mode=OneWay, Source={StaticResource locator}}">
                     <Run Text="Пользователь: " />
                     <!--<Run Text="{Binding Username, Mode=OneWay}" />-->
                     <Run>

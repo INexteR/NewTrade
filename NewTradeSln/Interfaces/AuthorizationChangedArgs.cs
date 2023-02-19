@@ -26,18 +26,18 @@ namespace Interfaces
         /// а <paramref name="newUser"/>==<see langword="null"/>.</exception>
         public AuthorizationChangedArgs(AuthorizationStatus newStatus, IUser? newUser = null)
         {
-            if ((int)newStatus is < 0 or > 3)
+            if (!Enum.IsDefined<AuthorizationStatus>(newStatus))
             {
                 throw new ArgumentException("Неожиданное значение.", nameof(newStatus));
             }
 
-            if (newStatus == AuthorizationStatus.Authorized && newUser is null)
+            switch (newStatus)
             {
-                throw new ArgumentNullException(nameof(newUser));
-            }
-            else if (newStatus is AuthorizationStatus.InProcessing or AuthorizationStatus.None && newUser is not null)
-            {
-                throw new ArgumentException($"Допустимо только для {AuthorizationStatus.Authorized}.", nameof(newUser));
+                case AuthorizationStatus.Authorized when newUser is null:
+                    throw new ArgumentNullException(nameof(newUser));
+
+                case AuthorizationStatus.InProcessing or AuthorizationStatus.None when newUser is not null:
+                    throw new ArgumentException($"Допустимо только для {AuthorizationStatus.Authorized}.", nameof(newUser));
             }
 
             NewStatus = newStatus;
