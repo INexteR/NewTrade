@@ -10,8 +10,8 @@ namespace ShopModel.Entities
             Products = new HashSet<Product>();
         }
 
-        public int IdSupplier { get; set; }
-        public string SupplierName { get; set; } = null!;
+        public int Id { get; set; }
+        public string Name { get; set; } = null!;
 
         public virtual ICollection<Product> Products { get; set; }
     }

@@ -1,10 +1,11 @@
 ﻿using Interfaces;
+using System;
+using System.Collections.Generic;
 
 namespace ShopModel.Entities
 {
     public partial class User : IUser
     {
-
         public int Id { get; internal set; }
 
         private string surname = string.Empty;
@@ -23,7 +24,12 @@ namespace ShopModel.Entities
         /// <summary>Хеш пароля.</summary>
         internal byte[]? HashPassword { get; set; }
 
-        internal virtual Role? Role { get; set; }
+        /// <summary>Строковый пароль. Временное решение.</summary>
+        internal string? Password { get; set; }
+
+        internal int RoleId { get; set; } //не убирайте это св-во. на него есть ссылка в OnModelCreating
+
+        internal virtual Role Role { get; set; } = null!;
 
         IRole? IUser.Role => Role;
     }

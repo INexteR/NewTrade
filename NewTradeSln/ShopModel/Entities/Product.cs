@@ -10,23 +10,23 @@ namespace ShopModel.Entities
             Orderproducts = new HashSet<Orderproduct>();
         }
 
-        public string ProductArticleNumber { get; set; } = null!;
-        public string ProductName { get; set; } = null!;
-        public int ProductUnit { get; set; }
-        public decimal ProductCost { get; set; }
-        public int ProductManufacturer { get; set; }
-        public int ProductSupplier { get; set; }
-        public int ProductCategory { get; set; }
-        public int ProductMaxDiscountAmount { get; set; }
-        public sbyte? ProductDiscountAmount { get; set; }
-        public int ProductQuantityInStock { get; set; }
-        public string ProductDescription { get; set; } = null!;
-        public string? ProductPhoto { get; set; }
+        public string ArticleNumber { get; set; } = null!;
+        public string Name { get; set; } = null!;
+        public int UnitId { get; set; }
+        public decimal Cost { get; set; }
+        public int ManufacturerId { get; set; }
+        public int SupplierId { get; set; }
+        public int CategoryId { get; set; }
+        public int MaxDiscountAmount { get; set; }
+        public sbyte? DiscountAmount { get; set; }
+        public int QuantityInStock { get; set; }
+        public string Description { get; set; } = null!;
+        public string? Path { get; set; }
 
-        public virtual Category ProductCategoryNavigation { get; set; } = null!;
-        public virtual Manufacturer ProductManufacturerNavigation { get; set; } = null!;
-        public virtual Supplier ProductSupplierNavigation { get; set; } = null!;
-        public virtual Unit ProductUnitNavigation { get; set; } = null!;
+        public virtual Category Category { get; set; } = null!;
+        public virtual Manufacturer Manufacturer { get; set; } = null!;
+        public virtual Supplier Supplier { get; set; } = null!;
+        public virtual Unit Unit { get; set; } = null!;
         public virtual ICollection<Orderproduct> Orderproducts { get; set; }
     }
 }

@@ -31,13 +31,13 @@
                 <TextBox Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
             <Button Content="Войти"
-                    Command="{Binding Login}"
+                    Command="{Binding Authorize}"
                     CommandParameter="{StaticResource lp}"
                     Margin="0 10">
             </Button>
             <Button Content="Гость"
                     Margin="0 0 0 10" Command="{Binding Guest}"/>
-            <TextBlock Text="{Binding AuthorizationStatus}" />
+            <TextBlock Text="{Binding CurrentStatus}" />
         </StackPanel>
     </Grid>
 </UserControl>

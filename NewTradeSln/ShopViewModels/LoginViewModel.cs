@@ -1,98 +1,70 @@
-﻿using MVVM.ViewModels;
+﻿using Interfaces;
+using MVVM.ViewModels;
 using ShopModel;
-using Interfaces;
-using ShopModel.DTOs;
-using System.Windows.Input;
 
 namespace ShopViewModels
 {
     public class LoginViewModel : ViewModelBase
     {
-        private readonly Shop _shop;
-        private readonly Locator _locator;
+        private readonly IAuthorization _authorization;
 
-        public RelayCommand<LoginPassword> Login => GetCommand<LoginPassword>(LoginExecute, LoginCanExecute);
+        #region Прокси-свойства
+        public IUser? CurrentUser => _authorization.CurrentUser;
+        public AuthorizationStatus CurrentStatus => _authorization.Status;
+        #endregion
+
+        public RelayCommand<LoginPassword> Authorize => GetCommand<LoginPassword>(AuthorizeExecute, AuthorizeCanExecute);
 
         public RelayCommand Guest => GetCommand(GuestExecute, GuestCanExecute);
 
         public LoginViewModel() // Конструктор для режима разработки
         {
-            _shop = new();
-            _locator = new()
-            {
-                CurrentViewModel = this
-            };
+            _authorization = new Shop();
         }
 
-        public LoginViewModel(Shop shop, Locator locator)
+        public LoginViewModel(IAuthorization authorization)
         {
-            _shop = shop;
-            _locator = locator;
-            _shop.Authorization.StatusChanged += OnStatusChanged;
+            _authorization = authorization;
+            _authorization.AuthorizationChanged += OnAuthorizationChanged;
         }
 
-        private void OnStatusChanged(object? sender, AuthorizationStatus e)
+        private void OnAuthorizationChanged(object? sender, AuthorizationChangedArgs e)
         {
-            AuthorizationStatus = e;
+            // Уведомление об изменении прокси-свойств.
+            RaisePropertyChanged(nameof(CurrentStatus));
+            RaisePropertyChanged(nameof(CurrentUser));
+        }
+        private async void AuthorizeExecute(LoginPassword loginPassword)
+        {
+            AuthorizeExecuting = true;
+            await _authorization.LoginAsync(loginPassword.Login, loginPassword.Password);
+            AuthorizeExecuting = false;
         }
 
-        private bool loginExecuting;
-        private async void LoginExecute(LoginPassword loginPassword)
+        private bool AuthorizeExecuting
         {
-            if (loginExecuting)
+            get => Get<bool>();
+            set 
             {
-                throw new Exception("Авторизация уже выполняется");
-            }
-
-            loginExecuting = true;
-            Login.RaiseCanExecuteChanged();
-            ArgumentNullException.ThrowIfNull(loginPassword, nameof(loginPassword));
-            var user = await Task.Run(() => _shop.Authorization.Login(loginPassword.Login, loginPassword.Password));
-            if (user != null)
-            {
-                await Task.Run(NavigateToProducts);
-            }
-            else
-            {
-                loginExecuting = false;
-                Login.RaiseCanExecuteChanged();
+                Set(value);
+                Authorize.RaiseCanExecuteChanged();
             }
         }
 
-        private bool LoginCanExecute(LoginPassword loginPassword)
+        private bool AuthorizeCanExecute(LoginPassword loginPassword)
         {
-            return !(loginExecuting || loginPassword.HasErrors);
+            return !(loginPassword.HasErrors || AuthorizeExecuting)
+                && _authorization.Status == AuthorizationStatus.None;
         }
-
-        private bool _guestExecuting;
-        private async void GuestExecute(object? parameter)
+        private async void GuestExecute()
         {
-            _guestExecuting = true;
-            Guest.RaiseCanExecuteChanged();
-            _shop.Authorization.LoginAsGuest();
-            await Task.Run(NavigateToProducts);          
+            await _authorization.LoginAsync(null, null);
         }
 
 
-        private bool GuestCanExecute(object? parameter)
+        private bool GuestCanExecute()
         {
-            return !_guestExecuting;
-        }
-
-        private void NavigateToProducts()
-        {
-            _locator.CurrentViewModel = new ProductsViewModel(_shop, _locator);
-        }
-
-        public AuthorizationStatus AuthorizationStatus
-        {
-            get => Get<AuthorizationStatus>();
-            private set => Set(value);
-        }
-
-        public override void Dispose()
-        {
-            _shop.Authorization.StatusChanged -= OnStatusChanged;
+            return _authorization.Status == AuthorizationStatus.None;
         }
     }
 }

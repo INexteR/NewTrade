@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
 using ShopModel.Entities;
+using ShopModel.Testing;
 
 namespace ShopModel
 {
@@ -21,9 +18,6 @@ namespace ShopModel
         public static Task<Context> GetAsync()
         {
             return Task.Run(Get);
-        }
-        public Context()
-        {
         }
 
         public Context(DbContextOptions<Context> options)
@@ -58,47 +52,39 @@ namespace ShopModel
 
             modelBuilder.Entity<Category>(entity =>
             {
-                entity.HasKey(e => e.IdCategory)
-                    .HasName("PRIMARY");
-
                 entity.ToTable("category");
 
-                entity.Property(e => e.CategoryName).HasColumnType("text");
+                entity.Property(e => e.Name).HasColumnType("text");
             });
 
             modelBuilder.Entity<Manufacturer>(entity =>
             {
-                entity.HasKey(e => e.IdManufacturer)
-                    .HasName("PRIMARY");
-
                 entity.ToTable("manufacturer");
 
-                entity.Property(e => e.ManufacturerName).HasColumnType("text");
+                entity.Property(e => e.Name).HasColumnType("text");
             });
 
             modelBuilder.Entity<Order>(entity =>
             {
                 entity.ToTable("orders");
 
-                entity.HasIndex(e => e.OrderStatus, "k1_idx");
+                entity.HasIndex(e => e.OrderStatusId, "k1_idx");
 
-                entity.HasIndex(e => e.OrderPickupPoint, "k2_idx");
-
-                entity.Property(e => e.OrderId).HasColumnName("OrderID");
+                entity.HasIndex(e => e.PickupPointId, "k2_idx");
 
                 entity.Property(e => e.ClientName).HasColumnType("text");
 
-                entity.HasOne(d => d.OrderPickupPointNavigation)
+                entity.HasOne(d => d.OrderStatus)
                     .WithMany(p => p.Orders)
-                    .HasForeignKey(d => d.OrderPickupPoint)
+                    .HasForeignKey(d => d.OrderStatusId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("key2");
+                    .HasConstraintName("orderstatus");
 
-                entity.HasOne(d => d.OrderStatusNavigation)
+                entity.HasOne(d => d.PickupPoint)
                     .WithMany(p => p.Orders)
-                    .HasForeignKey(d => d.OrderStatus)
+                    .HasForeignKey(d => d.PickupPointId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("key1");
+                    .HasConstraintName("pickuppoint");
             });
 
             modelBuilder.Entity<Orderproduct>(entity =>
@@ -109,155 +95,131 @@ namespace ShopModel
 
                 entity.ToTable("orderproduct");
 
-                entity.HasIndex(e => e.ProductArticleNumber, "ProductArticleNumber");
+                entity.HasIndex(e => e.ProductArticleNumber, "k2_idx");
 
-                entity.Property(e => e.OrderId).HasColumnName("OrderID");
-
-                entity.Property(e => e.ProductArticleNumber)
-                    .HasMaxLength(100)
-                    .UseCollation("utf8mb3_general_ci")
-                    .HasCharSet("utf8mb3");
+                entity.Property(e => e.ProductArticleNumber).HasMaxLength(100);
 
                 entity.HasOne(d => d.Order)
                     .WithMany(p => p.Orderproducts)
                     .HasForeignKey(d => d.OrderId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("orderproduct_ibfk_1");
+                    .HasConstraintName("order");
 
                 entity.HasOne(d => d.ProductArticleNumberNavigation)
                     .WithMany(p => p.Orderproducts)
                     .HasForeignKey(d => d.ProductArticleNumber)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("orderproduct_ibfk_2");
+                    .HasConstraintName("product");
             });
 
             modelBuilder.Entity<Orderstatus>(entity =>
             {
-                entity.HasKey(e => e.IdOrderStatus)
-                    .HasName("PRIMARY");
-
                 entity.ToTable("orderstatus");
 
-                entity.Property(e => e.StatusName).HasColumnType("text");
+                entity.Property(e => e.Name).HasColumnType("text");
             });
 
             modelBuilder.Entity<Pickuppoint>(entity =>
             {
-                entity.HasKey(e => e.IdPickupPoint)
-                    .HasName("PRIMARY");
-
                 entity.ToTable("pickuppoint");
 
-                entity.Property(e => e.PickupPointAddress).HasColumnType("text");
+                entity.Property(e => e.Address).HasColumnType("text");
 
-                entity.Property(e => e.PickupPointIndex).HasMaxLength(6);
+                entity.Property(e => e.Index).HasMaxLength(6);
             });
 
             modelBuilder.Entity<Product>(entity =>
             {
-                entity.HasKey(e => e.ProductArticleNumber)
+                entity.HasKey(e => e.ArticleNumber)
                     .HasName("PRIMARY");
 
                 entity.ToTable("product");
 
-                entity.HasIndex(e => e.ProductUnit, "k0_idx");
+                entity.HasIndex(e => e.CategoryId, "category_idx");
 
-                entity.HasIndex(e => e.ProductSupplier, "k1");
+                entity.HasIndex(e => e.ManufacturerId, "manufacturer_idx");
 
-                entity.HasIndex(e => e.ProductManufacturer, "k2_idx");
+                entity.HasIndex(e => e.SupplierId, "supplier_idx");
 
-                entity.HasIndex(e => e.ProductCategory, "k3_idx");
+                entity.HasIndex(e => e.UnitId, "unit_idx");
 
-                entity.Property(e => e.ProductArticleNumber)
-                    .HasMaxLength(100)
-                    .UseCollation("utf8mb3_general_ci")
-                    .HasCharSet("utf8mb3");
+                entity.Property(e => e.ArticleNumber).HasMaxLength(100);
 
-                entity.Property(e => e.ProductCost).HasPrecision(19, 4);
+                entity.Property(e => e.Cost).HasPrecision(19, 4);
 
-                entity.Property(e => e.ProductDescription).HasColumnType("text");
+                entity.Property(e => e.Description).HasColumnType("text");
 
-                entity.Property(e => e.ProductName).HasColumnType("text");
+                entity.Property(e => e.Name).HasColumnType("text");
 
-                entity.Property(e => e.ProductPhoto).HasColumnType("text");
+                entity.Property(e => e.Path).HasColumnType("text");
 
-                entity.HasOne(d => d.ProductCategoryNavigation)
+                entity.HasOne(d => d.Category)
                     .WithMany(p => p.Products)
-                    .HasForeignKey(d => d.ProductCategory)
+                    .HasForeignKey(d => d.CategoryId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("k3");
+                    .HasConstraintName("category");
 
-                entity.HasOne(d => d.ProductManufacturerNavigation)
+                entity.HasOne(d => d.Manufacturer)
                     .WithMany(p => p.Products)
-                    .HasForeignKey(d => d.ProductManufacturer)
+                    .HasForeignKey(d => d.ManufacturerId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("k2");
+                    .HasConstraintName("manufacturer");
 
-                entity.HasOne(d => d.ProductSupplierNavigation)
+                entity.HasOne(d => d.Supplier)
                     .WithMany(p => p.Products)
-                    .HasForeignKey(d => d.ProductSupplier)
+                    .HasForeignKey(d => d.SupplierId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("k1");
+                    .HasConstraintName("supplier");
 
-                entity.HasOne(d => d.ProductUnitNavigation)
+                entity.HasOne(d => d.Unit)
                     .WithMany(p => p.Products)
-                    .HasForeignKey(d => d.ProductUnit)
+                    .HasForeignKey(d => d.UnitId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("k0");
+                    .HasConstraintName("unit");
             });
 
             modelBuilder.Entity<Role>(entity =>
             {
                 entity.ToTable("role");
 
-                entity.Property(e => e.RoleId).HasColumnName("RoleID");
-
-                entity.Property(e => e.RoleName).HasMaxLength(100);
+                entity.Property(e => e.Name).HasMaxLength(100);
             });
 
             modelBuilder.Entity<Supplier>(entity =>
             {
-                entity.HasKey(e => e.IdSupplier)
-                    .HasName("PRIMARY");
-
                 entity.ToTable("supplier");
 
-                entity.Property(e => e.SupplierName).HasColumnType("text");
+                entity.Property(e => e.Name).HasColumnType("text");
             });
 
             modelBuilder.Entity<Unit>(entity =>
             {
-                entity.HasKey(e => e.IdUnit)
-                    .HasName("PRIMARY");
-
                 entity.ToTable("unit");
 
-                entity.Property(e => e.UnitName).HasColumnType("text");
+                entity.Property(e => e.Name).HasColumnType("text");
             });
 
             modelBuilder.Entity<User>(entity =>
             {
                 entity.ToTable("user");
 
-                entity.HasIndex(e => e.UserRole, "UserRole");
+                entity.HasIndex(e => e.RoleId, "role");
 
-                entity.Property(e => e.UserId).HasColumnName("UserID");
+                entity.Property(e => e.Login).HasColumnType("text");
 
-                entity.Property(e => e.UserLogin).HasColumnType("text");
+                entity.Property(e => e.Name).HasMaxLength(100);
 
-                entity.Property(e => e.UserName).HasMaxLength(100);
+                entity.Property(e => e.Password).HasColumnType("text");
 
-                entity.Property(e => e.UserPassword).HasColumnType("text");
+                entity.Property(e => e.Patronymic).HasMaxLength(100);
 
-                entity.Property(e => e.UserPatronymic).HasMaxLength(100);
+                entity.Property(e => e.Surname).HasMaxLength(100);
 
-                entity.Property(e => e.UserSurname).HasMaxLength(100);
-
-                entity.HasOne(d => d.UserRoleNavigation)
+                entity.HasOne(d => d.Role)
                     .WithMany(p => p.Users)
-                    .HasForeignKey(d => d.UserRole)
+                    .HasForeignKey(d => d.RoleId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("user_ibfk_1");
+                    .HasConstraintName("role");
             });
 
             OnModelCreatingPartial(modelBuilder);

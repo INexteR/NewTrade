@@ -10,8 +10,8 @@ namespace ShopModel.Entities
             Orders = new HashSet<Order>();
         }
 
-        public int IdOrderStatus { get; set; }
-        public string StatusName { get; set; } = null!;
+        public int Id { get; set; }
+        public string Name { get; set; } = null!;
 
         public virtual ICollection<Order> Orders { get; set; }
     }

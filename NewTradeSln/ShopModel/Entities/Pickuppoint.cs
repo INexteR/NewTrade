@@ -10,9 +10,9 @@ namespace ShopModel.Entities
             Orders = new HashSet<Order>();
         }
 
-        public int IdPickupPoint { get; set; }
-        public string PickupPointAddress { get; set; } = null!;
-        public string PickupPointIndex { get; set; } = null!;
+        public int Id { get; set; }
+        public string Address { get; set; } = null!;
+        public string Index { get; set; } = null!;
 
         public virtual ICollection<Order> Orders { get; set; }
     }

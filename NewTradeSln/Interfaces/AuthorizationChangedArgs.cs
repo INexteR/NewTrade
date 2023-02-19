@@ -26,7 +26,7 @@ namespace Interfaces
         /// а <paramref name="newUser"/>==<see langword="null"/>.</exception>
         public AuthorizationChangedArgs(AuthorizationStatus newStatus, IUser? newUser = null)
         {
-            if (newStatus is not AuthorizationStatus.InProcessing or AuthorizationStatus.None or AuthorizationStatus.Authorized)
+            if ((int)newStatus is < 0 or > 3)
             {
                 throw new ArgumentException("Неожиданное значение.", nameof(newStatus));
             }

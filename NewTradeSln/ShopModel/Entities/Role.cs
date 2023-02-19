@@ -1,4 +1,6 @@
 ﻿using Interfaces;
+using System;
+using System.Collections.Generic;
 
 namespace ShopModel.Entities
 {
@@ -12,7 +14,7 @@ namespace ShopModel.Entities
 
         private ICollection<User>? users;
 
-        public virtual ICollection<User> _Users
+        public virtual ICollection<User> Users
         {
             get => users ??= new HashSet<User>();
             set => users = value;
