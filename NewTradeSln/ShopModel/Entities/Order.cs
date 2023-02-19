@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace ShopModel.Entities
+﻿namespace ShopModel.Entities
 {
     public partial class Order
     {

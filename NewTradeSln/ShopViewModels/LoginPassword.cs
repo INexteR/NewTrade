@@ -1,5 +1,4 @@
 ﻿using MVVM.ViewModels;
-using System.Windows.Input;
 
 namespace ShopViewModels
 {

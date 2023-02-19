@@ -9,10 +9,10 @@ namespace ShopModel.DTOs
 
         public string Name { get; set; }
 
-        public RoleDTO(Role role)
+        public RoleDTO(Role? role)
         {
-            Id = role.RoleId;
-            Name = role.RoleName;
+            Id = role?.Id ?? 0;
+            Name = role?.Name ?? string.Empty;
         }
     }
 }

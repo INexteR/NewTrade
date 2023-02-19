@@ -1,5 +1,4 @@
-﻿
-using ShopModel.DTOs;
+﻿using ShopModel.DTOs;
 
 namespace ShopViewModels
 {

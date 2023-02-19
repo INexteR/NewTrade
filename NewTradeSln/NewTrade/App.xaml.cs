@@ -1,4 +1,6 @@
 ﻿
+using Interfaces;
+
 namespace NewTrade
 {
     /// <summary>
@@ -10,7 +12,8 @@ namespace NewTrade
         {
             Locator locator = (Locator)FindResource(nameof(locator));
             Shop shop = (Shop)FindResource(nameof(shop));
-            locator.CurrentViewModel = new LoginViewModel(shop, locator);
+            IAuthorization authorization = shop;
+            locator.CurrentViewModel = new LoginViewModel(authorization);
         }
     }
 }

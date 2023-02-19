@@ -1,7 +1,6 @@
 ﻿using Interfaces;
 using ShopModel.Entities;
 using ShopModel.DTOs;
-using Microsoft.EntityFrameworkCore;
 
 namespace ShopModel
 {
@@ -24,9 +23,9 @@ namespace ShopModel
 
             Role[] roles =
 {
-                new Role { RoleId = 1, RoleName = "Администратор" },
-                new Role { RoleId = 2, RoleName = "Менеджер" },
-                new Role { RoleId = 3, RoleName = "Клиент" },
+                new Role { Id = 1, Name = "Администратор" },
+                new Role { Id = 2, Name = "Менеджер" },
+                new Role { Id = 3, Name = "Клиент" },
             };
 
             var lines = File.ReadAllLines("../../../../ShopModel/users.txt");
@@ -38,13 +37,13 @@ namespace ShopModel
                 {
                     CurrentUser = new(new User
                     {
-                        UserId = int.Parse(props[0]),
-                        UserSurname = props[1],
-                        UserName = props[2],
-                        UserPatronymic = props[3],
-                        UserLogin = props[4],
-                        UserPassword = props[5],
-                        UserRoleNavigation = roles[int.Parse(props[6]) - 1]
+                        Id = int.Parse(props[0]),
+                        Surname = props[1],
+                        Name = props[2],
+                        Patronymic = props[3],
+                        Login = props[4],
+                        Password = props[5],
+                        Role = roles[int.Parse(props[6]) - 1]
                     });
                     AuthorizationStatus = AuthorizationStatus.Authorized;
                     return CurrentUser;

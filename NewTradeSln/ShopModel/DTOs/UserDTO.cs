@@ -15,13 +15,13 @@ namespace ShopModel.DTOs
 
         public UserDTO(User user)
         {
-            Id = user.UserId;
-            Surname = user.UserSurname;
-            Name = user.UserName;
-            Patronymic = user.UserPatronymic;
-            Login = user.UserLogin;
-            Password = user.UserPassword;
-            Role = new(user.UserRoleNavigation);
+            Id = user.Id;
+            Surname = user.Surname;
+            Name = user.Name;
+            Patronymic = user.Patronymic??string.Empty;
+            Login = user.Login;
+            Password = user.Password??string.Empty;
+            Role = new(user.Role);
         }
     }
 }

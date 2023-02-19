@@ -14,6 +14,8 @@ namespace ShopModel
             AuthorizationChanged(this, new AuthorizationChangedArgs(Status, CurrentUser));
         }
 
+        private readonly object authorizationChangedLocker = "Локер изменения состояния авторизации.";
+
         public string Name { get; } = "ООО «Ткани»";
 
         public event EventHandler<AuthorizationChangedArgs> AuthorizationChanged = (_, _) => { };
@@ -21,34 +23,51 @@ namespace ShopModel
         public void Exit()
         {
             if (Status != AuthorizationStatus.Authorized)
-                throw new Exception($"Выход возможен только из сотояния {AuthorizationStatus.Authorized}.");
+                throw new Exception($"Выход возможен только из состояния {AuthorizationStatus.Authorized}.");
 
             // Какие-то действия.
 
             // Потом:
-            Status = AuthorizationStatus.None;
-            CurrentUser = null;
-            OnAuthorizationChanged();
+            lock (authorizationChangedLocker)
+            {
+                Status = AuthorizationStatus.None;
+                CurrentUser = null;
+                OnAuthorizationChanged();
+            }
         }
 
         public void Login(string login, string password)
         {
-            if (Status != AuthorizationStatus.None)
-                throw new Exception($"Запрос новой авторизации возможен только в сотоянии {AuthorizationStatus.None}.");
-            Status = AuthorizationStatus.InProcessing;
-            OnAuthorizationChanged();
+            lock (authorizationChangedLocker)
+            {
+                if (Status != AuthorizationStatus.None)
+                    throw new Exception($"Запрос новой авторизации возможен только в состоянии {AuthorizationStatus.None}.");
+                Status = AuthorizationStatus.InProcessing;
+                OnAuthorizationChanged();
+            }
 
             // Какие-то действия, потом проверка
-            if (/* Условие прохождения авторизации */ true)
+            byte[]? hash = ModelHelper.GetHashPassword(password);
+            var user = Context
+                .Get(true)
+                .Users
+                .FirstOrDefault(user => user.Login == login && user.HashPassword == hash);
+            if (user is not null)
             {
-                Status = AuthorizationStatus.Authorized;
-                CurrentUser = new User();// запоминание авторизированого пользователя.
-                OnAuthorizationChanged();
+                lock (authorizationChangedLocker)
+                {
+                    Status = AuthorizationStatus.Authorized;
+                    CurrentUser = new User();// запоминание авторизированого пользователя.
+                    OnAuthorizationChanged();
+                }
             }
             else
             {
-                Status = AuthorizationStatus.None;
-                OnAuthorizationChanged();
+                lock (authorizationChangedLocker)
+                {
+                    Status = AuthorizationStatus.None;
+                    OnAuthorizationChanged();
+                }
             }
         }
 

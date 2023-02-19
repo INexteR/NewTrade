@@ -23,6 +23,9 @@ namespace ShopModel.Entities
         /// <summary>Хеш пароля.</summary>
         internal byte[]? HashPassword { get; set; }
 
+        /// <summary>Строковый пароль. Временное решение.</summary>
+        internal string? Password { get; set; }
+
         internal virtual Role? Role { get; set; }
 
         IRole? IUser.Role => Role;

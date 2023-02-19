@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
 using ShopModel.Entities;
+using ShopModel.Testing;
 
 namespace ShopModel
 {
@@ -12,20 +9,34 @@ namespace ShopModel
         private const string CONNECTION = "server=localhost;password=curuserpass;user=root;database=newtrade";
         private static readonly ServerVersion _version = ServerVersion.Parse("8.0.30-mysql");
 
-        public static Context Get()
+        private readonly bool testing;
+
+        public static Context Get(bool testing)
         {
+            if (testing)
+            {
+                return new Context(testing);
+            }
             var options = new DbContextOptionsBuilder<Context>().UseMySql(CONNECTION, _version).Options;
             return new(options);
         }
 
-        public static Task<Context> GetAsync()
+        public static Task<Context> GetAsync(bool testing)
         {
-            return Task.Run(Get);
+            return Task.Run(() => Get(testing));
         }
-        public Context()
+        public Context(bool testing)
         {
+            this.testing = testing;
+            if (testing)
+            {
+                Thread.Sleep(5000); // Имитация задержки подключения к реальной БД
+                Users.AddRange(TestData.GetUsers());
+                Roles.AddRange(TestData.GetRoles());
+            }
         }
 
+        // TODO: Вот этот конструктор лучше объеденить с Context(bool testing).
         public Context(DbContextOptions<Context> options)
             : base(options)
         {
@@ -210,9 +221,9 @@ namespace ShopModel
             {
                 entity.ToTable("role");
 
-                entity.Property(e => e.RoleId).HasColumnName("RoleID");
+                entity.Property(e => e.Id).HasColumnName("RoleID");
 
-                entity.Property(e => e.RoleName).HasMaxLength(100);
+                entity.Property(e => e.Name).HasMaxLength(100);
             });
 
             modelBuilder.Entity<Supplier>(entity =>
@@ -239,25 +250,26 @@ namespace ShopModel
             {
                 entity.ToTable("user");
 
-                entity.HasIndex(e => e.UserRole, "UserRole");
+                entity.HasIndex(e => e.Role, "UserRole");
 
-                entity.Property(e => e.UserId).HasColumnName("UserID");
+                entity.Property(e => e.Id).HasColumnName("UserID");
 
-                entity.Property(e => e.UserLogin).HasColumnType("text");
+                entity.Property(e => e.Login).HasColumnType("text");
 
-                entity.Property(e => e.UserName).HasMaxLength(100);
+                entity.Property(e => e.Name).HasMaxLength(100);
 
-                entity.Property(e => e.UserPassword).HasColumnType("text");
+                entity.Property(e => e.Password).HasColumnType("text");
 
-                entity.Property(e => e.UserPatronymic).HasMaxLength(100);
+                entity.Property(e => e.Patronymic).HasMaxLength(100);
 
-                entity.Property(e => e.UserSurname).HasMaxLength(100);
+                entity.Property(e => e.Surname).HasMaxLength(100);
 
-                entity.HasOne(d => d.UserRoleNavigation)
-                    .WithMany(p => p.Users)
-                    .HasForeignKey(d => d.UserRole)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("user_ibfk_1");
+                // Вот это не понял зачем
+                //entity.HasOne(d => d.Role)
+                //    .WithMany(p => p.Users)
+                //    .HasForeignKey(d => d.UserRole)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("user_ibfk_1");
             });
 
             OnModelCreatingPartial(modelBuilder);
