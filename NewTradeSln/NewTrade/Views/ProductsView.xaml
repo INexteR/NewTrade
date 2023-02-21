@@ -9,15 +9,8 @@
              d:DesignHeight="450"
              d:DesignWidth="800"
              d:Background="White">
-    <UserControl.Resources>
-        <newtrade:LocatorApp x:Key="design_locator">
-            <newtrade:LocatorApp.Products>
-                <shopVMs:ProductsViewModel/>
-            </newtrade:LocatorApp.Products>
-        </newtrade:LocatorApp>
-    </UserControl.Resources>
     <d:UserControl.DataContext>
-                <shopVMs:ProductsViewModel/>
+        <shopVMs:ProductsViewModel/>
     </d:UserControl.DataContext>
 
     <Grid>
@@ -163,6 +156,5 @@
             </Grid.ColumnDefinitions>
 
         </Grid>
-        <TextBlock Text="{Binding lines}" FontSize="25"/>
     </Grid>
 </UserControl>

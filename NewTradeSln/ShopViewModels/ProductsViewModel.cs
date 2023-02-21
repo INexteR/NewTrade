@@ -26,13 +26,8 @@ namespace ShopViewModels
             _shopTemp = (Shop)shop;
             //_authorization = shop;
             //загрузка пока что в конструкторе
-            lines = _shopTemp.GetProducts().Count();
             Products = new ObservableCollection<ReadOnlyProductProxy>(_shopTemp.GetProducts().Select(p => new ReadOnlyProductProxy(p)) ?? Array.Empty<ReadOnlyProductProxy>());
         }
-
-        public Shop ShopTemp => _shopTemp;
-
-        public int lines { get; set; }
 
         public string Name => _shop.Name;
 
