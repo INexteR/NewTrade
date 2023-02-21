@@ -5,8 +5,6 @@ namespace ShopModel.Testing
 {
     public static partial class TestData
     {
-        private const string testUsersData = @"users.txt";
-        private static readonly string usersDataFullName = Path.Combine(folderFullName, testUsersData);
         private static User[]? users;
         public static IEnumerable<User> GetUsers()
         {

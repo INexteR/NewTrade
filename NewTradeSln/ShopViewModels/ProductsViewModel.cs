@@ -3,7 +3,6 @@ using Interfaces;
 using MVVM.ViewModels;
 using ShopModel;
 using System.Collections.ObjectModel;
-using System.Windows.Input;
 
 namespace ShopViewModels
 {
@@ -15,16 +14,25 @@ namespace ShopViewModels
         //public ICommand Exit => GetCommand(ExitExecute);
 
         // Это времменое поле. Пока нет нормального объявления интерфейса IShop
-        private readonly Shop? _shopTemp;
+        private readonly Shop _shopTemp;
+
+        public ProductsViewModel()
+            : this(new Shop())
+        { }
 
         public ProductsViewModel(IShop shop)
         {
             _shop = shop;
-            _shopTemp = shop as Shop;
+            _shopTemp = (Shop)shop;
             //_authorization = shop;
             //загрузка пока что в конструкторе
-            Products = new ObservableCollection<ReadOnlyProductProxy>(_shopTemp?.GetProducts().Select(p => new ReadOnlyProductProxy(p))??Array.Empty<ReadOnlyProductProxy>());
+            lines = _shopTemp.GetProducts().Count();
+            Products = new ObservableCollection<ReadOnlyProductProxy>(_shopTemp.GetProducts().Select(p => new ReadOnlyProductProxy(p)) ?? Array.Empty<ReadOnlyProductProxy>());
         }
+
+        public Shop ShopTemp => _shopTemp;
+
+        public int lines { get; set; }
 
         public string Name => _shop.Name;
 

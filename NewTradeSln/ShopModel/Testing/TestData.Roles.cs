@@ -5,7 +5,6 @@ namespace ShopModel.Testing
 {
     public static partial class TestData
     {
-        private static readonly string rolesDataFullName = Path.Combine(folderFullName, testUsersData);
         private static Role[]? roles;
         public static IEnumerable<Role> GetRoles()
         {

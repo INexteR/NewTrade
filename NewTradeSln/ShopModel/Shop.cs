@@ -47,7 +47,7 @@ namespace ShopModel
                 OnAuthorizationChanged();
             }
 
-            Thread.Sleep(5_000); // Имитация долгой обработки.
+            Thread.Sleep(1_000); // Имитация долгой обработки.
 
             if (login is null) //гость
             {

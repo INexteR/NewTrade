@@ -5,6 +5,24 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Testing\products.txt" />
+    <None Remove="Testing\roles.txt" />
+    <None Remove="Testing\users.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Testing\products.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Testing\roles.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Testing\users.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.12" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.12">
