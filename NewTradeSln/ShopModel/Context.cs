@@ -3,23 +3,23 @@ using ShopModel.Entities;
 
 namespace ShopModel
 {
-    public partial class Context : DbContext
+    internal partial class ShopContext : DbContext
     {
         private const string CONNECTION = "server=localhost;password=curuserpass;user=root;database=newtrade";
         private static readonly ServerVersion _version = ServerVersion.Parse("8.0.30-mysql");
 
-        public static Context Get()
+        public static ShopContext Get()
         {
-            var options = new DbContextOptionsBuilder<Context>().UseMySql(CONNECTION, _version).Options;
+            var options = new DbContextOptionsBuilder<ShopContext>().UseMySql(CONNECTION, _version).Options;
             return new(options);
         }
 
-        public static Task<Context> GetAsync()
+        public static Task<ShopContext> GetAsync()
         {
             return Task.Run(Get);
         }
 
-        public Context(DbContextOptions<Context> options)
+        public ShopContext(DbContextOptions<ShopContext> options)
             : base(options)
         {
         }

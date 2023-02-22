@@ -2,7 +2,7 @@
 
 namespace ShopModel.Entities
 {
-    public partial class User : IUser
+    internal partial class User : IUser
     {
         public int Id { get; internal set; }
 

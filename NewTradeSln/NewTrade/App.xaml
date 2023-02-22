@@ -7,15 +7,8 @@
              StartupUri="MainWindow.xaml"
              Startup="OnAppStartup">
     <Application.Resources>
-        <local:LocatorApp x:Key="locator">
-            <local:LocatorApp.Authorization>
-                <vms:LoginViewModel/>
-            </local:LocatorApp.Authorization>
-        </local:LocatorApp>
-        <!--Нельзя UI элементы передавать через ресурсы !!!!
-        <Image Source="/Resources/logo.png"
-               x:Key="logo"
-               x:Shared="False" />-->
+        <local:LocatorApp x:Key="locator"/>
+
         <ImageSource x:Key="logo">/Resources/logo.png</ImageSource>
     </Application.Resources>
 </Application>

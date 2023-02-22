@@ -1,6 +1,6 @@
 ﻿namespace ShopModel.Testing
 {
-    public static partial class TestData
+    internal static partial class TestData
     {
         public static void RegisterTestFolder(string imageFolder)
         {

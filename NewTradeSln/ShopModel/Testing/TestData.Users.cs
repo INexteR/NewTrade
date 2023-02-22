@@ -1,12 +1,13 @@
 ﻿using Common;
+using Interfaces;
 using ShopModel.Entities;
 
 namespace ShopModel.Testing
 {
-    public static partial class TestData
+    internal static partial class TestData
     {
         private static User[]? users;
-        public static IEnumerable<User> GetUsers()
+        public static IEnumerable<IUser> GetUsers()
         {
             // Ициализация users, если не был инициализирован.
             if (users is null)

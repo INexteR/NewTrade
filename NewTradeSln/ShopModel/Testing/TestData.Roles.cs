@@ -3,7 +3,7 @@ using ShopModel.Entities;
 
 namespace ShopModel.Testing
 {
-    public static partial class TestData
+    internal static partial class TestData
     {
         private static Role[]? roles;
         public static IEnumerable<Role> GetRoles()

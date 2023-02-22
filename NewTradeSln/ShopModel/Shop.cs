@@ -67,9 +67,18 @@ namespace ShopModel
             }
 
             // Какие-то действия, потом проверка
-            //byte[]? hash = ModelHelper.GetHashPassword(password);
-            var user = TestData.GetUsers()
-                .FirstOrDefault(user => user.Login == login &&  user.CheckPassword(password));
+            //var user = TestData.GetUsers()
+            //   .FirstOrDefault(user => user.Login == login && user.CheckPassword(password));
+
+
+            // Для БД нужно так проверять:
+            byte[]? hash = ModelHelper.GetHashPassword(password);
+            User? user;
+            using (var db = ShopContext.Get())
+            {
+                user = db.Users.FirstOrDefault(user => user.Login == login);
+            }
+
             if (user is not null)
             {
                 lock (authorizationChangedLocker)

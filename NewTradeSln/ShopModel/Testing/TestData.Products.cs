@@ -2,7 +2,7 @@
 
 namespace ShopModel.Testing
 {
-    public static partial class TestData
+    internal static partial class TestData
     {
         private static readonly Manufacturer[] manufacturers =
             {

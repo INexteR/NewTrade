@@ -2,7 +2,7 @@
 
 namespace ShopModel.Entities
 {
-    public partial class Role : IRole
+    internal partial class Role : IRole
     {
         public int Id { get; internal set; }
 
