@@ -71,12 +71,12 @@ namespace ShopModel
             //   .FirstOrDefault(user => user.Login == login && user.CheckPassword(password));
 
 
-            // Для БД нужно так проверять:
+            // Для БД нужно примерно так проверять:
             byte[]? hash = ModelHelper.GetHashPassword(password);
             User? user;
             using (var db = ShopContext.Get())
             {
-                user = db.Users.FirstOrDefault(user => user.Login == login);
+                user = db.Users.FirstOrDefault(user => user.Login == login && user.HashPassword == hash);
             }
 
             if (user is not null)
@@ -104,11 +104,6 @@ namespace ShopModel
 
         public IEnumerable<Product> GetProducts()
         {
-            //using var context = Context.Get();
-            //return context.Products.Include(p => p.ProductUnitNavigation)
-            //    .Include(p => p.ProductManufacturerNavigation)
-            //    .Include(p => p.ProductSupplierNavigation)
-            //    .Include(p => p.ProductCategoryNavigation).ToList();
             return TestData.GetProducts();
         }
 
