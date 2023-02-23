@@ -26,7 +26,7 @@ namespace ShopViewModels
             _shopTemp = (Shop)shop;
             //_authorization = shop;
             //загрузка пока что в конструкторе
-            Products = new ObservableCollection<ReadOnlyProductProxy>(_shopTemp.GetProducts().Select(p => new ReadOnlyProductProxy(p)) ?? Array.Empty<ReadOnlyProductProxy>());
+            Products = new ReadOnlyCollection<IProduct>(_shopTemp.GetProducts().ToArray());
         }
 
         public string Name => _shop.Name;
@@ -43,7 +43,7 @@ namespace ShopViewModels
         //}
         //public IUser? User => _authorization.CurrentUser;
 
-        public ObservableCollection<ReadOnlyProductProxy> Products { get; }
+        public IReadOnlyCollection<IProduct> Products { get; }
 
         //private void ExitExecute(object? parameter)
         //{

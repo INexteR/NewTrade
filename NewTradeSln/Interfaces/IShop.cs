@@ -2,7 +2,7 @@
 namespace Interfaces
 {
     /// <summary>Целевая модель.</summary>
-    public interface IShop : IAuthorization
+    public interface IShop : IAuthorization, IManufacturersSource
     {
         /// <summary>Наименование магазина.</summary>
         string Name { get; }
