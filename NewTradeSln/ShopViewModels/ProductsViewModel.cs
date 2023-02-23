@@ -9,9 +9,6 @@ namespace ShopViewModels
     public class ProductsViewModel : ViewModelBase
     {
         private readonly IShop _shop;
-        //private readonly IAuthorization _authorization;
-
-        //public ICommand Exit => GetCommand(ExitExecute);
 
         // Это времменое поле. Пока нет нормального объявления интерфейса IShop
         private readonly Shop _shopTemp;
@@ -22,35 +19,21 @@ namespace ShopViewModels
 
         public ProductsViewModel(IShop shop)
         {
+            _shopTemp = (Shop)shop; // Удалить после полной реализации всех интерфейсов
+           
+
             _shop = shop;
-            _shopTemp = (Shop)shop;
-            //_authorization = shop;
+
+
             //загрузка пока что в конструкторе
             Products = new ReadOnlyCollection<IProduct>(_shopTemp.GetProducts().ToArray());
+            Manufacturers = new ReadOnlyCollection<IManufacturer>(_shop.GetManufacturers().ToArray());
         }
 
         public string Name => _shop.Name;
 
-        //public string Username
-        //{
-        //    get
-        //    {
-        //        var user = _shop.Authorization.CurrentUser;
-        //        if (user != null)
-        //            return $"{user.Surname} {user.Name} {user.Patronymic}";
-        //        return "Гость";
-        //    }
-        //}
-        //public IUser? User => _authorization.CurrentUser;
-
         public IReadOnlyCollection<IProduct> Products { get; }
+        public IReadOnlyCollection<IManufacturer> Manufacturers { get; }
 
-        //private void ExitExecute(object? parameter)
-        //{
-        //    _authorization.Exit();
-
-        //    // TODO: Локатор - скорее всего не нужен. Обычно Локатор - это сущность уровня View.
-        //    //_locator.CurrentViewModel = new LoginViewModel(_authorization);
-        //}
     }
 }
