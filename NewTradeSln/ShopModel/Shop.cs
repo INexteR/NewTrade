@@ -17,6 +17,17 @@ namespace ShopModel
 
         private readonly object authorizationChangedLocker = "Локер изменения состояния авторизации.";
 
+        public Shop()
+        {
+            // Создание оболочки только для чтения
+            manufacturers = new(manufacturerList);
+            // Подсоединение внутреннего обработчика. В данном случае, возможно, он не нужен.
+            ManufacturersChanged += (_, e) => OnManufacturerChanged(e);
+
+            Task.Run(ResetManufacturers);
+        }
+
+
         public string Name { get; } = "ООО «Ткани»";
 
         public event EventHandler<AuthorizationChangedArgs> AuthorizationChanged = (_, _) => { };

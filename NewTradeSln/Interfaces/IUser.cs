@@ -25,4 +25,5 @@ namespace Interfaces
         /// <summary>Роль.</summary>
         IRole? Role { get; }
     }
+
 }
