@@ -1,5 +1,4 @@
-﻿using Interfaces;
-
+﻿
 namespace ShopModel.Entities
 {
     internal class RoleEntity : IRole

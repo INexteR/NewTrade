@@ -19,7 +19,6 @@ namespace ShopViewModels
         public string Password
         {
             get => Get<string>()!;
-
             set => Set(value ?? string.Empty);
         }
 

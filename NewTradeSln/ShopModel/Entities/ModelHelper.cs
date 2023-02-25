@@ -1,4 +1,4 @@
-﻿using Interfaces;
+﻿using System.Collections.Generic;
 
 namespace ShopModel.Entities
 {
@@ -10,14 +10,14 @@ namespace ShopModel.Entities
         /// <param name="password">Пароль.</param>
         /// <returns><see langword="true"/>, если хеш <paramref name="password"/>
         /// совпадает с <see cref="HashPassword"/>.</returns>
-        public static bool CheckPassword(this IUser iuser, string? password)
+        public static bool CheckPassword(this IUser user, string? password)
         {
-            User user = (User)iuser;
+            User u = (User)user;
             // Проверка логина без пароля (вход без пароля).
-            if (password is null || user.HashPassword is null)
-                return password is null && user.HashPassword is null;
+            if (password is null || u.HashPassword is null)
+                return password is null && u.HashPassword is null;
 
-            return user.HashPassword.SequenceEqual(GetHashPassword(password) ?? Array.Empty<byte>());
+            return u.HashPassword.SequenceEqual(GetHashPassword(password) ?? Array.Empty<byte>());
         }
 
         public static byte[]? GetHashPassword(string? password)

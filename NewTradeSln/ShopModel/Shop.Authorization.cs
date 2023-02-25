@@ -1,11 +1,10 @@
-﻿using Interfaces;
-using ShopModel.Entities;
+﻿using ShopModel.Entities;
+using ShopModel.Testing;
 
 namespace ShopModel
 {
-    public partial class Shop : IAuthorization
+    public partial class Shop
     {
-
         public AuthorizationStatus Status { get; private set; }
         public IUser? CurrentUser { get; private set; }
 
@@ -15,7 +14,6 @@ namespace ShopModel
         }
 
         private readonly object authorizationChangedLocker = "Локер изменения состояния авторизации.";
-
         public event EventHandler<AuthorizationChangedArgs> AuthorizationChanged = (_, _) => { };
 
         public void Exit()
@@ -44,37 +42,23 @@ namespace ShopModel
                 OnAuthorizationChanged();
             }
 
-            Thread.Sleep(1_000); // Имитация долгой обработки.
+            Thread.Sleep(1_000);
 
-            if (login is null) //гость
+            if (login is null && password is null)
             {
-                //а может быть вообще в случае гостя никаких действий не производить?
-                //не вызывать метод Login(null, null), а просто сразу выполнить навигацию
-                //установка статуса в авторизованного все равно никакого эффекта не оказывает
-
-                // Нет! VM отражает Модель. Сама по себе она ничего не делает.
-                // Тем более, что у гостя тоже может быть имя. 
                 lock (authorizationChangedLocker)
                 {
                     Status = AuthorizationStatus.Authorized;
-                    CurrentUser = new User() { Name = "Гость 12345" };
+                    CurrentUser = new User() { Name = "Гость" };
                     OnAuthorizationChanged();
                 }
                 return;
             }
 
             // Какие-то действия, потом проверка
-            //var user = TestData.GetUsers()
-            //   .FirstOrDefault(user => user.Login == login && user.CheckPassword(password));
-
-
-            // Для БД нужно примерно так проверять:
-            byte[]? hash = ModelHelper.GetHashPassword(password);
-            User? user;
-            using (var db = ShopContext.Get())
-            {
-                user = db.Users.FirstOrDefault(user => user.Login == login && user.HashPassword == hash);
-            }
+            //byte[]? hash = ModelHelper.GetHashPassword(password);
+            var user = TestData.GetUsers()
+                .FirstOrDefault(user => user.Login == login && user.CheckPassword(password));
 
             if (user is not null)
             {
@@ -97,5 +81,6 @@ namespace ShopModel
 
         public Task AuthorizeAsync(string? login, string? password)
             => Task.Run(() => Authorize(login, password));
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ShopModel.Entities;
+using ShopModel.Testing;
 
 namespace ShopModel
 {

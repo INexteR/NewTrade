@@ -1,5 +1,4 @@
 ﻿using Common;
-using Interfaces;
 using ShopModel.Entities;
 
 namespace ShopModel.Testing
@@ -9,11 +8,12 @@ namespace ShopModel.Testing
         private static User[]? users;
         public static IEnumerable<IUser> GetUsers()
         {
-            // Ициализация users, если не был инициализирован.
             if (users is null)
             {
                 var lines = File.ReadAllLines(usersDataFullName);
                 users = new User[lines.Length];
+
+                if (roles is null) foreach(var _ in GetRoles()) { }
 
                 for (int i = 0; i < lines.Length; i++)
                 {
@@ -25,16 +25,14 @@ namespace ShopModel.Testing
                         Surname = props[1],
                         Name = props[2],
                         Patronymic = props[3],
-                        Email = props[4],
-                        Login = props[5],
-                        Password = props[6],
-                        HashPassword = ModelHelper.GetHashPassword(props[6]),
+                        Login = props[4],
+                        Password = props[5],
+                        HashPassword = ModelHelper.GetHashPassword(props[5]),
+                        Role = roles![int.Parse(props[6]) - 1]
                     };
                 }
             }
 
-            // Возврат копий, чтобы имитировать запрос к БД.
-            // В каждом запросе возвращаются разные сущности, но с одинаковыми значениями.
             foreach (var user in users)
             {
                 yield return user.Clone();

@@ -1,8 +1,8 @@
 ﻿
-using Interfaces;
 using MVVM.ViewModels;
 using ShopModel;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace ShopViewModels
 {
@@ -10,30 +10,18 @@ namespace ShopViewModels
     {
         private readonly IShop _shop;
 
-        // Это времменое поле. Пока нет нормального объявления интерфейса IShop
-        private readonly Shop _shopTemp;
-
-        public ProductsViewModel()
-            : this(new Shop())
-        { }
-
         public ProductsViewModel(IShop shop)
         {
-            _shopTemp = (Shop)shop; // Удалить после полной реализации всех интерфейсов
-           
-
             _shop = shop;
-
-
-            //загрузка пока что в конструкторе
-            Products = new ReadOnlyCollection<IProduct>(_shopTemp.GetProducts().ToArray());
-            Manufacturers = new ReadOnlyCollection<IManufacturer>(_shop.GetManufacturers().ToArray());
+            //загрузка пока что в конструкторе, это плохо, надо как-то решать
+            Products = new ObservableCollection<IProduct>(_shop.GetProducts());
+            Manufacturers = new ObservableCollection<IManufacturer>(_shop.GetManufacturers());
         }
 
         public string Name => _shop.Name;
 
-        public IReadOnlyCollection<IProduct> Products { get; }
-        public IReadOnlyCollection<IManufacturer> Manufacturers { get; }
+        public ObservableCollection<IProduct> Products { get; }
 
+        public ObservableCollection<IManufacturer> Manufacturers { get; }
     }
 }

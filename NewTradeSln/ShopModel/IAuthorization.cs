@@ -1,5 +1,5 @@
 ﻿
-namespace Interfaces
+namespace ShopModel
 {
     /// <summary>Служба авторизации.</summary>
     public interface IAuthorization

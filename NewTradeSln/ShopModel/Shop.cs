@@ -1,25 +1,26 @@
-﻿using Interfaces;
+﻿
 using ShopModel.Entities;
 using ShopModel.Testing;
-using System.Collections.ObjectModel;
 
 namespace ShopModel
 {
     public partial class Shop : IShop
-    {
-        public Shop()
-        {
-            // Создание оболочки только для чтения
-            manufacturers = new ReadOnlyCollection<Manufacturer>(TestData.GetManufacturers().ToArray());
-        }
-
-
+    {       
         public string Name { get; } = "ООО «Ткани»";
 
         public IEnumerable<IProduct> GetProducts()
         {
+            //using var context = ShopContext.Get();
+            //return context.Products.Include(p => p.Unit)
+            //    .Include(p => p.Manufacturer)
+            //    .Include(p => p.Supplier)
+            //    .Include(p => p.Category).ToList();
             return TestData.GetProducts();
         }
 
+        public IEnumerable<IManufacturer> GetManufacturers()
+        {
+            return TestData.GetManufacturers();
+        }
     }
 }

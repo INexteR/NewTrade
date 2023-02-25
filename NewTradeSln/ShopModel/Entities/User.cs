@@ -1,6 +1,4 @@
-﻿using Interfaces;
-
-namespace ShopModel.Entities
+﻿namespace ShopModel.Entities
 {
     internal partial class User : IUser
     {
@@ -20,17 +18,16 @@ namespace ShopModel.Entities
         public string Login { get => login; internal set => login = value ?? string.Empty; }
 
         /// <summary>Хеш пароля.</summary>
-        internal byte[]? HashPassword { get; set; }
+        public byte[]? HashPassword { get; set; }
 
         /// <summary>Строковый пароль. Временное решение.</summary>
-        internal string? Password { get; set; }
+        private string password = string.Empty;
+        public string Password { get => password; internal set => password = value ?? string.Empty; }
 
-        internal int RoleId { get; set; } //не убирайте это св-во. на него есть ссылка в OnModelCreating
+        public int RoleId { get; set; } //не убирайте это св-во. на него есть ссылка в OnModelCreating
 
-        internal virtual Role Role { get; set; } = null!;
+        public virtual Role Role { get; set; } = null!;
 
         IRole? IUser.Role => Role;
-
-        public string? Email { get; internal set; }
     }
 }

@@ -6,9 +6,8 @@ namespace ShopModel.Testing
     internal static partial class TestData
     {
         private static Role[]? roles;
-        public static IEnumerable<Role> GetRoles()
+        public static IEnumerable<IRole> GetRoles()
         {
-            // Ициализация users, если не был инициализирован.
             if (roles is null)
             {
                 var lines = File.ReadAllLines(rolesDataFullName);
@@ -21,13 +20,11 @@ namespace ShopModel.Testing
                     roles[i] = new Role
                     {
                         Id = int.Parse(props[0]),
-                        Name = props[2]
+                        Name = props[1]
                     };
                 }
             }
 
-            // Возврат копий, чтобы имитировать запрос к БД.
-            // В каждом запросе возвращаются разные сущности, но с одинаковыми значениями.
             foreach (var role in roles)
             {
                 yield return role.Clone();

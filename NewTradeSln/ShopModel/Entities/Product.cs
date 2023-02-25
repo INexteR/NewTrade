@@ -1,6 +1,4 @@
-﻿using Interfaces;
-
-namespace ShopModel.Entities
+﻿namespace ShopModel.Entities
 {
     internal partial class Product : IProduct
     {
@@ -27,6 +25,7 @@ namespace ShopModel.Entities
         public virtual Supplier Supplier { get; set; } = null!;
         public virtual Unit Unit { get; set; } = null!;
         public virtual ICollection<Orderproduct> Orderproducts { get; set; }
+
         IManufacturer IProduct.Manufacturer => Manufacturer;
     }
 }

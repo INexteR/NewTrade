@@ -1,5 +1,5 @@
 ﻿
-namespace Interfaces
+namespace ShopModel
 {
     public interface IProduct
     {
@@ -18,5 +18,4 @@ namespace Interfaces
 
         IManufacturer Manufacturer { get; }
     }
-
 }

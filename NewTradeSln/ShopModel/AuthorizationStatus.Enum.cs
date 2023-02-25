@@ -1,5 +1,5 @@
 ﻿
-namespace Interfaces
+namespace ShopModel
 {
     /// <summary>Состояние авторизации.</summary>
     public enum AuthorizationStatus

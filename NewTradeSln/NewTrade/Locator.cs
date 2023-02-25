@@ -1,9 +1,9 @@
-﻿using Interfaces;
+﻿
 using MVVM.ViewModels;
 
 namespace NewTrade
 {
-    public class LocatorApp : ViewModelBase
+    public class Locator : ViewModelBase
     {
         public IAuthorizationViewModel? Authorization
         {

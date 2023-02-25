@@ -1,6 +1,6 @@
 ﻿namespace ShopModel.Entities
 {
-    public partial class Category
+    internal partial class Category
     {
         public Category()
         {
@@ -10,6 +10,6 @@
         public int Id { get; set; }
         public string Name { get; set; } = null!;
 
-        internal virtual ICollection<Product> Products { get; set; }
+        public virtual ICollection<Product> Products { get; set; }
     }
 }

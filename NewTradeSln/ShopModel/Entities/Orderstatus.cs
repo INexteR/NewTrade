@@ -1,6 +1,6 @@
 ﻿namespace ShopModel.Entities
 {
-    public partial class Orderstatus
+    internal partial class Orderstatus
     {
         public Orderstatus()
         {

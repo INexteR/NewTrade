@@ -4,14 +4,17 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:NewTrade.Views"
-             xmlns:shopVMs="clr-namespace:ShopViewModels;assembly=ShopViewModels" xmlns:newtrade="clr-namespace:NewTrade"
+             xmlns:root="clr-namespace:NewTrade"
              mc:Ignorable="d"
              d:DesignHeight="450"
              d:DesignWidth="800"
              d:Background="White">
-    <d:UserControl.DataContext>
-        <shopVMs:ProductsViewModel/>
-    </d:UserControl.DataContext>
+    <UserControl.Resources>
+        <root:ProductsViewSource x:Key="productsView"
+                                 Source="{Binding Products}"
+                                 SortDirection="{Binding SelectedValue, ElementName=sort}"
+                                 ManufacturerId="{Binding SelectedValue, ElementName=filter}" />
+    </UserControl.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -26,11 +29,12 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
+
             <Border BorderThickness="2"
                     BorderBrush="Black"
                     CornerRadius="3"
                     Margin="3">
-                <Image Source="{StaticResource logo}"/>
+                <Image Source="{StaticResource logo}" />
             </Border>
 
             <StackPanel Grid.Column="1"
@@ -38,7 +42,7 @@
                 <Button Command="{Binding Authorization.Exit, Mode=OneWay, Source={StaticResource locator}}"
                         Content="Выйти" />
                 <TextBlock Margin="0 15 0 0">
-                    <Run Text="{Binding Count, Source='Объект, производный от CollectionView, который находится в ресурсах', Mode=OneWay}" />
+                    <Run Text="{Binding Count, Source={StaticResource productsView}, Mode=OneWay}" />
                     <Run Text="из" />
                     <Run Text="{Binding Products.Count, Mode=OneWay, BindsDirectlyToSource=True}" />
                 </TextBlock>
@@ -54,7 +58,6 @@
                 <TextBlock TextAlignment="Right"
                            DataContext="{Binding Authorization.CurrentUser, Mode=OneWay, Source={StaticResource locator}}">
                     <Run Text="Пользователь: " />
-                    <!--<Run Text="{Binding Username, Mode=OneWay}" />-->
                     <Run>
                         <Run.Text>
                             <MultiBinding StringFormat="{}{0} {1} {2}"
@@ -73,7 +76,7 @@
 
         </Grid>
 
-        <ListBox ItemsSource="{Binding Products}"
+        <ListBox ItemsSource="{Binding Source={StaticResource productsView}}"
                  Grid.Row="1"
                  ScrollViewer.CanContentScroll="False"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled">
@@ -89,7 +92,7 @@
                         <Border Margin="10"
                                 BorderThickness="2"
                                 BorderBrush="Black">
-                            <Image Source="{Binding Path, Converter={x:Static local:ImagePathToUriConverter.Insatance}}"
+                            <Image Source="{Binding Path}"
                                    Width="160"
                                    Height="140" />
                         </Border>
@@ -107,7 +110,7 @@
                                 </TextBlock>
                                 <TextBlock>
                                     <Run Text="Цена:" />
-                                    <Run Text="{Binding Cost, Mode=OneWay, StringFormat={}{0:#.00} РУБ.}" />
+                                    <Run Text="{Binding Cost, Mode=OneWay, StringFormat={}{0:#.##} РУБ.}" />
                                 </TextBlock>
                             </StackPanel>
                         </Border>
@@ -148,13 +151,82 @@
             </ListBox.ItemContainerStyle>
         </ListBox>
 
-        <Grid Row="2">
+        <Grid Row="2" Height="{Binding DesiredSize.Height, ElementName=sortpanel}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-
+            
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <TextBlock Text="Поиск по всем данным" />
+                <ScrollViewer Grid.Row="1">
+                    <StackPanel IsEnabled="False">
+                        <TextBlock Text="Название" />
+                        <TextBox x:Name="name" />
+                        <TextBlock Text="Описание" />
+                        <TextBox x:Name="description" />
+                        <TextBlock Text="Производитель" />
+                        <TextBox x:Name="manufacturer" />
+                        <TextBlock Text="Цена" />
+                        <TextBox x:Name="cost" />
+                        <TextBlock Text="Наличие на складе" />
+                        <TextBox x:Name="quantityInStock" />
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
+            
+            <StackPanel Grid.Column="1" x:Name="sortpanel">
+                <TextBlock Text="Сортировка по стоимости" />
+                <ListBox ItemsSource="{Binding Source={x:Static root:ProductsHelper.Directions}}"
+                         SelectedValuePath="Value"
+                         SelectionMode="Single"
+                         SelectedIndex="0"
+                         FontSize="11"
+                         x:Name="sort">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <RadioButton Content="{Binding Key}"
+                                         IsChecked="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}">
+                                <RadioButton.LayoutTransform>
+                                    <ScaleTransform ScaleX="1.7"
+                                                    ScaleY="1.7" />
+                                </RadioButton.LayoutTransform>
+                            </RadioButton>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+            
+            <Grid Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <TextBlock Text="Фильтрация по производителю" />
+                <ComboBox VerticalAlignment="Center"
+                          SelectedIndex="0"
+                          x:Name="filter"
+                          DisplayMemberPath="Name"
+                          SelectedValuePath="Id"
+                          Grid.Row="1">
+                    <ComboBox.Resources>
+                        <CollectionViewSource x:Key="manufacturers"
+                                              Source="{Binding Manufacturers}" />
+                    </ComboBox.Resources>
+                    <ComboBox.ItemsSource>
+                        <CompositeCollection>
+                            <x:Static Member="root:ProductsHelper.AllManufacturers" />
+                            <CollectionContainer Collection="{Binding Source={StaticResource manufacturers}}" />
+                        </CompositeCollection>
+                    </ComboBox.ItemsSource>
+                </ComboBox>
+            </Grid>
+            
         </Grid>
     </Grid>
 </UserControl>

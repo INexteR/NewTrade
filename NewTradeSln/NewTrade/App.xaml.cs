@@ -1,6 +1,4 @@
 ﻿
-using Interfaces;
-
 namespace NewTrade
 {
     /// <summary>
@@ -11,15 +9,15 @@ namespace NewTrade
 #pragma warning disable CS8618 // Поле, не допускающее значения NULL, должно содержать значение, отличное от NULL.
         private IShop shopModel;
         private IAuthorization authorizationModel;
-        private LocatorApp locator;
+        private Locator locator;
 #pragma warning restore CS8618 // Поле, не допускающее значения NULL, должно содержать значение, отличное от NULL.
 
         private void OnAppStartup(object sender, StartupEventArgs e)
         {
-            locator = (LocatorApp)FindResource(nameof(locator));
+            locator = (Locator)FindResource(nameof(locator));
             shopModel = new Shop();
             authorizationModel = shopModel;
-            locator.Authorization = new LoginViewModel(authorizationModel);
+            locator.Authorization = new AuthorizationViewModel(authorizationModel);
             locator.Products = new ProductsViewModel(shopModel);
         }
     }

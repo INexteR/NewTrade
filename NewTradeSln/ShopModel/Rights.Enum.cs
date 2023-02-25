@@ -1,4 +1,4 @@
-﻿namespace Interfaces
+﻿namespace ShopModel
 {
     /// <summary>Возможные комбинации прав.</summary>
     [Flags]

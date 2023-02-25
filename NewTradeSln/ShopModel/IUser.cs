@@ -1,5 +1,5 @@
 ﻿
-namespace Interfaces
+namespace ShopModel
 {
     /// <summary>Пользователь/</summary>
     public interface IUser
@@ -16,14 +16,13 @@ namespace Interfaces
         /// <summary>Отчество.</summary>
         string? Patronymic { get; }
 
-        /// <summary>Почта.</summary>
-        string? Email { get; }
-
         /// <summary>Логин.</summary>
         string Login { get; }
+
+        /// <summary>Пароль.</summary>
+        string Password { get; }
 
         /// <summary>Роль.</summary>
         IRole? Role { get; }
     }
-
 }

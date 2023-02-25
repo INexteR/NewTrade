@@ -1,6 +1,6 @@
 ﻿
 
-namespace Interfaces
+namespace ShopModel
 {
     /// <summary>Роль.</summary>
     public interface IRole

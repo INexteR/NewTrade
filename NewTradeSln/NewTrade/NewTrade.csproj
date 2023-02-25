@@ -23,19 +23,14 @@
     <None Remove="Resources\logo.png" />
     <None Remove="Resources\picture.png" />
   </ItemGroup>
-	<ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.12" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.12">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="6.0.2" />
+
+  <ItemGroup>
+    <ProjectReference Include="..\CommonNet6\CommonNet6.csproj" />
+    <ProjectReference Include="..\MVVM\MVVM.csproj" />
+    <ProjectReference Include="..\ShopModel\ShopModel.csproj" />
+    <ProjectReference Include="..\ShopViewModels\ShopViewModels.csproj" />
   </ItemGroup>
-	<ItemGroup>
-	  <ProjectReference Include="..\MVVM\MVVM.csproj" />
-	  <ProjectReference Include="..\ShopModel\ShopModel.csproj" />
-	  <ProjectReference Include="..\ShopViewModels\ShopViewModels.csproj" />
-	</ItemGroup>
+
 	<ItemGroup>
 	  <Resource Include="Images\B111C5.jpeg" />
 	  <Resource Include="Images\E112C6.jpg" />

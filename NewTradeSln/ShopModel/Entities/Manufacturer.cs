@@ -1,6 +1,4 @@
-﻿using Interfaces;
-
-namespace ShopModel.Entities
+﻿namespace ShopModel.Entities
 {
     internal partial class Manufacturer : IManufacturer
     {

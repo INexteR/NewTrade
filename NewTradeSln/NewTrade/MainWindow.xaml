@@ -13,7 +13,7 @@
         WindowStartupLocation="CenterScreen"
         DataContext="{Binding Authorization, Source={StaticResource locator}}">
     <Window.Resources>
-        <DataTemplate DataType="{x:Type vms:LoginViewModel}">
+        <DataTemplate DataType="{x:Type vms:AuthorizationViewModel}">
             <vs:LoginView />
         </DataTemplate>
         <DataTemplate DataType="{x:Type vms:ProductsViewModel}">
@@ -22,26 +22,19 @@
     </Window.Resources>
     <Window.Style>
         <Style TargetType="Window">
-            <Setter Property="Title" Value="Авторизация"/>
+            <Setter Property="Title"
+                    Value="Авторизация" />
+            <Setter Property="Content"
+                    Value="{Binding}" />
             <Style.Triggers>
                 <DataTrigger Binding="{Binding CurrentStatus}"
-                                 Value="Authorized">
-                    <Setter Property="Title" Value="Каталог"/>
+                             Value="Authorized">
+                    <Setter Property="Title"
+                            Value="Каталог" />
+                    <Setter Property="Content"
+                            Value="{Binding Products, Source={StaticResource locator}}" />
                 </DataTrigger>
             </Style.Triggers>
         </Style>
     </Window.Style>
-    <ContentControl>
-        <ContentControl.Style>
-            <Style TargetType="ContentControl">
-                <Setter Property="Content" Value="{Binding}"/>
-                <Style.Triggers>
-                    <DataTrigger Binding="{Binding CurrentStatus}"
-                                 Value="Authorized">
-                        <Setter Property="Content" Value="{Binding Products, Source={StaticResource locator}}"/>
-                    </DataTrigger>
-                </Style.Triggers>
-            </Style>
-        </ContentControl.Style>
-    </ContentControl>
 </Window>

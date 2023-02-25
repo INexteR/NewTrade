@@ -1,6 +1,6 @@
 ﻿namespace ShopModel.Entities
 {
-    public partial class Pickuppoint
+    internal partial class Pickuppoint
     {
         public Pickuppoint()
         {

@@ -1,5 +1,5 @@
 ﻿
-namespace Interfaces
+namespace ShopModel
 {
     /// <summary>Аргумент события изменения состояния авторизации.</summary>
     public class AuthorizationChangedArgs : EventArgs
@@ -26,7 +26,7 @@ namespace Interfaces
         /// а <paramref name="newUser"/>==<see langword="null"/>.</exception>
         public AuthorizationChangedArgs(AuthorizationStatus newStatus, IUser? newUser = null)
         {
-            if (!Enum.IsDefined<AuthorizationStatus>(newStatus))
+            if (!Enum.IsDefined(newStatus))
             {
                 throw new ArgumentException("Неожиданное значение.", nameof(newStatus));
             }

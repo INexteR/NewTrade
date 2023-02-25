@@ -1,11 +1,10 @@
-﻿using Interfaces;
-using MVVM.ViewModels;
+﻿using MVVM.ViewModels;
 using ShopModel;
 using System.Windows.Input;
 
 namespace ShopViewModels
 {
-    public class LoginViewModel : ViewModelBase, IAuthorizationViewModel
+    public class AuthorizationViewModel : ViewModelBase, IAuthorizationViewModel
     {
         // Модель авторизации.
         private readonly IAuthorization _authorization;
@@ -58,11 +57,11 @@ namespace ShopViewModels
         private void ExitExecute() => _authorization.Exit();
         #endregion 
 
-        public LoginViewModel() // Конструктор для режима разработки
+        public AuthorizationViewModel() // Конструктор для режима разработки
             : this(new Shop())
         { }
 
-        public LoginViewModel(IAuthorization authorization)
+        public AuthorizationViewModel(IAuthorization authorization)
         {
             _authorization = authorization;
             _authorization.AuthorizationChanged += OnAuthorizationChanged;

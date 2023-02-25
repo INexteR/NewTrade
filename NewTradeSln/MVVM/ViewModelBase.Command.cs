@@ -132,7 +132,7 @@ namespace MVVM.ViewModels
         /// <summary>Удаляет команду.</summary>
         /// <param name="commandName">Имя команды.</param>
         /// <returns><see langword="true"/>, если команда удалена.</returns>
-        protected bool RemoveCommnad(string commandName)
+        protected bool RemoveCommand(string commandName)
         {
             bool remove = commands.Remove(commandName);
             RaisePropertyChanged(commandName);
