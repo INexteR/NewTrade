@@ -361,3 +361,5 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/NewTradeSln/sqliteTest.db-shm
+/NewTradeSln/sqliteTest.db-wal
