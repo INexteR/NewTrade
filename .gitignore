@@ -363,3 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 /NewTradeSln/sqliteTest.db-shm
 /NewTradeSln/sqliteTest.db-wal
+/NewTradeSln/sqliteTest.db
