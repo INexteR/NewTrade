@@ -15,14 +15,14 @@ namespace NewTrade
             get => Get<IAuthorizationViewModel?>();
             set => Set(value);
         }
-        public IManufacturersSourceViewModel? ManufacturersSource
+        public IManufacturersViewModel? ManufacturersSource
         {
-            get => Get<IManufacturersSourceViewModel?>();
+            get => Get<IManufacturersViewModel?>();
             set => Set(value);
         }
-        public ProductsViewModel? Products
+        public IProductsViewModel? Products
         {
-            get => Get<ProductsViewModel?>();
+            get => Get<IProductsViewModel?>();
             set => Set(value);
         }
         public Locator()

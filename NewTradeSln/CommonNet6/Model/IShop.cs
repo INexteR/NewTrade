@@ -3,7 +3,7 @@
 namespace Model
 {
     /// <summary>Целевая модель.</summary>
-    public interface IShop : IAuthorization , IManufacturersSource
+    public interface IShop : IAuthorization , IManufacturersSource, IProductsSource
     {
         /// <summary>Наименование магазина.</summary>
         string Name { get; }
@@ -12,7 +12,5 @@ namespace Model
         // Чтобы упростить пока сделаем просто производный интерфейс.
         ///// <summary>Авторизация - необходимая компонента данной предметной области.</summary>
         //IAuthorization Authorization { get; }
-
-        IEnumerable<IProduct> GetProducts();
     }
 }

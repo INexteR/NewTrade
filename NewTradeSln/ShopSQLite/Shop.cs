@@ -22,13 +22,13 @@ namespace ShopSQLite
         }
         public string Name { get; } = "ООО «Ткани»";
 
-        public IEnumerable<IProduct> GetProducts()
+        public IList<IProduct> GetProducts()
         {
             using var context = CatalogContext.Get(сonnectionString);
             return context.Products.Include(p => p.Unit)
                 .Include(p => p.Manufacturer)
                 .Include(p => p.Supplier)
-                .Include(p => p.Category).ToList();
+                .Include(p => p.Category).ToArray();
         }
 
         private readonly ReadOnlyCollection<IManufacturer> manufacturers;

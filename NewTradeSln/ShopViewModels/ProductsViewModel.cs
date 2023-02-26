@@ -5,7 +5,7 @@ using ViewModel;
 
 namespace ShopViewModels
 {
-    public class ProductsViewModel : ViewModelBase, IManufacturersSourceViewModel
+    public class ProductsViewModel : ViewModelBase, IProductsViewModel
     {
         private readonly IShop _shop;
 
@@ -23,6 +23,6 @@ namespace ShopViewModels
 
         private readonly ReadOnlyCollection<IManufacturer> manufacturers;
         public IReadOnlyCollection<IManufacturer> Manufacturers => manufacturers;
-
+        public IProduct? SelectedProduct { get => Get<IProduct?>(); set => Set(value); }
     }
 }

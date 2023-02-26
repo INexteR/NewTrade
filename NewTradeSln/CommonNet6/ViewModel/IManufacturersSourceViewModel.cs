@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ViewModel
 {
-    public interface IManufacturersSourceViewModel
+    public interface IManufacturersViewModel
     {
         IReadOnlyCollection<IManufacturer> Manufacturers { get; }
     }
