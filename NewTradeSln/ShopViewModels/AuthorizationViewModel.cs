@@ -42,7 +42,8 @@ namespace ShopViewModels
 
         private bool GuestCanExecute()
         {
-            return _authorization.Status == AuthorizationStatus.None;
+            return _authorization.Status is AuthorizationStatus.None 
+                or AuthorizationStatus.Fail;
         }
         #endregion 
 

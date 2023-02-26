@@ -13,7 +13,12 @@
         <root:ProductsViewSource x:Key="productsView"
                                  Source="{Binding Products}"
                                  SortDirection="{Binding SelectedValue, ElementName=sort}"
-                                 ManufacturerId="{Binding SelectedValue, ElementName=filter}" />
+                                 ManufacturerId="{Binding SelectedValue, ElementName=filter}"
+                                 ProductName="{Binding Text, ElementName=name}"
+                                 ProductDescription="{Binding Text, ElementName=description}"
+                                 ManufacturerName="{Binding Text, ElementName=manufacturer}"
+                                 ProductCost="{Binding Text, ElementName=cost}"
+                                 ProductQuantityInStock="{Binding Text, ElementName=quantityInStock}" />
     </UserControl.Resources>
 
     <Grid>
@@ -21,6 +26,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="0.5*" />
         </Grid.RowDefinitions>
 
         <Grid>
@@ -151,21 +157,28 @@
             </ListBox.ItemContainerStyle>
         </ListBox>
 
-        <Grid Row="2" Height="{Binding DesiredSize.Height, ElementName=sortpanel}">
+        <GridSplitter Grid.Row="2"
+                      Height="7"
+                      Background="Black"
+                      HorizontalAlignment="Stretch" />
+
+        <Grid Row="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            
+
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition />
                 </Grid.RowDefinitions>
                 <TextBlock Text="Поиск по всем данным" />
-                <ScrollViewer Grid.Row="1">
-                    <StackPanel IsEnabled="False">
+                <ScrollViewer Grid.Row="1"
+                              VerticalAlignment="Center"
+                              VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
                         <TextBlock Text="Название" />
                         <TextBox x:Name="name" />
                         <TextBlock Text="Описание" />
@@ -179,13 +192,19 @@
                     </StackPanel>
                 </ScrollViewer>
             </Grid>
-            
-            <StackPanel Grid.Column="1" x:Name="sortpanel">
+
+            <Grid Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
                 <TextBlock Text="Сортировка по стоимости" />
                 <ListBox ItemsSource="{Binding Source={x:Static root:ProductsHelper.Directions}}"
                          SelectedValuePath="Value"
                          SelectionMode="Single"
                          SelectedIndex="0"
+                         VerticalAlignment="Center"
+                         Grid.Row="1"
                          FontSize="11"
                          x:Name="sort">
                     <ListBox.ItemTemplate>
@@ -200,8 +219,8 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-            </StackPanel>
-            
+            </Grid>
+
             <Grid Column="2">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -226,7 +245,7 @@
                     </ComboBox.ItemsSource>
                 </ComboBox>
             </Grid>
-            
+
         </Grid>
     </Grid>
 </UserControl>
