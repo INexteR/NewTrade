@@ -13,6 +13,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShopViewModels", "ShopViewM
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MVVM", "MVVM\MVVM.csproj", "{D3727FA5-D3AF-4634-B357-9E8211C710E4}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShopSQLite", "ShopSQLite\ShopSQLite.csproj", "{08CF2DD5-262C-4194-97CD-CD50E6E37699}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShopTest", "ShopTest\ShopTest.csproj", "{318C1D73-6EF7-41A5-B820-D97C99F27E28}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{D3727FA5-D3AF-4634-B357-9E8211C710E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D3727FA5-D3AF-4634-B357-9E8211C710E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D3727FA5-D3AF-4634-B357-9E8211C710E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08CF2DD5-262C-4194-97CD-CD50E6E37699}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08CF2DD5-262C-4194-97CD-CD50E6E37699}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08CF2DD5-262C-4194-97CD-CD50E6E37699}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08CF2DD5-262C-4194-97CD-CD50E6E37699}.Release|Any CPU.Build.0 = Release|Any CPU
+		{318C1D73-6EF7-41A5-B820-D97C99F27E28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{318C1D73-6EF7-41A5-B820-D97C99F27E28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{318C1D73-6EF7-41A5-B820-D97C99F27E28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{318C1D73-6EF7-41A5-B820-D97C99F27E28}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
