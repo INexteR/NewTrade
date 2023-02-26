@@ -6,11 +6,8 @@
              StartupUri="MainWindow.xaml"
              Startup="OnAppStartup">
     <Application.Resources>
-        <local:Locator x:Key="locator">
-            <local:Locator.Authorization>
-                <vms:AuthorizationViewModel />
-            </local:Locator.Authorization>
-        </local:Locator>
+        <local:Locator x:Key="locator"/>
+
         <ImageSource x:Key="logo">/Resources/logo.png</ImageSource>
     </Application.Resources>
 </Application>

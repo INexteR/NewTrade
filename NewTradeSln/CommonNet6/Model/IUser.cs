@@ -20,7 +20,7 @@ namespace Model
         string Login { get; }
 
         /// <summary>Пароль.</summary>
-        string Password { get; }
+        string? Password { get; }
 
         /// <summary>Роль.</summary>
         IRole? Role { get; }

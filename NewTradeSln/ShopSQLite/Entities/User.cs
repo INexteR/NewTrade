@@ -1,35 +1,37 @@
 ﻿using Model;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ShopSQLite.Entities
 {
+    [Table("users")]
     internal partial class User : IUser
     {
-        public int Id { get; internal set; }
+        [Key]
+        public int Id { get; set; }
 
         private string surname = string.Empty;
 
         [MaxLength(100)]
-        public string Surname { get => surname; internal set => surname = value ?? string.Empty; }
+        public string Surname { get => surname; set => surname = value ?? string.Empty; }
 
         private string name = string.Empty;
 
         [MaxLength(100)]
-        public string Name { get => name; internal set => name = value ?? string.Empty; }
+        public string Name { get => name; set => name = value ?? string.Empty; }
 
         [MaxLength(100)]
         public string? Patronymic { get; internal set; }
 
 
         private string login = string.Empty;
-        public string Login { get => login; internal set => login = value ?? string.Empty; }
+        public string Login { get => login; set => login = value ?? string.Empty; }
 
         /// <summary>Хеш пароля.</summary>
         public byte[]? HashPassword { get; set; }
 
         /// <summary>Строковый пароль. Временное решение.</summary>
-        private string password = string.Empty;
-        public string Password { get => password; internal set => password = value ?? string.Empty; }
+        public string? Password { get; set; }
 
         public int RoleId { get; set; } //не убирайте это св-во. на него есть ссылка в OnModelCreating
 

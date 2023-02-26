@@ -58,8 +58,11 @@ namespace ShopSQLite
             // Какие-то действия, потом проверка
             //byte[]? hash = ModelHelper.GetHashPassword(password);
             User? user = null;
-            //TestData.GetUsers()
-            //    .FirstOrDefault(user => user.Login == login && user.CheckPassword(password));
+            using (var db = CatalogContext.Get(сonnectionString))
+            {
+                // Это аременное решение. По нормальному нужно сравнивать хеши.
+                user = db.Users.FirstOrDefault(user => user.Login == login && user.Password == password);
+            }
 
             if (user is not null)
             {

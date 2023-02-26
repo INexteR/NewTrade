@@ -98,7 +98,7 @@
                         <Border Margin="10"
                                 BorderThickness="2"
                                 BorderBrush="Black">
-                            <Image Source="{Binding Path}"
+                            <Image Source="{Binding Path, Converter={x:Static local:ImagePathToUriConverter.Insatance}}"
                                    Width="160"
                                    Height="140" />
                         </Border>

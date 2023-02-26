@@ -23,4 +23,5 @@ namespace ViewModel
          /// <summary>Команда попытки выхода из авторизации.</summary>
         ICommand Exit { get; }
     }
+
 }

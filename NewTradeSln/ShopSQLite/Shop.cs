@@ -29,8 +29,6 @@ namespace ShopSQLite
                 .Include(p => p.Manufacturer)
                 .Include(p => p.Supplier)
                 .Include(p => p.Category).ToList();
-            throw new NotImplementedException();
-            //return TestData.GetProducts();
         }
 
         private readonly ReadOnlyCollection<IManufacturer> manufacturers;
