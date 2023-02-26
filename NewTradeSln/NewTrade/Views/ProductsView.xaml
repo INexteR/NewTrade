@@ -13,12 +13,7 @@
         <root:ProductsViewSource x:Key="productsView"
                                  Source="{Binding Products}"
                                  SortDirection="{Binding SelectedValue, ElementName=sort}"
-                                 ManufacturerId="{Binding SelectedValue, ElementName=filter}"
-                                 ProductName="{Binding Text, ElementName=name}"
-                                 ProductDescription="{Binding Text, ElementName=description}"
-                                 ManufacturerName="{Binding Text, ElementName=manufacturer}"
-                                 ProductCost="{Binding Text, ElementName=cost}"
-                                 ProductQuantityInStock="{Binding Text, ElementName=quantityInStock}" />
+                                 ManufacturerId="{Binding SelectedValue, ElementName=filter}"/>
     </UserControl.Resources>
 
     <Grid>

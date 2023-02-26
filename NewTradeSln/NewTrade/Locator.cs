@@ -1,5 +1,7 @@
 ﻿
 using MVVM.ViewModels;
+using ShopViewModels;
+using ViewModel;
 
 namespace NewTrade
 {

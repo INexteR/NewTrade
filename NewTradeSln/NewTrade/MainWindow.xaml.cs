@@ -1,6 +1,4 @@
-﻿global using ShopModel;
-global using ShopViewModels;
-global using System.Windows;
+﻿global using System.Windows;
 global using System.Windows.Controls;
 
 namespace NewTrade

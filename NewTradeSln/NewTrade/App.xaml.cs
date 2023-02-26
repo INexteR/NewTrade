@@ -1,4 +1,7 @@
-﻿
+﻿using Model;
+using ShopSQLite;
+using ShopViewModels;
+
 namespace NewTrade
 {
     /// <summary>
@@ -15,7 +18,7 @@ namespace NewTrade
         private void OnAppStartup(object sender, StartupEventArgs e)
         {
             locator = (Locator)FindResource(nameof(locator));
-            shopModel = new Shop();
+            shopModel = new Shop(false);
             authorizationModel = shopModel;
             locator.Authorization = new AuthorizationViewModel(authorizationModel);
             locator.Products = new ProductsViewModel(shopModel);

@@ -1,6 +1,8 @@
-﻿using MVVM.ViewModels;
-using ShopModel;
+﻿using Model;
+using MVVM.ViewModels;
+using ShopSQLite;
 using System.Windows.Input;
+using ViewModel;
 
 namespace ShopViewModels
 {
@@ -59,7 +61,7 @@ namespace ShopViewModels
         #endregion 
 
         public AuthorizationViewModel() // Конструктор для режима разработки
-            : this(new Shop())
+            : this(new Shop(true))
         { }
 
         public AuthorizationViewModel(IAuthorization authorization)

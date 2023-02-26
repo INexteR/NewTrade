@@ -3,7 +3,7 @@
 namespace Model
 {
     /// <summary>Целевая модель.</summary>
-    public interface IShop : IAuthorization
+    public interface IShop : IAuthorization , IManufacturersSource
     {
         /// <summary>Наименование магазина.</summary>
         string Name { get; }
@@ -14,7 +14,5 @@ namespace Model
         //IAuthorization Authorization { get; }
 
         IEnumerable<IProduct> GetProducts();
-
-        IEnumerable<IManufacturer> GetManufacturers();
     }
 }

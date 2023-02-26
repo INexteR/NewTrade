@@ -1,7 +1,10 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using ShopSQLite;
+using static System.Console;
 
-Console.WriteLine("Hello, World!");
+WriteLine("Hello, World!");
 var shop = new Shop(true);
 var prds = shop.GetProducts();
-Console.WriteLine();
+
+WriteLine(prds.Count());
+ReadLine();

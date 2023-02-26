@@ -1,8 +1,6 @@
-﻿
+﻿using Model;
 using MVVM.ViewModels;
-using ShopModel;
 using System.Collections.ObjectModel;
-using System.Windows.Input;
 
 namespace ShopViewModels
 {

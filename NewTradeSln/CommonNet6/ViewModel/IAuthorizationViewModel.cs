@@ -1,7 +1,7 @@
-﻿using ShopModel;
+﻿using Model;
 using System.Windows.Input;
 
-namespace ShopViewModels
+namespace ViewModel
 {
     /// <summary>Служба авторизации.</summary>
     public interface IAuthorizationViewModel

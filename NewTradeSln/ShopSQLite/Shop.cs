@@ -1,6 +1,7 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
 using Model;
+using System.Collections.ObjectModel;
 
 namespace ShopSQLite
 {
@@ -17,7 +18,7 @@ namespace ShopSQLite
             }
             var db = CatalogContext.Get(сonnectionString);
             db.Database.EnsureCreated();
-
+            manufacturers = new ReadOnlyCollection<IManufacturer>(db.Manufacturers.ToArray());
         }
         public string Name { get; } = "ООО «Ткани»";
 
@@ -32,10 +33,8 @@ namespace ShopSQLite
             //return TestData.GetProducts();
         }
 
-        public IEnumerable<IManufacturer> GetManufacturers()
-        {
-            throw new NotImplementedException();
-            //return TestData.GetManufacturers();
-        }
+        private readonly ReadOnlyCollection<IManufacturer> manufacturers;
+        public IReadOnlyCollection<IManufacturer> GetManufacturers()
+            => manufacturers;
     }
 }
