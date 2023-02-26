@@ -54,128 +54,19 @@ namespace ShopSQLite
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder
-                // Почему-то сбоит
-            //   .Entity<Role>(entity =>
-            //{
-            //    entity.ToTable("role");
+            modelBuilder.Entity<Role>().HasData(Data.GetRoles());
 
-            //    entity.Property(e => e.Name).HasMaxLength(100);
-            //})
+            modelBuilder.Entity<Category>().HasData(Data.categories);
 
-                // Начальные данные для новой БД.
-                .Entity<Role>().HasData(Data.GetRoles());
+            modelBuilder.Entity<Manufacturer>().HasData(Data.manufacturers);
 
+            modelBuilder.Entity<Supplier>().HasData(Data.suppliers);
 
-            //modelBuilder.UseCollation("utf8mb4_0900_ai_ci")
-            //    .HasCharSet("utf8mb4");
+            modelBuilder.Entity<Unit>().HasData(Data.unit);
 
-            modelBuilder.Entity<Category>(entity =>
-            {
-                entity.ToTable("category");
+            modelBuilder.Entity<User>().HasData(Data.GetUsers());
 
-                entity.Property(e => e.Name).HasColumnType("text");
-            })
-                .Entity<Category>().HasData(Data.categories);
-
-            modelBuilder.Entity<Manufacturer>(entity =>
-            {
-                entity.ToTable("manufacturer");
-
-                entity.Property(e => e.Name).HasColumnType("text");
-            })
-                .Entity<Manufacturer>().HasData(Data.manufacturers);
-
-            modelBuilder.Entity<Supplier>(entity =>
-            {
-                entity.ToTable("supplier");
-
-                entity.Property(e => e.Name).HasColumnType("text");
-            })
-                .Entity<Supplier>().HasData(Data.suppliers);
-
-            modelBuilder.Entity<Unit>(entity =>
-            {
-                entity.ToTable("unit");
-                
-                entity.Property(e => e.Name).HasColumnType("text");
-            })
-                .Entity<Unit>().HasData(Data.unit);
-
-            modelBuilder.Entity<User>(entity =>
-            {
-                entity.ToTable("user");
-
-                entity.HasIndex(e => e.RoleId, "role");
-
-                entity.Property(e => e.Login).HasColumnType("text");
-
-                entity.Property(e => e.Name).HasMaxLength(100);
-
-                entity.Property(e => e.Password).HasColumnType("text");
-
-                entity.Property(e => e.Patronymic).HasMaxLength(100);
-
-                entity.Property(e => e.Surname).HasMaxLength(100);
-
-                entity.HasOne(d => d.Role)
-                    .WithMany(p => p.Users)
-                    .HasForeignKey(d => d.RoleId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("role");
-            })
-                .Entity<User>().HasData(Data.GetUsers());
-
-            modelBuilder.Entity<Product>(entity =>
-            {
-                entity.HasKey(e => e.ArticleNumber)
-                    .HasName("PRIMARY");
-
-                entity.ToTable("product");
-
-                entity.HasIndex(e => e.CategoryId, "category_idx");
-
-                entity.HasIndex(e => e.ManufacturerId, "manufacturer_idx");
-
-                entity.HasIndex(e => e.SupplierId, "supplier_idx");
-
-                entity.HasIndex(e => e.UnitId, "unit_idx");
-
-                entity.Property(e => e.ArticleNumber).HasMaxLength(100);
-
-                entity.Property(e => e.Cost).HasPrecision(19, 4);
-
-                entity.Property(e => e.Description).HasColumnType("text");
-
-                entity.Property(e => e.Name).HasColumnType("text");
-
-                entity.Property(e => e.Path).HasColumnType("text");
-
-                entity.HasOne(d => d.Category)
-                    .WithMany(p => p.Products)
-                    .HasForeignKey(d => d.CategoryId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("category");
-
-                entity.HasOne(d => d.Manufacturer)
-                    .WithMany(p => p.Products)
-                    .HasForeignKey(d => d.ManufacturerId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("manufacturer");
-
-                entity.HasOne(d => d.Supplier)
-                    .WithMany(p => p.Products)
-                    .HasForeignKey(d => d.SupplierId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("supplier");
-
-                entity.HasOne(d => d.Unit)
-                    .WithMany(p => p.Products)
-                    .HasForeignKey(d => d.UnitId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("unit");
-            })
-                .Entity<Product>().HasData(Data.GetProducts());
+            modelBuilder.Entity<Product>().HasData(Data.GetProducts());
 
             modelBuilder.Entity<Order>(entity =>
              {

@@ -1,10 +1,15 @@
-﻿using Model;
+﻿using Microsoft.EntityFrameworkCore;
+using Model;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ShopSQLite.Entities
 {
     [Table("products")]
+    [Index(nameof(CategoryId), Name = "category_idx")]
+    [Index(nameof(ManufacturerId), Name = "manufacturer_idx")]
+    [Index(nameof(SupplierId), Name = "supplier_idx")]
+    [Index(nameof(UnitId), Name = "unit_idx")]
     internal partial class Product : IProduct
     {
         public Product()
@@ -13,13 +18,14 @@ namespace ShopSQLite.Entities
         }
 
         [Key]
-        public int Id { get; set; }
+        [MaxLength(100)]
         public string ArticleNumber { get; set; } = null!;
         public string Name { get; set; } = null!;
         public int UnitId { get; set; }
         public decimal Cost { get; set; }
         public int ManufacturerId { get; set; }
         public int SupplierId { get; set; }
+
         public int CategoryId { get; set; }
         public int MaxDiscountAmount { get; set; }
         public sbyte? DiscountAmount { get; set; }

@@ -11,6 +11,8 @@ namespace ShopSQLite.Entities
         public int Id { get; internal set; }
 
         private string _name = string.Empty;
+
+        [MaxLength(100)]
         public string Name { get => _name; internal set => _name = value ?? string.Empty; }
         public Rights Rights { get; internal set; }
 

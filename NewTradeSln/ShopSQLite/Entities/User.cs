@@ -1,4 +1,5 @@
 ﻿using Model;
+using System.ComponentModel.DataAnnotations;
 
 namespace ShopSQLite.Entities
 {
@@ -8,11 +9,15 @@ namespace ShopSQLite.Entities
 
         private string surname = string.Empty;
 
+        [MaxLength(100)]
         public string Surname { get => surname; internal set => surname = value ?? string.Empty; }
 
         private string name = string.Empty;
 
+        [MaxLength(100)]
         public string Name { get => name; internal set => name = value ?? string.Empty; }
+
+        [MaxLength(100)]
         public string? Patronymic { get; internal set; }
 
 
