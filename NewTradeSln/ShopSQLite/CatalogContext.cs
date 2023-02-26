@@ -7,17 +7,12 @@ namespace ShopSQLite
 {
     internal partial class CatalogContext : DbContext
     {
-        //private const string CONNECTION = "server=localhost;password=curuserpass;user=root;database=newtrade";
-        //private static readonly ServerVersion _version = ServerVersion.Parse("8.0.30-mysql");
 
-        private string сonnectionString;
+        private readonly string сonnectionString;
 
         public static CatalogContext Get(string сonnectionString)
         {
             return new CatalogContext(сonnectionString);
-            //throw new NotImplementedException();
-            //var options = new DbContextOptionsBuilder<ShopContext>().UseMySql(CONNECTION, _version).Options;
-            //return new(options);
         }
 
         public CatalogContext(string сonnectionString)
@@ -48,7 +43,6 @@ namespace ShopSQLite
                     .UseSqlite($"Data Source={сonnectionString}");
                 optionsBuilder.LogTo(Console.WriteLine, new[] { RelationalEventId.CommandExecuted });
 
-                //optionsBuilder.UseMySql(CONNECTION, _version);
             }
         }
 
