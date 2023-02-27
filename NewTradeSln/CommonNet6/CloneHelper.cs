@@ -17,6 +17,8 @@ namespace Common
         /// Object.MemberwiseClone()</a>.</remarks>
         public static T Clone<T>(this T obj)
         {
+            if (obj is null) throw new ArgumentNullException(nameof(obj));
+
             T clone;
             if (obj is ICloneable<T> clnT)
             {

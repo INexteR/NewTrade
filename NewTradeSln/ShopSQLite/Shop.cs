@@ -20,18 +20,19 @@ namespace ShopSQLite
             db.Database.EnsureCreated();
             manufacturers = new ReadOnlyCollection<IManufacturer>(db.Manufacturers.ToArray());
         }
+
+        public async Task LoadDataAsync() => await Task.Run(() =>
+        {
+            var db = CatalogContext.Get(сonnectionString);
+            db.Database.EnsureCreated();
+            manufacturers = new ReadOnlyCollection<IManufacturer>(db.Manufacturers.ToArray());
+            GetProducts();
+        });
+
         public string Name { get; } = "ООО «Ткани»";
 
-        public IList<IProduct> GetProducts()
-        {
-            using var context = CatalogContext.Get(сonnectionString);
-            return context.Products.Include(p => p.Unit)
-                .Include(p => p.Manufacturer)
-                .Include(p => p.Supplier)
-                .Include(p => p.Category).ToArray();
-        }
 
-        private readonly ReadOnlyCollection<IManufacturer> manufacturers;
+        private  ReadOnlyCollection<IManufacturer> manufacturers;
         public IReadOnlyCollection<IManufacturer> GetManufacturers()
             => manufacturers;
     }

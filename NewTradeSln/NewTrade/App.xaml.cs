@@ -18,10 +18,21 @@ namespace NewTrade
         private void OnAppStartup(object sender, StartupEventArgs e)
         {
             locator = (Locator)FindResource(nameof(locator));
-            shopModel = new Shop(false);
+            Shop shopModel = new Shop(false);
+            this.shopModel = shopModel;
             authorizationModel = shopModel;
             locator.Authorization = new AuthorizationViewModel(authorizationModel);
             locator.Products = new ProductsViewModel(shopModel);
+
+            // Здесь нужно добавить обработку ошибок 
+            _ = shopModel
+                .LoadDataAsync()
+                .ContinueWith(t =>
+                {
+                    // Маршалинг исключений в поток App
+                    if (t.Exception is not null)
+                        throw t.Exception;
+                });
         }
     }
 }
