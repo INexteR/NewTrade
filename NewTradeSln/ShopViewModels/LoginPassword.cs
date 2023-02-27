@@ -6,8 +6,8 @@ namespace ShopViewModels
     {
         public LoginPassword()
         {
-            Login = string.Empty;
-            Password = string.Empty;
+            //Login = string.Empty;
+            //Password = string.Empty;
         }
 
         public string Login
