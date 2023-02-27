@@ -23,10 +23,15 @@ namespace ShopSQLite
 
         public async Task LoadDataAsync() => await Task.Run(() =>
         {
+            // Задержка для имитации долго запроса
+            Thread.Sleep(5000);
+
             var db = CatalogContext.Get(сonnectionString);
             db.Database.EnsureCreated();
             manufacturers = new ReadOnlyCollection<IManufacturer>(db.Manufacturers.ToArray());
             GetProducts();
+
+            throw new Exception("Тестовое исключение");
         });
 
         public string Name { get; } = "ООО «Ткани»";

@@ -1,6 +1,9 @@
 ﻿using Model;
 using ShopSQLite;
 using ShopViewModels;
+using System;
+using System.Threading.Tasks;
+using System.Windows.Threading;
 
 namespace NewTrade
 {
@@ -15,7 +18,7 @@ namespace NewTrade
         private Locator locator;
 #pragma warning restore CS8618 // Поле, не допускающее значения NULL, должно содержать значение, отличное от NULL.
 
-        private void OnAppStartup(object sender, StartupEventArgs e)
+        private async void OnAppStartup(object sender, StartupEventArgs e)
         {
             locator = (Locator)FindResource(nameof(locator));
             Shop shopModel = new Shop(false);
@@ -25,14 +28,15 @@ namespace NewTrade
             locator.Products = new ProductsViewModel(shopModel);
 
             // Здесь нужно добавить обработку ошибок 
-            _ = shopModel
-                .LoadDataAsync()
-                .ContinueWith(t =>
-                {
-                    // Маршалинг исключений в поток App
-                    if (t.Exception is not null)
-                        throw t.Exception;
-                });
+             DispatcherUnhandledException += OnException;
+           var uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
+           await shopModel.LoadDataAsync();
+
+        }
+
+        private void OnException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        {
+            MessageBox.Show(e.ToString(), "Исключение");
         }
     }
 }
