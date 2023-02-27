@@ -27,9 +27,13 @@
                            Text="Вход в учетную запись"
                            Margin="0 0 0 5" />
                 <TextBlock Text="ЛОГИН" />
-                <TextBox Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBox x:Name="loginTBox"
+                         Text="{Binding Login, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
+                         TextChanged="OnEnabledValidation"/>
                 <TextBlock Text="ПАРОЛЬ" />
-                <TextBox Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBox x:Name="passwordTBox"
+                         Text="{Binding Password, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
+                         TextChanged="OnEnabledValidation"/>
             </StackPanel>
             <Button Content="Войти"
                     Command="{Binding Authorize}"
