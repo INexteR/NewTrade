@@ -27,14 +27,13 @@
                            Text="Вход в учетную запись"
                            Margin="0 0 0 5" />
                 <TextBlock Text="ЛОГИН" />
-                <TextBox x:Name="loginTBox" Text="{Binding Login, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}" />
+                <TextBox Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}" />
                 <TextBlock Text="ПАРОЛЬ" />
-                <TextBox x:Name="passwordTBox" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}" />
+                <TextBox Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
             <Button Content="Войти"
                     Command="{Binding Authorize}"
                     CommandParameter="{StaticResource lp}"
-                    Click="OnAuthorize"
                     Margin="0 10">
             </Button>
             <Button Content="Гость"

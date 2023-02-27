@@ -1,7 +1,4 @@
-﻿using ShopViewModels;
-using System.Windows.Data;
-
-namespace NewTrade.Views
+﻿namespace NewTrade.Views
 {
     /// <summary>
     /// Логика взаимодействия для LoginView.xaml
@@ -12,20 +9,5 @@ namespace NewTrade.Views
         {
             InitializeComponent();
         }
-
-        private static readonly Binding loginBinding = new Binding(nameof(LoginPassword.Login))
-        {
-            UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
-        };
-        private static readonly Binding passwordBinding = new Binding(nameof(LoginPassword.Password))
-        {
-            UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
-        };
-        private void OnAuthorize(object sender, RoutedEventArgs e)
-        {
-            loginTBox.SetBinding(TextBox.TextProperty, loginBinding);
-            passwordTBox.SetBinding (TextBox.TextProperty, passwordBinding);
-        }
     }
-
 }
