@@ -24,7 +24,7 @@ namespace ShopSQLite
         public async Task LoadDataAsync() => await Task.Run(() =>
         {
             // Задержка для имитации долго запроса
-            Thread.Sleep(5000);
+            Thread.Sleep(15000);
 
             var db = CatalogContext.Get(сonnectionString);
             db.Database.EnsureCreated();

@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:vms="clr-namespace:ShopViewModels;assembly=ShopViewModels"
-             xmlns:local="clr-namespace:NewTrade.Views"
+             xmlns:local="clr-namespace:NewTrade.Views" xmlns:app="clr-namespace:NewTrade"
              mc:Ignorable="d"
              d:DesignHeight="450"
              d:DesignWidth="800"
@@ -28,12 +28,12 @@
                            Margin="0 0 0 5" />
                 <TextBlock Text="ЛОГИН" />
                 <TextBox x:Name="loginTBox"
-                         Text="{Binding Login, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
-                         TextChanged="OnEnabledValidation"/>
+                         Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}"
+                         Loaded="{app:LoginViewHelper LoginPaswordTBox}"/>
                 <TextBlock Text="ПАРОЛЬ" />
                 <TextBox x:Name="passwordTBox"
-                         Text="{Binding Password, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
-                         TextChanged="OnEnabledValidation"/>
+                         Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}"
+                         Loaded="{app:LoginViewHelper LoginPaswordTBox}"/>
             </StackPanel>
             <Button Content="Войти"
                     Command="{Binding Authorize}"
