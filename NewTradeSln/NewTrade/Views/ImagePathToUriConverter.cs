@@ -18,7 +18,7 @@ namespace NewTrade.Views
             throw new NotImplementedException();
         }
         private ImagePathToUriConverter() { }
-        public static ImagePathToUriConverter Insatance { get; } = new();
+        public static ImagePathToUriConverter Instance { get; } = new();
     }
 
 }

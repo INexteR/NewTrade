@@ -6,16 +6,13 @@ namespace Model
     [Flags]
     public enum Rights
     {
-        /// <summary>Просмотр.</summary>
+        /// <summary>Просмотр - гость</summary>
         Viewing = 0, 
-        /// <summary>Добавление.</summary>
+        /// <summary>Добавление - клиент</summary>
         Adding = 1, 
-        /// <summary>Удаление.</summary>
-        Deleting = 2, 
-        /// <summary>Редактирование.</summary>
-        Editing = 4,
-        /// <summary>Все права.</summary>
-        Full = Adding | Deleting | Editing
-
+        /// <summary>Редактирование - менеджер</summary>
+        Editing = 2,
+        /// <summary>Все права - администратор</summary>
+        Full = Adding | Editing,
     }
 }

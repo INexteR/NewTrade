@@ -10,7 +10,7 @@
              d:DesignWidth="800"
              d:Background="White">
     <d:UserControl.DataContext>
-        <vms:AuthorizationViewModel/>
+        <vms:AuthorizationViewModel />
     </d:UserControl.DataContext>
     <UserControl.Resources>
         <vms:LoginPassword x:Key="lp" />
@@ -20,20 +20,20 @@
                     HorizontalAlignment="Center"
                     Width="335">
             <Border Height="123">
-                <Image Source="{StaticResource logo}"/>
+                <Image Source="{StaticResource logo}" />
             </Border>
             <StackPanel DataContext="{StaticResource lp}">
                 <TextBlock FontSize="24"
                            Text="Вход в учетную запись"
                            Margin="0 0 0 5" />
                 <TextBlock Text="ЛОГИН" />
-                <TextBox x:Name="loginTBox"
-                         Text="{Binding Login, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
-                         TextChanged="OnEnabledValidation"/>
+                <TextBox Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}"
+                         Validation.ErrorTemplate="{x:Null}"
+                         TextChanged="OnEnabledValidation" />
                 <TextBlock Text="ПАРОЛЬ" />
-                <TextBox x:Name="passwordTBox"
-                         Text="{Binding Password, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
-                         TextChanged="OnEnabledValidation"/>
+                <TextBox Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}"
+                         Validation.ErrorTemplate="{x:Null}"
+                         TextChanged="OnEnabledValidation" />
             </StackPanel>
             <Button Content="Войти"
                     Command="{Binding Authorize}"
@@ -41,16 +41,20 @@
                     Margin="0 10">
             </Button>
             <Button Content="Гость"
-                    Margin="0 0 0 10" Command="{Binding Guest}"/>
+                    Margin="0 0 0 10"
+                    Command="{Binding Guest}" />
             <TextBlock Text="{Binding CurrentStatus}" />
-            <ProgressBar IsIndeterminate="True" Background="Transparent">
+            <ProgressBar IsIndeterminate="True"
+                         Background="Transparent">
                 <ProgressBar.Style>
                     <Style TargetType="ProgressBar">
-                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Setter Property="Visibility"
+                                Value="Collapsed" />
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding CurrentStatus}"
-                                                 Value="InProcessing">
-                                <Setter Property="Visibility" Value="Visible"/>
+                                         Value="InProcessing">
+                                <Setter Property="Visibility"
+                                        Value="Visible" />
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>

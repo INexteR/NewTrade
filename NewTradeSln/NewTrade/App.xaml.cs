@@ -28,9 +28,10 @@ namespace NewTrade
             locator.Products = new ProductsViewModel(shopModel);
 
             // Здесь нужно добавить обработку ошибок 
-             DispatcherUnhandledException += OnException;
-           var uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
-           await shopModel.LoadDataAsync();
+            DispatcherUnhandledException += OnException;
+            //зачем это? ↓
+            var uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
+            await shopModel.LoadDataAsync();
 
         }
 

@@ -15,9 +15,7 @@ namespace ShopViewModels
         {
             _shop = shop;
             _shop.ProductChanged += OnProductChanged;
-            //загрузка пока что в конструкторе, это плохо, надо как-то решать
-            //Products = new ObservableCollection<IProduct>(_shop.GetProducts());
-            manufacturers = new(_shop.GetManufacturers().ToArray());
+            _shop.ManufacturerChanged += OnManufacturerChanged;
         }
 
         private void OnProductChanged(object sender, NotifyListChangedEventArgs<IProduct> e)
@@ -40,13 +38,20 @@ namespace ShopViewModels
                     break;
             }
         }
+        private void OnManufacturerChanged(object sender, NotifyListChangedEventArgs<IManufacturer> e)
+        {
+            if (e.Action is NotifyCollectionChangedAction.Reset)
+            {
+                Manufacturers.Reset(_shop.GetManufacturers());
+            }
+        }
 
         public string Name => _shop.Name;
 
         public ObservableCollection<IProduct> Products { get; } = new();
 
-        private readonly ReadOnlyCollection<IManufacturer> manufacturers;
-        public IReadOnlyCollection<IManufacturer> Manufacturers => manufacturers;
+        public ObservableCollection<IManufacturer> Manufacturers { get; } = new();
+
         public IProduct? SelectedProduct { get => Get<IProduct?>(); set => Set(value); }
     }
 }

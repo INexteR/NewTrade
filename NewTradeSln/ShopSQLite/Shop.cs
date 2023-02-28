@@ -1,5 +1,7 @@
 ﻿
+using CommonNet6.Collection;
 using Microsoft.EntityFrameworkCore;
+using System.Collections;
 using Model;
 using System.Collections.ObjectModel;
 
@@ -7,7 +9,7 @@ namespace ShopSQLite
 {
     public partial class Shop : IShop
     {
-        string сonnectionString = "sqliteTest.db";
+        const string сonnectionString = "sqliteTest.db";
 
         public Shop(bool recreate)
         {
@@ -18,27 +20,39 @@ namespace ShopSQLite
             }
             var db = CatalogContext.Get(сonnectionString);
             db.Database.EnsureCreated();
-            manufacturers = new ReadOnlyCollection<IManufacturer>(db.Manufacturers.ToArray());
         }
 
-        public async Task LoadDataAsync() => await Task.Run(() =>
+        public Task LoadDataAsync() => Task.Run(() =>
         {
-            // Задержка для имитации долго запроса
-            Thread.Sleep(5000);
-
-            var db = CatalogContext.Get(сonnectionString);
+            using var db = CatalogContext.Get(сonnectionString);
             db.Database.EnsureCreated();
-            manufacturers = new ReadOnlyCollection<IManufacturer>(db.Manufacturers.ToArray());
             GetProducts();
-
-            throw new Exception("Тестовое исключение");
+            GetManufacturers();
+            //почему-то не перехватывается ↓
+            //throw new Exception("Тестовое исключение");
         });
 
         public string Name { get; } = "ООО «Ткани»";
 
 
-        private  ReadOnlyCollection<IManufacturer> manufacturers;
+
+        private readonly List<IManufacturer> manufacturers = new();
+
+        public event NotifyListChangedEventHandler<IManufacturer> ManufacturerChanged = delegate { };
+
         public IReadOnlyCollection<IManufacturer> GetManufacturers()
-            => manufacturers;
+        {
+            lock (((ICollection)manufacturers).SyncRoot)
+            {
+                if (manufacturers.Count == 0)
+                {
+                    using (var context = CatalogContext.Get(сonnectionString))
+                        manufacturers.AddRange(context.Manufacturers.ToArray());
+
+                    ManufacturerChanged(this, NotifyListChangedEventArgs<IManufacturer>.Reset());
+                }
+            }
+            return manufacturers;
+        }
     }
 }

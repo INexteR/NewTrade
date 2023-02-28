@@ -1,11 +1,11 @@
 ﻿using Model;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace ViewModel
 {
     public interface IManufacturersViewModel
     {
-        IReadOnlyCollection<IManufacturer> Manufacturers { get; }
+        ObservableCollection<IManufacturer> Manufacturers { get; }
     }
 
 }

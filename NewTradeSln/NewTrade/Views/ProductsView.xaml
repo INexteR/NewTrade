@@ -47,7 +47,7 @@
             <StackPanel Grid.Column="1"
                         Margin="10 3">
                 <Button Command="{Binding Authorization.Exit, Mode=OneWay, Source={StaticResource locator}}"
-                        Content="Выйти" />
+                        Content="Выход" />
                 <TextBlock Margin="0 15 0 0">
                     <Run Text="{Binding Count, Source={StaticResource productsView}, Mode=OneWay}" />
                     <Run Text="из" />
@@ -99,7 +99,7 @@
                         <Border Margin="10"
                                 BorderThickness="2"
                                 BorderBrush="Black">
-                            <Image Source="{Binding Path, Converter={x:Static local:ImagePathToUriConverter.Insatance}}"
+                            <Image Source="{Binding Path, Converter={x:Static local:ImagePathToUriConverter.Instance}}"
                                    Width="160"
                                    Height="140" />
                         </Border>
@@ -187,9 +187,11 @@
                         <TextBlock Text="Производитель" />
                         <TextBox x:Name="manufacturer" />
                         <TextBlock Text="Цена" />
-                        <TextBox x:Name="cost" />
+                        <TextBox x:Name="cost"
+                                 PreviewKeyDown="{x:Static root:ProductsHelper.OnlyDigits}" />
                         <TextBlock Text="Наличие на складе" />
-                        <TextBox x:Name="quantityInStock" />
+                        <TextBox x:Name="quantityInStock"
+                                 PreviewKeyDown="{x:Static root:ProductsHelper.OnlyDigits}" />
                     </StackPanel>
                 </ScrollViewer>
             </Grid>

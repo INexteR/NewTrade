@@ -33,7 +33,7 @@ namespace ShopSQLite.Entities
         /// <summary>Строковый пароль. Временное решение.</summary>
         public string? Password { get; set; }
 
-        public int RoleId { get; set; } //не убирайте это св-во. на него есть ссылка в OnModelCreating
+        public int RoleId { get; set; }
 
         public virtual Role Role { get; set; } = null!;
 
