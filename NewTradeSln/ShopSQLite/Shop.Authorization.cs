@@ -60,7 +60,7 @@ namespace ShopSQLite
             User? user = null;
             using (var db = CatalogContext.Get(сonnectionString))
             {
-                // Это аременное решение. По нормальному нужно сравнивать хеши.
+                // Это временное решение. По нормальному нужно сравнивать хеши.
                 user = db.Users.FirstOrDefault(user => user.Login == login && user.Password == password);
             }
 

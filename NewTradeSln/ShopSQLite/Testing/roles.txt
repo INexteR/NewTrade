@@ -1,4 +1,0 @@
-1	Администратор	Full
-2	Менеджер	Viewing
-3	Клиент	Viewing
-4	Гость	Viewing

@@ -1,4 +1,5 @@
-﻿using Model;
+﻿using Mapping;
+using Model;
 using ShopSQLite.Entities;
 
 namespace ShopSQLite.Initialization
@@ -8,34 +9,26 @@ namespace ShopSQLite.Initialization
         private static User[]? users;
         public static IEnumerable<IUser> GetUsers()
         {
-            if (users is null)
-            {
-                var lines = File.ReadAllLines(usersDataFullName);
-                users = new User[lines.Length];
-
-                if (roles is null) GetRoles();
-
-                for (int i = 0; i < lines.Length; i++)
-                {
-                    string line = lines[i];
-                    string[] props = line.Split('\t');
-                    int roleId = int.Parse(props[6]);
-                    users[i] = new User
-                    {
-                        Id = int.Parse(props[0]),
-                        Surname = props[1],
-                        Name = props[2],
-                        Patronymic = props[3],
-                        Login = props[4],
-                        Password = props[5],
-                        HashPassword = ModelHelper.GetHashPassword(props[5]),
-                        RoleId = roleId,
-                        //Role = roles![roleId -1]
-                    };
-                }
-            }
-
-            return users;
+            return users ??= usersText.LinesToArray<User>(nameof(User.Id),
+                                                          nameof(User.Surname),
+                                                          nameof(User.Name),
+                                                          nameof(User.Patronymic),
+                                                          nameof(User.Login),
+                                                          nameof(User.Password),
+                                                          nameof(User.RoleId));
         }
+
+        private const string usersText = @"
+1	Лавров	Богдан	Львович	8lf0g@yandex.ru	2L6KZG	1
+2	Смирнова	Полина	Фёдоровна	1zx8@yandex.ru	uzWC67	1
+3	Полякова	София	Данииловна	x@mail.ru	8ntwUp	1
+4	Чеботарева	Марина	Данииловна	34d@gmail.com	YOyhfR	2
+5	Ермолов	Адам	Иванович	pxacl@mail.ru	RSbvHv	2
+6	Васильев	Андрей	Кириллович	7o1@gmail.com	rwVDh9	2
+7	Маслов	Максим	Иванович	1@gmail.com	LdNyos	3
+8	Симонов	Михаил	Тимурович	iut@gmail.com	gynQMT	3
+9	Павлова	Ксения	Михайловна	e3t@outlook.com	AtnDjr	3
+10	Трифонов	Григорий	Юрьевич	41clb6o2g@yandex.ru	JlFRCZ	3";
+
     }
 }

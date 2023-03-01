@@ -1,4 +1,5 @@
-﻿using Model;
+﻿using Mapping;
+using Model;
 using ShopSQLite.Entities;
 
 namespace ShopSQLite.Initialization
@@ -8,25 +9,14 @@ namespace ShopSQLite.Initialization
         private static Role[]? roles;
         public static Role[] GetRoles()
         {
-            if (roles is null)
-            {
-                var lines = File.ReadAllLines(rolesDataFullName);
-                roles = new Role[lines.Length];
-
-                for (int i = 0; i < lines.Length; i++)
-                {
-                    string line = lines[i];
-                    string[] props = line.Split('\t');
-                    roles[i] = new Role
-                    {
-                        Id = int.Parse(props[0]),
-                        Name = props[1],
-                        Rights = Enum.Parse<Rights>(props[2])
-                    };
-                }
-            }
-
-            return roles;
+            return roles ??= rolesText.LinesToArray<Role>(nameof(Role.Id), nameof(Role.Name), nameof(Role.Rights));
         }
+
+        private const string rolesText= @"
+1	Администратор	Full
+2	Менеджер	Viewing
+3	Клиент	Viewing
+4	Гость	Viewing
+";
     }
 }
