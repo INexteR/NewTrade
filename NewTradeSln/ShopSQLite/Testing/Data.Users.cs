@@ -30,7 +30,7 @@ namespace ShopSQLite.Initialization
                         Password = props[5],
                         HashPassword = ModelHelper.GetHashPassword(props[5]),
                         RoleId = roleId,
-                        Role = roles![roleId -1]
+                        //Role = roles![roleId -1]
                     };
                 }
             }

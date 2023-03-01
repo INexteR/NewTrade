@@ -24,9 +24,9 @@ namespace ShopSQLite.Initialization
                     orderproduct[i] = new Orderproduct
                     {
                         OrderId = orderId,
-                        Order = orders![orderId - 1],
+                        //Order = orders![orderId - 1],
                         ProductId = productId,
-                        Product = products![productId - 1],
+                        //Product = products![productId - 1],
                         ProductCount = int.Parse(props[2])
                     };
                 }

@@ -26,11 +26,11 @@ namespace ShopSQLite.Initialization
                         OrderDate = DateOnly.Parse(props[1], System.Globalization.CultureInfo.InvariantCulture),
                         DeliveryDate = DateOnly.Parse(props[2], System.Globalization.CultureInfo.InvariantCulture),
                         PickupPointId = pickuppointId,
-                        PickupPoint = pickuppoints![pickuppointId - 1],
+                        //PickupPoint = pickuppoints![pickuppointId - 1],
                         ClientName = props[4],
                         CodeToGet = int.Parse(props[5]),
                         OrderStatusId = orderstatusId,
-                        OrderStatus = orderstatuses[orderstatusId - 1]
+                        //OrderStatus = orderstatuses[orderstatusId - 1]
                     };
                 }
             }

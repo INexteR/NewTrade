@@ -29,7 +29,7 @@ namespace ShopSQLite
             ProductChanged(this, NotifyListChangedEventArgs<IProduct>.Add(@new, productsList.Count - 1));
         }
 
-        public void Change(int id/*зачем аргумент?*/, IProduct product)
+        public void Change(IProduct product)
         {
             Product @new;
             using (CatalogContext context = CatalogContext.Get(сonnectionString))
