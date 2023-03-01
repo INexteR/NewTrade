@@ -17,9 +17,9 @@ namespace ShopSQLite.Entities
             Orderproducts = new HashSet<Orderproduct>();
         }
 
-        [Key]
-        [MaxLength(100)]
+        [Key]       
         public int Id { get; set; }
+        [MaxLength(100)]
         public string Name { get; set; } = null!;
         public int UnitId { get; set; }
         public decimal Cost { get; set; }

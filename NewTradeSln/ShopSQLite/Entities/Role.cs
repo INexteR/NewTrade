@@ -7,21 +7,17 @@ namespace ShopSQLite.Entities
     [Table("roles")]
     internal partial class Role : IRole
     {
+        public Role()
+        {
+            Users = new HashSet<User>();
+        }
+
         [Key]
         public int Id { get; internal set; }
-
-        private string _name = string.Empty;
-
         [MaxLength(100)]
-        public string Name { get => _name; internal set => _name = value ?? string.Empty; }
+        public string Name { get; set; } = null!;
         public Rights Rights { get; internal set; }
 
-        private ICollection<User>? users;
-
-        public virtual ICollection<User> Users
-        {
-            get => users ??= new HashSet<User>();
-            set => users = value;
-        }
+        public virtual ICollection<User> Users { get; } = null!;
     }
 }

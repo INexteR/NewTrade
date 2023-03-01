@@ -1,7 +1,14 @@
-﻿using Model;
+﻿using Microsoft.EntityFrameworkCore;
+using Model;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Xml.Linq;
 
 namespace ShopSQLite.Entities
 {
+    [Table("orders")]
+    [Index(nameof(PickupPointId), Name = "pickuppoint_idx")]
+    [Index(nameof(OrderStatusId), Name = "orderstatus_idx")]
     internal partial class Order : IOrder
     {
         public Order()
@@ -9,6 +16,7 @@ namespace ShopSQLite.Entities
             Orderproducts = new HashSet<Orderproduct>();
         }
 
+        [Key]
         public int Id { get; set; }
         public DateOnly OrderDate { get; set; }
         public DateOnly DeliveryDate { get; set; }

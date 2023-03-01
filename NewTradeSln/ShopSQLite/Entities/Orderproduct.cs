@@ -1,7 +1,13 @@
-﻿using Model;
+﻿using Microsoft.EntityFrameworkCore;
+using Model;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ShopSQLite.Entities
 {
+    [Table("orderproduct")]
+    [PrimaryKey(nameof(OrderId), nameof(ProductId))]
+    [Index(nameof(OrderId), Name = "order_idx")]
+    [Index(nameof(ProductId), Name = "product_idx")]
     internal partial class Orderproduct : IOrderProduct
     {
         public int OrderId { get; set; }

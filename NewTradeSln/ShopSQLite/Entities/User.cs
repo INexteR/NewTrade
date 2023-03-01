@@ -10,22 +10,16 @@ namespace ShopSQLite.Entities
         [Key]
         public int Id { get; set; }
 
-        private string surname = string.Empty;
+        [MaxLength(100)]
+        public string Surname { get; set; } = null!;
 
         [MaxLength(100)]
-        public string Surname { get => surname; set => surname = value ?? string.Empty; }
-
-        private string name = string.Empty;
+        public string Name { get; set; } = null!;
 
         [MaxLength(100)]
-        public string Name { get => name; set => name = value ?? string.Empty; }
+        public string? Patronymic { get; set; }
 
-        [MaxLength(100)]
-        public string? Patronymic { get; internal set; }
-
-
-        private string login = string.Empty;
-        public string Login { get => login; set => login = value ?? string.Empty; }
+        public string Login { get; set; } = null!;
 
         /// <summary>Хеш пароля.</summary>
         public byte[]? HashPassword { get; set; }
