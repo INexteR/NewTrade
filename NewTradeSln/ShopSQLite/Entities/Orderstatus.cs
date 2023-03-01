@@ -1,6 +1,8 @@
-﻿namespace ShopSQLite.Entities
+﻿using Model;
+
+namespace ShopSQLite.Entities
 {
-    internal partial class Orderstatus
+    internal partial class Orderstatus : IOrderStatus
     {
         public Orderstatus()
         {

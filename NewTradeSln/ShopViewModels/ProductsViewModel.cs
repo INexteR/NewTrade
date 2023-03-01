@@ -15,7 +15,7 @@ namespace ShopViewModels
         {
             _shop = shop;
             _shop.ProductChanged += OnProductChanged;
-            _shop.ManufacturerChanged += OnManufacturerChanged;
+            _shop.ManufacturersChanged += OnManufacturersChanged;
         }
 
         private void OnProductChanged(object sender, NotifyListChangedEventArgs<IProduct> e)
@@ -29,8 +29,8 @@ namespace ShopViewModels
                     Products.Add(e.NewItem ?? throw new ArgumentNullException("e.NewItem"));
                     break;
                 case NotifyCollectionChangedAction.Remove:
-                    var articleNumber = e.OldItem?.ArticleNumber ?? throw new ArgumentNullException("e.OldItem.ArticleNumber");
-                    Products.FirstRemove(pr => string.Equals(pr.ArticleNumber, articleNumber));
+                    var articleNumber = e.OldItem?.Id ?? throw new ArgumentNullException("e.OldItem");
+                    Products.FirstRemove(pr => string.Equals(pr.Id, articleNumber));
                     break;
                 case NotifyCollectionChangedAction.Replace:
                     var index = Products.IndexOf(e.OldItem ?? throw new ArgumentNullException("e.OldItem"));
@@ -38,12 +38,9 @@ namespace ShopViewModels
                     break;
             }
         }
-        private void OnManufacturerChanged(object sender, NotifyListChangedEventArgs<IManufacturer> e)
+        private void OnManufacturersChanged(object? sender, EventArgs e)
         {
-            if (e.Action is NotifyCollectionChangedAction.Reset)
-            {
-                Manufacturers.Reset(_shop.GetManufacturers());
-            }
+            Manufacturers.Reset(_shop.GetManufacturers());          
         }
 
         public string Name => _shop.Name;

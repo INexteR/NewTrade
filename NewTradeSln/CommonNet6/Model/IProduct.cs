@@ -2,7 +2,7 @@
 {
     public interface IProduct
     {
-        string ArticleNumber { get; }
+        int Id { get; }
         string Name { get; }
         int UnitId { get; }
         decimal Cost { get; }

@@ -62,74 +62,13 @@ namespace ShopSQLite
 
             modelBuilder.Entity<Product>().HasData(Data.GetProducts());
 
-            modelBuilder.Entity<Order>(entity =>
-             {
-                 entity.ToTable("orders");
+            modelBuilder.Entity<Orderstatus>().HasData(Data.orderstatuses);
 
-                 entity.HasIndex(e => e.OrderStatusId, "k1_idx");
+            modelBuilder.Entity<Pickuppoint>().HasData(Data.GetPickuppoints());
 
-                 entity.HasIndex(e => e.PickupPointId, "k2_idx");
+            modelBuilder.Entity<Order>().HasData(Data.GetOrders());
 
-                 entity.Property(e => e.ClientName).HasColumnType("text");
-
-                 entity.HasOne(d => d.OrderStatus)
-                     .WithMany(p => p.Orders)
-                     .HasForeignKey(d => d.OrderStatusId)
-                     .OnDelete(DeleteBehavior.ClientSetNull)
-                     .HasConstraintName("orderstatus");
-
-                 entity.HasOne(d => d.PickupPoint)
-                     .WithMany(p => p.Orders)
-                     .HasForeignKey(d => d.PickupPointId)
-                     .OnDelete(DeleteBehavior.ClientSetNull)
-                     .HasConstraintName("pickuppoint");
-             });
-
-            modelBuilder.Entity<Orderproduct>(entity =>
-            {
-                entity.HasKey(e => new { e.OrderId, e.ProductArticleNumber })
-                    .HasName("PRIMARY")
-                    .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
-
-                entity.ToTable("orderproduct");
-
-                entity.HasIndex(e => e.ProductArticleNumber, "k2_idx");
-
-                entity.Property(e => e.ProductArticleNumber).HasMaxLength(100);
-
-                entity.HasOne(d => d.Order)
-                    .WithMany(p => p.Orderproducts)
-                    .HasForeignKey(d => d.OrderId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("order");
-
-                entity.HasOne(d => d.ProductArticleNumberNavigation)
-                    .WithMany(p => p.Orderproducts)
-                    .HasForeignKey(d => d.ProductArticleNumber)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("product");
-            });
-
-            modelBuilder.Entity<Orderstatus>(entity =>
-            {
-                entity.ToTable("orderstatus");
-
-                entity.Property(e => e.Name).HasColumnType("text");
-            });
-
-            modelBuilder.Entity<Pickuppoint>(entity =>
-            {
-                entity.ToTable("pickuppoint");
-
-                entity.Property(e => e.Address).HasColumnType("text");
-
-                entity.Property(e => e.Index).HasMaxLength(6);
-            });
-
-
-
-
-
+            modelBuilder.Entity<Orderproduct>().HasData(Data.GetOrderproduct());
 
             OnModelCreatingPartial(modelBuilder);
         }

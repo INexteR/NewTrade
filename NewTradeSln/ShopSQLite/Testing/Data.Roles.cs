@@ -27,11 +27,6 @@ namespace ShopSQLite.Initialization
             }
 
             return roles;
-
-            //foreach (var role in roles)
-            //{
-            //    yield return role.Clone();
-            //}
         }
     }
 }

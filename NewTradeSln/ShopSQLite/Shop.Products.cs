@@ -23,13 +23,13 @@ namespace ShopSQLite
                     .Include(p => p.Manufacturer)
                     .Include(p => p.Supplier)
                     .Include(p => p.Category)
-                    .First(p => p.ArticleNumber == product.ArticleNumber);
+                    .First(p => p.Id == product.Id);
             }
             productsList.Add(@new);
             ProductChanged(this, NotifyListChangedEventArgs<IProduct>.Add(@new, productsList.Count - 1));
         }
 
-        public void Change(string ArticleNumber/*зачем аргумент?*/, IProduct product)
+        public void Change(int id/*зачем аргумент?*/, IProduct product)
         {
             Product @new;
             using (CatalogContext context = CatalogContext.Get(сonnectionString))
@@ -41,16 +41,16 @@ namespace ShopSQLite
                     .Include(p => p.Manufacturer)
                     .Include(p => p.Supplier)
                     .Include(p => p.Category)
-                    .First(p => p.ArticleNumber == product.ArticleNumber);
+                    .First(p => p.Id == product.Id);
             }
-            int index = productsList.FindIndex(pr => string.Equals(pr.ArticleNumber, @new.ArticleNumber));
+            int index = productsList.FindIndex(pr => string.Equals(pr.Id, @new.Id));
             Product old = productsList[index];
             productsList[index] = @new;
             ProductChanged(this, NotifyListChangedEventArgs<IProduct>.Replace(old, @new, index));
         }
         public void Remove(IProduct product)
         {
-            int index = productsList.FindIndex(pr => string.Equals(pr.ArticleNumber, product.ArticleNumber));
+            int index = productsList.FindIndex(pr => string.Equals(pr.Id, product.Id));
             Product old = productsList[index];
 
             using (CatalogContext context = CatalogContext.Get(сonnectionString))
@@ -62,7 +62,7 @@ namespace ShopSQLite
         }
 
         private readonly List<Product> productsList = new List<Product>();
-        public IList<IProduct> GetProducts()
+        public IReadOnlyCollection<IProduct> GetProducts()
         {
             lock (((ICollection)productsList).SyncRoot)
             {

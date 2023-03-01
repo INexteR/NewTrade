@@ -19,6 +19,15 @@ namespace ShopSQLite.Initialization
 
         private const string testRolesData = @"roles.txt";
         private static readonly string rolesDataFullName = Path.Combine(folderFullName, testRolesData);
+
+        private const string testOrdersData = @"orders.txt";
+        private static readonly string ordersDataFullName = Path.Combine(folderFullName, testOrdersData);
+
+        private const string testPickuppointsData = @"pickuppoints.txt";
+        private static readonly string pickuppointsDataFullName = Path.Combine(folderFullName, testPickuppointsData);
+
+        private const string testOrderproductData = @"orderproduct.txt";
+        private static readonly string orderproductDataFullName = Path.Combine(folderFullName, testOrderproductData);
         #endregion
 
         public static readonly Manufacturer[] manufacturers = new[]
@@ -44,5 +53,13 @@ namespace ShopSQLite.Initialization
         };
 
         public static Unit unit = new(){ Id = 1, Name = "шт." };
+
+        public static readonly Orderstatus[] orderstatuses =
+        {
+            new Orderstatus { Id = 1, Name = "Новый" },
+            new Orderstatus { Id = 2, Name = "Завершен"}
+        };
+
+
     }
 }

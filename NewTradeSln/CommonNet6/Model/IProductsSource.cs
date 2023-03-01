@@ -25,7 +25,7 @@ namespace Model
 
         /// <summary>Изменение товара.</summary>
         /// <param name="product">Изменяемый товар.</param>
-        void Change(string ArticleNumber, IProduct product);
+        void Change(int id, IProduct product);
 
         /// <summary>Переинициализация списка товаров из Хранилища Данных.</summary>
         void Refresh();

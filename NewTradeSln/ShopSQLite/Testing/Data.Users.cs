@@ -13,12 +13,13 @@ namespace ShopSQLite.Initialization
                 var lines = File.ReadAllLines(usersDataFullName);
                 users = new User[lines.Length];
 
-                if (roles is null) foreach(var _ in GetRoles()) { }
+                if (roles is null) GetRoles();
 
                 for (int i = 0; i < lines.Length; i++)
                 {
                     string line = lines[i];
                     string[] props = line.Split('\t');
+                    int roleId = int.Parse(props[6]);
                     users[i] = new User
                     {
                         Id = int.Parse(props[0]),
@@ -28,17 +29,13 @@ namespace ShopSQLite.Initialization
                         Login = props[4],
                         Password = props[5],
                         HashPassword = ModelHelper.GetHashPassword(props[5]),
-                        RoleId = int.Parse(props[6])
+                        RoleId = roleId,
+                        Role = roles![roleId -1]
                     };
                 }
             }
 
             return users;
-
-            //foreach (var user in users)
-            //{
-            //    yield return user.Clone();
-            //}
         }
     }
 }

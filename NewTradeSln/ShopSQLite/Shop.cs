@@ -26,8 +26,9 @@ namespace ShopSQLite
         {
             using var db = CatalogContext.Get(сonnectionString);
             db.Database.EnsureCreated();
-            GetProducts();
-            GetManufacturers();
+            _ = GetProducts();
+            _ = GetManufacturers();
+            _ = GetOrders();
             //почему-то не перехватывается ↓
             //throw new Exception("Тестовое исключение");
         });
@@ -38,9 +39,9 @@ namespace ShopSQLite
 
         private readonly List<IManufacturer> manufacturers = new();
 
-        public event NotifyListChangedEventHandler<IManufacturer> ManufacturerChanged = delegate { };
+        public event EventHandler ManufacturersChanged = delegate { };
 
-        public IReadOnlyCollection<IManufacturer> GetManufacturers()
+        public IReadOnlyList<IManufacturer> GetManufacturers()
         {
             lock (((ICollection)manufacturers).SyncRoot)
             {
@@ -49,10 +50,31 @@ namespace ShopSQLite
                     using (var context = CatalogContext.Get(сonnectionString))
                         manufacturers.AddRange(context.Manufacturers.ToArray());
 
-                    ManufacturerChanged(this, NotifyListChangedEventArgs<IManufacturer>.Reset());
+                    ManufacturersChanged(this, EventArgs.Empty);
                 }
             }
             return manufacturers;
+        }
+
+
+
+        private readonly List<IOrder> orders = new();
+
+        public event EventHandler OrdersChanged = delegate { };
+
+        public IReadOnlyList<IOrder> GetOrders()
+        {
+            lock (((ICollection)manufacturers).SyncRoot)
+            {
+                if (orders.Count == 0)
+                {
+                    using (var context = CatalogContext.Get(сonnectionString))
+                        orders.AddRange(context.Orders.ToArray());
+
+                    OrdersChanged(this, EventArgs.Empty);
+                }
+            }
+            return orders;
         }
     }
 }

@@ -1,12 +1,17 @@
-﻿namespace ShopSQLite.Entities
+﻿using Model;
+
+namespace ShopSQLite.Entities
 {
-    internal partial class Orderproduct
+    internal partial class Orderproduct : IOrderProduct
     {
         public int OrderId { get; set; }
-        public string ProductArticleNumber { get; set; } = null!;
+        public int ProductId { get; set; }
         public int ProductCount { get; set; }
 
         public virtual Order Order { get; set; } = null!;
-        public virtual Product ProductArticleNumberNavigation { get; set; } = null!;
+        public virtual Product Product { get; set; } = null!;
+
+        IOrder IOrderProduct.Order => Order;
+        IProduct IOrderProduct.Product => Product;
     }
 }

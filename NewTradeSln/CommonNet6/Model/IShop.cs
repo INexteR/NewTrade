@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace Model
+﻿namespace Model
 {
     /// <summary>Целевая модель.</summary>
-    public interface IShop : IAuthorization , IManufacturersSource, IProductsSource
+    public interface IShop : IAuthorization , IManufacturersSource, IProductsSource, IOrdersSource
     {
         /// <summary>Наименование магазина.</summary>
         string Name { get; }

@@ -1,4 +1,4 @@
-﻿using CommonNet6.Collection;
+﻿//using CommonNet6.Collection;
 using System;
 using System.Collections.Generic;
 
@@ -11,7 +11,7 @@ namespace Model
 
         /// <summary>Такое событие говорит нам, что список производителей не предназначен
         /// для изменения в потребителях Модели, но может меняться в Бизнес Логике Модели.</summary>
-        event NotifyListChangedEventHandler<IManufacturer> ManufacturerChanged;
+        //event NotifyListChangedEventHandler<IManufacturer> ManufacturerChanged;
 
         /// <summary>Такое событие говорит нам, что список производителей не предназначен
         /// для изменения в потребителях Модели и может меняться в Бизнес Логике Модели

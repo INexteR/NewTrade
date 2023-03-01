@@ -19,7 +19,7 @@ namespace ShopSQLite.Entities
 
         [Key]
         [MaxLength(100)]
-        public string ArticleNumber { get; set; } = null!;
+        public int Id { get; set; }
         public string Name { get; set; } = null!;
         public int UnitId { get; set; }
         public decimal Cost { get; set; }

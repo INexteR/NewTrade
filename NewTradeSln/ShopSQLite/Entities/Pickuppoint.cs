@@ -1,6 +1,8 @@
-﻿namespace ShopSQLite.Entities
+﻿using Model;
+
+namespace ShopSQLite.Entities
 {
-    internal partial class Pickuppoint
+    internal partial class Pickuppoint : IPickupPoint
     {
         public Pickuppoint()
         {

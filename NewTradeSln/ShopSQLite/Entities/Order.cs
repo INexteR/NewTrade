@@ -1,6 +1,8 @@
-﻿namespace ShopSQLite.Entities
+﻿using Model;
+
+namespace ShopSQLite.Entities
 {
-    internal partial class Order
+    internal partial class Order : IOrder
     {
         public Order()
         {
@@ -18,5 +20,8 @@
         public virtual Orderstatus OrderStatus { get; set; } = null!;
         public virtual Pickuppoint PickupPoint { get; set; } = null!;
         public virtual ICollection<Orderproduct> Orderproducts { get; set; }
+
+        IPickupPoint IOrder.PickupPoint => PickupPoint;
+        IOrderStatus IOrder.OrderStatus => OrderStatus;
     }
 }

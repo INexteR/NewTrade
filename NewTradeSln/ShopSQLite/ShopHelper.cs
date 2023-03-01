@@ -9,7 +9,7 @@ namespace ShopSQLite
         {
             return new()
             {
-                ArticleNumber = product.ArticleNumber,
+                Id = product.Id,
                 CategoryId = product.CategoryId,
                 Cost = product.Cost,
                 Description = product.Description,

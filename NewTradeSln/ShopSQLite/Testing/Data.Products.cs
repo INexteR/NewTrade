@@ -19,7 +19,7 @@ namespace ShopSQLite.Initialization
                     var manufacturerId = int.Parse(props[4]);
                     products[i] = new Product
                     {
-                        ArticleNumber = props[0],
+                        Id = int.Parse(props[0]),
                         Name = props[1],
                         UnitId = unit.Id,
                         Cost = decimal.Parse(props[3], System.Globalization.CultureInfo.InvariantCulture),
@@ -35,10 +35,6 @@ namespace ShopSQLite.Initialization
                 }
             }
             return products;
-            //foreach (var product in products)
-            //{
-            //    yield return product.Clone();
-            //}
         }
     }
 }
