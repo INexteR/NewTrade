@@ -20,6 +20,7 @@
                                  ManufacturerName="{Binding Text, ElementName=manufacturer}"
                                  ProductCost="{Binding Text, ElementName=cost}"
                                  ProductQuantityInStock="{Binding Text, ElementName=quantityInStock}" />
+        <ImageSource x:Key="placeholder">/Resources/picture.png</ImageSource>
     </UserControl.Resources>
 
     <Grid>
@@ -99,7 +100,7 @@
                         <Border Margin="10"
                                 BorderThickness="2"
                                 BorderBrush="Black">
-                            <Image Source="{Binding Path, Converter={x:Static local:ImagePathToUriConverter.Instance}}"
+                            <Image Source="{Binding Path, TargetNullValue={StaticResource placeholder}}"
                                    Width="160"
                                    Height="140" />
                         </Border>

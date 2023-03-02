@@ -11,7 +11,7 @@ namespace ShopSQLite
     {
         const string сonnectionString = "sqliteTest.db";
 
-        public Shop(bool recreate)
+        public Shop(bool recreate = false)
         {
             if (recreate)
             {
@@ -24,8 +24,6 @@ namespace ShopSQLite
 
         public Task LoadDataAsync() => Task.Run(() =>
         {
-            using var db = CatalogContext.Get(сonnectionString);
-            db.Database.EnsureCreated();
             _ = GetProducts();
             _ = GetManufacturers();
             _ = GetOrders();

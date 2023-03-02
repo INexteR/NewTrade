@@ -1,15 +1,10 @@
-﻿
-using MVVM.ViewModels;
-using ShopSQLite;
-using ShopViewModels;
-using System.ComponentModel;
+﻿using MVVM.ViewModels;
 using ViewModel;
 
 namespace NewTrade
 {
     public class Locator : ViewModelBase
     {
-        public bool IsInDesignMode { get; } = DesignerProperties.GetIsInDesignMode(new());
         public IAuthorizationViewModel? Authorization
         {
             get => Get<IAuthorizationViewModel?>();
@@ -24,18 +19,6 @@ namespace NewTrade
         {
             get => Get<IProductsViewModel?>();
             set => Set(value);
-        }
-        public Locator()
-        {
-            if (IsInDesignMode)
-            {
-                // Здесь инициализация для режима разработки.
-
-                var shop = new Shop(true);
-                Authorization = new AuthorizationViewModel(shop);
-                Products = new ProductsViewModel(shop);
-                ManufacturersSource = Products;
-            }
         }
     }
 }

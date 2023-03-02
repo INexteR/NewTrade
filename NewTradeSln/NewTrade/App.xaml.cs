@@ -21,7 +21,7 @@ namespace NewTrade
         private async void OnAppStartup(object sender, StartupEventArgs e)
         {
             locator = (Locator)FindResource(nameof(locator));
-            Shop shopModel = new Shop(true); // Для пересборки БД - нужно задать true
+            var shopModel = new Shop(true); // Для пересборки БД - нужно задать true
             this.shopModel = shopModel;
             authorizationModel = shopModel;
             locator.Authorization = new AuthorizationViewModel(authorizationModel);
@@ -29,10 +29,7 @@ namespace NewTrade
 
             // Здесь нужно добавить обработку ошибок 
             DispatcherUnhandledException += OnException;
-            //зачем это? ↓
-            var uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
             await shopModel.LoadDataAsync();
-
         }
 
         private void OnException(object sender, DispatcherUnhandledExceptionEventArgs e)

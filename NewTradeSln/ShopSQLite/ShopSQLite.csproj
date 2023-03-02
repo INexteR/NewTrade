@@ -7,28 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Testing\orderproduct.txt" />
-    <None Remove="Testing\orders.txt" />
-    <None Remove="Testing\pickuppoints.txt" />
-    <None Remove="Testing\products.txt" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="Testing\orderproduct.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Testing\orders.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Testing\pickuppoints.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Testing\products.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.3" />
   </ItemGroup>
 

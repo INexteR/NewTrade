@@ -22,6 +22,7 @@ namespace ShopSQLite.Entities
         public string Login { get; set; } = null!;
 
         /// <summary>Хеш пароля.</summary>
+        [NotMapped]
         public byte[]? HashPassword { get; set; }
 
         /// <summary>Строковый пароль. Временное решение.</summary>
