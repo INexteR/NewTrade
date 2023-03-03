@@ -12,7 +12,7 @@ namespace ShopSQLite.Initialization
 
             static Product[] Initialize()
             {
-                var products = productsText.LinesToArray<Product>(nameof(Product.Id),
+                var products = productsText.ParseToArray<Product>(nameof(Product.Id),
                                                                   nameof(Product.Name),
                                                                   nameof(Product.UnitId),
                                                                   nameof(Product.Cost),

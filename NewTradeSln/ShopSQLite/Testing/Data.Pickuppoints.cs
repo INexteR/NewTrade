@@ -8,7 +8,7 @@ namespace ShopSQLite.Initialization
         private static Pickuppoint[]? pickuppoints;
         public static IEnumerable<Pickuppoint> GetPickuppoints()
         {
-            return pickuppoints ??= pickuppointsText.LinesToArray<Pickuppoint>(nameof(Pickuppoint.Id),
+            return pickuppoints ??= pickuppointsText.ParseToArray<Pickuppoint>(nameof(Pickuppoint.Id),
                                                                                nameof(Pickuppoint.Address),
                                                                                nameof(Pickuppoint.Index));
         }

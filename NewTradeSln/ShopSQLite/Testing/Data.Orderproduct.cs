@@ -8,7 +8,7 @@ namespace ShopSQLite.Initialization
         private static Orderproduct[]? orderproduct;
         public static IEnumerable<Orderproduct> GetOrderproduct()
         {
-            return orderproduct ??= orderproductText.LinesToArray<Orderproduct>(nameof(Orderproduct.OrderId),
+            return orderproduct ??= orderproductText.ParseToArray<Orderproduct>(nameof(Orderproduct.OrderId),
                                                                                 nameof(Orderproduct.ProductId),
                                                                                 nameof(Orderproduct.ProductCount));
            

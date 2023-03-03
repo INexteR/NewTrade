@@ -1,4 +1,5 @@
 ﻿using Mapping;
+using Model;
 using ShopSQLite.Entities;
 
 namespace ShopSQLite.Initialization
@@ -6,9 +7,9 @@ namespace ShopSQLite.Initialization
     internal static partial class Data
     {
         private static User[]? users;
-        public static IEnumerable<User> GetUsers()
+        public static IEnumerable<IUser> GetUsers()
         {
-            return users ??= usersText.LinesToArray<User>(nameof(User.Id),
+            return users ??= usersText.ParseToArray<User>(nameof(User.Id),
                                                           nameof(User.Surname),
                                                           nameof(User.Name),
                                                           nameof(User.Patronymic),
