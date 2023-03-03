@@ -1,6 +1,6 @@
 ﻿using System.Windows.Input;
 
-namespace MVVM.ViewModels
+namespace ViewModels
 {
     public static class CommandHelper
     {

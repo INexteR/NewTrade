@@ -26,7 +26,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CommonNet6\CommonNet6.csproj" />
-    <ProjectReference Include="..\MVVM\MVVM.csproj" />
+    <ProjectReference Include="..\MVVM\ViewModels.csproj" />
     <ProjectReference Include="..\ShopSQLite\ShopSQLite.csproj" />
     <ProjectReference Include="..\ShopViewModels\ShopViewModels.csproj" />
   </ItemGroup>

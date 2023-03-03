@@ -1,4 +1,4 @@
-﻿namespace MVVM.ViewModels
+﻿namespace ViewModels
 {
     #region Делегаты для методов WPF команд
     public delegate void ExecuteHandler();

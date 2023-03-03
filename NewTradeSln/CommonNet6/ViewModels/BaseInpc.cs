@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace MVVM.ViewModels
+namespace ViewModels
 {
     public abstract class BaseInpc : INotifyPropertyChanged
     {

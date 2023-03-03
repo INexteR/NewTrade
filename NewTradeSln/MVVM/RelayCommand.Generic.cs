@@ -1,4 +1,4 @@
-﻿namespace MVVM.ViewModels
+﻿namespace ViewModels
 {
     /// <summary>Реализация RelayCommand для методов с обобщённым параметром.</summary>
     /// <typeparam name="T">Тип параметра методов.</typeparam>

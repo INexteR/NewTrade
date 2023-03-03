@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 
-namespace MVVM.ViewModels
+namespace ViewModels
 {
     #region Класс команд - RelayCommand
     /// <summary>Класс реализующий <see cref="ICommand"/>.</summary>

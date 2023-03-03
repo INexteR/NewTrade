@@ -1,4 +1,4 @@
-﻿using MVVM.ViewModels;
+﻿using ViewModels;
 using ViewModel;
 
 namespace NewTrade

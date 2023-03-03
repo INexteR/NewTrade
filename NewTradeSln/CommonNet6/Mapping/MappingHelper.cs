@@ -7,7 +7,7 @@ using System.Reflection;
 
 namespace Mapping
 {
-    public static class MappingHelper
+    public static class Mapper
     {
         public static T Parse<T>(this string line, params string[] propertyNames)
             where T : new()

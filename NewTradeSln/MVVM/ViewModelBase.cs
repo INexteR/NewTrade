@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
-namespace MVVM.ViewModels
+namespace ViewModels
 {
     public  abstract partial class ViewModelBase : BaseInpc, IDisposable
     {

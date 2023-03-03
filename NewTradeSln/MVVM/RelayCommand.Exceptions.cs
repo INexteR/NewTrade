@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MVVM.ViewModels
+namespace ViewModels
 {
     public partial class RelayCommand
     {

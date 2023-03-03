@@ -1,6 +1,6 @@
 ﻿using CommonNet6.Collection;
 using Model;
-using MVVM.ViewModels;
+using ViewModels;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using ViewModel;

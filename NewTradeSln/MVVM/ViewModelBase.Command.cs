@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 
-namespace MVVM.ViewModels
+namespace ViewModels
 {
 
     public abstract partial class ViewModelBase

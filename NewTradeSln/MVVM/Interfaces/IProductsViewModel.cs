@@ -8,7 +8,7 @@ namespace ViewModel
         string Name { get; }
         ObservableCollection<IProduct> Products { get; }
 
-        IProduct? SelectedProduct { get; set; }
+        //RelayCommand
     }
 
 }

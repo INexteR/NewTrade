@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MVVM\MVVM.csproj" />
+    <ProjectReference Include="..\MVVM\ViewModels.csproj" />
     <ProjectReference Include="..\ShopSQLite\ShopSQLite.csproj" />
   </ItemGroup>
 
