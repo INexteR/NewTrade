@@ -14,7 +14,7 @@
         DataContext="{Binding Authorization, Source={StaticResource locator}}">
     <Window.Resources>
         <DataTemplate DataType="{x:Type vms:AuthorizationViewModel}">
-            <vs:LoginView />
+            <vs:AuthorizationView />
         </DataTemplate>
         <DataTemplate DataType="{x:Type vms:ProductsViewModel}">
             <vs:ProductsView />

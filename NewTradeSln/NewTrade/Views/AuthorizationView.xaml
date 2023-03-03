@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="NewTrade.Views.LoginView"
+﻿<UserControl x:Class="NewTrade.Views.AuthorizationView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -28,12 +28,10 @@
                            Margin="0 0 0 5" />
                 <TextBlock Text="ЛОГИН" />
                 <TextBox Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}"
-                         Validation.ErrorTemplate="{x:Null}"
-                         TextChanged="OnEnabledValidation" />
+                         Validation.ErrorTemplate="{x:Null}" TextChanged="OnEnabledValidation"/>
                 <TextBlock Text="ПАРОЛЬ" />
                 <TextBox Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}"
-                         Validation.ErrorTemplate="{x:Null}"
-                         TextChanged="OnEnabledValidation" />
+                         Validation.ErrorTemplate="{x:Null}" TextChanged="OnEnabledValidation" />
             </StackPanel>
             <Button Content="Войти"
                     Command="{Binding Authorize}"

@@ -24,8 +24,13 @@ namespace ShopSQLite.Initialization
                                                                   nameof(Product.QuantityInStock),
                                                                   nameof(Product.Description),
                                                                   nameof(Product.Path));
-                Array.ForEach(products, static p => p.Path = string.IsNullOrWhiteSpace(p.Path)
-                ? null : p.Path);
+                foreach (var product in products)
+                {
+                    if (string.IsNullOrWhiteSpace(product.Path))
+                    {
+                        product.Path = null;
+                    }
+                }
                 return products;
             }
         }

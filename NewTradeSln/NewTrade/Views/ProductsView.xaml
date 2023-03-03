@@ -28,7 +28,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="0.5*" />
+            <RowDefinition Height="0.55*" />
         </Grid.RowDefinitions>
 
         <Grid>
@@ -189,10 +189,10 @@
                         <TextBox x:Name="manufacturer" />
                         <TextBlock Text="Цена" />
                         <TextBox x:Name="cost"
-                                 PreviewKeyDown="{x:Static root:ProductsHelper.OnlyDigits}" />
+                                 PreviewKeyDown="{x:Static root:ViewsHelper.OnlyDigits}" />
                         <TextBlock Text="Наличие на складе" />
                         <TextBox x:Name="quantityInStock"
-                                 PreviewKeyDown="{x:Static root:ProductsHelper.OnlyDigits}" />
+                                 PreviewKeyDown="{x:Static root:ViewsHelper.OnlyDigits}" />
                     </StackPanel>
                 </ScrollViewer>
             </Grid>
@@ -203,7 +203,7 @@
                     <RowDefinition />
                 </Grid.RowDefinitions>
                 <TextBlock Text="Сортировка по стоимости" />
-                <ListBox ItemsSource="{Binding Source={x:Static root:ProductsHelper.Directions}}"
+                <ListBox ItemsSource="{Binding Source={x:Static root:ViewsHelper.Directions}}"
                          SelectedValuePath="Value"
                          SelectionMode="Single"
                          SelectedIndex="0"
@@ -243,7 +243,7 @@
                     </ComboBox.Resources>
                     <ComboBox.ItemsSource>
                         <CompositeCollection>
-                            <x:Static Member="root:ProductsHelper.AllManufacturers" />
+                            <x:Static Member="root:ViewsHelper.AllManufacturers" />
                             <CollectionContainer Collection="{Binding Source={StaticResource manufacturers}}" />
                         </CompositeCollection>
                     </ComboBox.ItemsSource>

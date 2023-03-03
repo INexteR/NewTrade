@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace NewTrade
 {
-    public class ProductsHelper
+    public class ViewsHelper
     {
         public static ReadOnlyDictionary<string, ListSortDirection?> Directions { get; }
             = new Dictionary<string, ListSortDirection?>

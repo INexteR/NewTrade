@@ -1,14 +1,12 @@
-﻿using ShopViewModels;
-using System.Windows.Data;
-
+﻿
 namespace NewTrade.Views
 {
     /// <summary>
     /// Логика взаимодействия для LoginView.xaml
     /// </summary>
-    public partial class LoginView : UserControl
+    public partial class AuthorizationView : UserControl
     {
-        public LoginView()
+        public AuthorizationView()
         {
             InitializeComponent();
         }

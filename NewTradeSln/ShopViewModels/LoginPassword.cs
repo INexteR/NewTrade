@@ -29,21 +29,18 @@ namespace ShopViewModels
         protected override void OnPropertyChanged(string propertyName, object? oldValue, object? newValue)
         {
             base.OnPropertyChanged(propertyName, oldValue, newValue);
+            ClearErrors(propertyName);
             switch (propertyName)
             {
                 case nameof(Login):
                     string? login = (string?)newValue;
                     if (string.IsNullOrWhiteSpace(login))
                         AddError(loginError, propertyName);
-                    else
-                        ClearErrors(propertyName);
                     break;
                 case nameof(Password):
                     string? password = (string?)newValue;
                     if (string.IsNullOrWhiteSpace(password))
                         AddError(passwordError, propertyName);
-                    else
-                        ClearErrors(propertyName);
                     break;
             }
         }
