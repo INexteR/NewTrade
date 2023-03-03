@@ -37,7 +37,7 @@ namespace Mapping
             for (int i = 0; i < lines.Length; i++)
             {
                 string line = lines[i];
-                string[] props = line.Split('\t', StringSplitOptions.TrimEntries);
+                string[] props = line.Split('\t');
 
                 T item = new();
                 for (int j = 0; j < props.Length; j++)
