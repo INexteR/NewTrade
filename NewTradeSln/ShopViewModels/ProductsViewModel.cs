@@ -4,6 +4,8 @@ using ViewModels;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using ViewModel;
+using System.Windows;
+using System.Windows.Input;
 
 namespace ShopViewModels
 {
@@ -29,8 +31,8 @@ namespace ShopViewModels
                     Products.Add(e.NewItem ?? throw new ArgumentNullException("e.NewItem"));
                     break;
                 case NotifyCollectionChangedAction.Remove:
-                    var articleNumber = e.OldItem?.Id ?? throw new ArgumentNullException("e.OldItem");
-                    Products.FirstRemove(pr => string.Equals(pr.Id, articleNumber));
+                    var id = e.OldItem?.Id ?? throw new ArgumentNullException("e.OldItem");
+                    Products.FirstRemove(pr => pr.Id == id);
                     break;
                 case NotifyCollectionChangedAction.Replace:
                     var index = Products.IndexOf(e.OldItem ?? throw new ArgumentNullException("e.OldItem"));
@@ -49,6 +51,24 @@ namespace ShopViewModels
 
         public ObservableCollection<IManufacturer> Manufacturers { get; } = new();
 
-        public IProduct? SelectedProduct { get => Get<IProduct?>(); set => Set(value); }
+        public RelayCommand<IProduct> Remove => GetCommand<IProduct>(RemoveExecute, RemoveCanExecute);
+        ICommand IProductsViewModel.Remove => Remove;
+
+        private void RemoveExecute(IProduct product)
+        {
+            try
+            {
+                _shop.Remove(product);
+            }
+            catch (InvalidOperationException e)
+            {
+                MessageBox.Show(e.Message);
+            }
+        }
+
+        private bool RemoveCanExecute(IProduct product)
+        {
+            return product != null;
+        }
     }
 }

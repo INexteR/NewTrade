@@ -1,5 +1,4 @@
-﻿//using CommonNet6.Collection;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace Model
@@ -7,8 +6,6 @@ namespace Model
     /// <summary>Поставщик (источник) производителей.</summary>
     public interface IManufacturersSource
     {
-        // TODO: Надо выбрать какое из этих двух событий оставить.
-
         /// <summary>Такое событие говорит нам, что список производителей не предназначен
         /// для изменения в потребителях Модели, но может меняться в Бизнес Логике Модели.</summary>
         //event NotifyListChangedEventHandler<IManufacturer> ManufacturerChanged;

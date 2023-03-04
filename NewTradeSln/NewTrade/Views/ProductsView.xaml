@@ -49,11 +49,13 @@
                         Margin="10 3">
                 <Button Command="{Binding Authorization.Exit, Mode=OneWay, Source={StaticResource locator}}"
                         Content="Выход" />
-                <TextBlock Margin="0 15 0 0">
+                <TextBlock Margin="0 15" HorizontalAlignment="Center">
                     <Run Text="{Binding Count, Source={StaticResource productsView}, Mode=OneWay}" />
                     <Run Text="из" />
                     <Run Text="{Binding Products.Count, Mode=OneWay, BindsDirectlyToSource=True}" />
                 </TextBlock>
+                <Button Content="Удалить товар" Command="{Binding Remove}"
+                        CommandParameter="{Binding SelectedItem, ElementName=list}" />
             </StackPanel>
 
             <StackPanel Grid.Column="2"
@@ -86,6 +88,8 @@
 
         <ListBox ItemsSource="{Binding Source={StaticResource productsView}}"
                  Grid.Row="1"
+                 x:Name="list"
+                 SelectionMode="Single"
                  ScrollViewer.CanContentScroll="False"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled">
             <ListBox.ItemTemplate>

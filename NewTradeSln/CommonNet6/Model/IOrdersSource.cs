@@ -5,7 +5,6 @@ namespace Model
 {
     public interface IOrdersSource
     {
-        event EventHandler OrdersChanged;
         IReadOnlyList<IOrder> GetOrders();
     }
 }

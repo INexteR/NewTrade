@@ -1,10 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Model;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ShopSQLite.Entities
 {
     [Table("categories")]
-    internal partial class Category
+    internal partial class Category : ICategory
     {
         public Category()
         {

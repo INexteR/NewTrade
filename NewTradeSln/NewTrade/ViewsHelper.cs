@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 
 namespace NewTrade
 {
@@ -17,7 +15,7 @@ namespace NewTrade
                 { "По убыванию", ListSortDirection.Descending }
             }.AsReadOnly();//ну да, здесь нужен DictionaryConverter
 
-        public static object AllManufacturers { get; } = new { Id = -1, Name = "Все производители" };
+        public static object AllManufacturers { get; } = new { Id = 0, Name = "Все производители" };
 
         public static KeyEventHandler OnlyDigits { get; } = (s, e) =>
         {

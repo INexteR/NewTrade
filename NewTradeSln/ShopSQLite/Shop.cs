@@ -1,9 +1,7 @@
-﻿
-using CommonNet6.Collection;
-using Microsoft.EntityFrameworkCore;
-using System.Collections;
+﻿using System.Collections;
+using ShopSQLite.Entities;
 using Model;
-using System.Collections.ObjectModel;
+using Microsoft.EntityFrameworkCore;
 
 namespace ShopSQLite
 {
@@ -24,8 +22,11 @@ namespace ShopSQLite
 
         public Task LoadDataAsync() => Task.Run(() =>
         {
-            _ = GetProducts();
+            _ = GetUnits();
             _ = GetManufacturers();
+            _ = GetSuppliers();
+            _ = GetCategories();
+            _ = GetProducts();
             _ = GetOrders();
             //почему-то не перехватывается ↓
             //throw new Exception("Тестовое исключение");
@@ -35,44 +36,89 @@ namespace ShopSQLite
 
 
 
-        private readonly List<IManufacturer> manufacturers = new();
+        private readonly List<Manufacturer> manufacturersList = new();
 
         public event EventHandler ManufacturersChanged = delegate { };
 
         public IReadOnlyList<IManufacturer> GetManufacturers()
         {
-            lock (((ICollection)manufacturers).SyncRoot)
+            lock (((ICollection)manufacturersList).SyncRoot)
             {
-                if (manufacturers.Count == 0)
+                if (manufacturersList.Count == 0)
                 {
                     using (var context = CatalogContext.Get(сonnectionString))
-                        manufacturers.AddRange(context.Manufacturers.ToArray());
+                        manufacturersList.AddRange(context.Manufacturers.ToArray());
 
                     ManufacturersChanged(this, EventArgs.Empty);
                 }
             }
-            return manufacturers;
+            return manufacturersList;
         }
 
 
 
-        private readonly List<IOrder> orders = new();
-
-        public event EventHandler OrdersChanged = delegate { };
+        private readonly List<Order> ordersList = new();
 
         public IReadOnlyList<IOrder> GetOrders()
         {
-            lock (((ICollection)manufacturers).SyncRoot)
+            lock (((ICollection)manufacturersList).SyncRoot)
             {
-                if (orders.Count == 0)
+                if (ordersList.Count == 0)
                 {
-                    using (var context = CatalogContext.Get(сonnectionString))
-                        orders.AddRange(context.Orders.ToArray());
-
-                    OrdersChanged(this, EventArgs.Empty);
+                    using var context = CatalogContext.Get(сonnectionString);
+                    context.Products.AttachRange(productsList);
+                    ordersList.AddRange(context.Orders.ToArray());
+                    context.Products.Include(p => p.Orderproducts).Load();
                 }
             }
-            return orders;
+            return ordersList;
+        }
+
+
+
+        private readonly List<Unit> unitsList = new();
+
+        public IReadOnlyList<IUnit> GetUnits()
+        {
+            lock (((ICollection)unitsList).SyncRoot)
+            {
+                if (unitsList.Count == 0)
+                {
+                    using var context = CatalogContext.Get(сonnectionString);
+                    unitsList.AddRange(context.Units.ToArray());
+                }
+            }
+            return unitsList;
+        }
+
+        private readonly List<Supplier> suppliersList = new();
+
+        public IReadOnlyList<ISupplier> GetSuppliers()
+        {
+            lock (((ICollection)suppliersList).SyncRoot)
+            {
+                if (suppliersList.Count == 0)
+                {
+                    using var context = CatalogContext.Get(сonnectionString);
+                    suppliersList.AddRange(context.Suppliers.ToArray());
+                }
+            }
+            return suppliersList;
+        }
+
+        private readonly List<Category> categoriesList = new();
+
+        public IReadOnlyList<ICategory> GetCategories()
+        {
+            lock (((ICollection)categoriesList).SyncRoot)
+            {
+                if (categoriesList.Count == 0)
+                {
+                    using var context = CatalogContext.Get(сonnectionString);
+                    categoriesList.AddRange(context.Categories.ToArray());
+                }
+            }
+            return categoriesList;
         }
     }
 }
