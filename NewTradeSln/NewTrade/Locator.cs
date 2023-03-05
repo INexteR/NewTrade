@@ -1,4 +1,5 @@
-﻿using ViewModels;
+﻿using System.ComponentModel;
+using ViewModels;
 
 namespace NewTrade
 {
@@ -19,5 +20,7 @@ namespace NewTrade
             get => Get<IProductsViewModel?>();
             set => Set(value);
         }
+
+        public static bool IsInDesignMode { get; } = DesignerProperties.GetIsInDesignMode(new());
     }
 }
