@@ -9,7 +9,7 @@ namespace ViewModels
     /// чтобы выбирать из них. Они задаются в базовых интерфейсах. 
     /// Для производителей и ролей у нас есть интерфейсы.
     /// Для остальных нужно добавить.</summary>
-    public interface IProductsViewModel : IManufacturersViewModel
+    public interface IProductsViewModel : ISourcesViewModel
     {
         string Name { get; }
 
@@ -19,13 +19,13 @@ namespace ViewModels
         IEnumerable<IProduct> Products { get; }
 
         /// <summary>Команда добавления товара.</summary>
-        ICommand AddProduct { get; }
+        RelayCommand<IProduct> AddProduct { get; }
 
         /// <summary>Команда удаления товара.</summary>
-        ICommand RemoveProduct { get; }
+        RelayCommand<IProduct> RemoveProduct { get; }
 
         /// <summary>Команда редактирования товара.</summary>
-        ICommand ChangeProduct { get; }
+        RelayCommand<IProduct> ChangeProduct { get; }
     }
 
 }

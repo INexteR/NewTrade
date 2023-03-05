@@ -17,8 +17,7 @@ namespace ShopViewModels
 
         #region Команда авторизированного входа.
         /// <inheritdoc cref="IAuthorizationViewModel.Authorize"/>
-        public RelayCommand<LoginPassword> Authorize => GetCommand<LoginPassword>(AuthorizeExecute, AuthorizeCanExecute);
-        ICommand IAuthorizationViewModel.Authorize => Authorize;
+        public RelayCommand Authorize => GetCommand<LoginPassword>(AuthorizeExecute, AuthorizeCanExecute);
 
         private bool AuthorizeCanExecute(LoginPassword loginPassword)
         {
@@ -35,8 +34,7 @@ namespace ShopViewModels
         /// <inheritdoc cref="IAuthorizationViewModel.Guest"/>
         public RelayCommand Guest => GetCommand(GuestExecute, GuestCanExecute);
 
-        ICommand IAuthorizationViewModel.Guest => Guest;
-        private async void GuestExecute()
+       private async void GuestExecute()
         {
             await _authorization.AuthorizeAsync(null, null);
         }
@@ -51,8 +49,6 @@ namespace ShopViewModels
         #region Команда выхода из авторизации.
         /// <inheritdoc cref="IAuthorizationViewModel.Exit"/>
         public RelayCommand Exit => GetCommand(ExitExecute, ExitCanExecute);
-
-        ICommand IAuthorizationViewModel.Exit => Exit;
 
         private bool ExitCanExecute() => _authorization.Status == AuthorizationStatus.Authorized;
 

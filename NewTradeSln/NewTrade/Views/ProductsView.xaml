@@ -91,8 +91,16 @@
                  x:Name="list"
                  SelectionMode="Single"
                  ScrollViewer.CanContentScroll="False"
-                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-            <ListBox.ItemTemplate>
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                 Loaded="OnLoadedLBox">
+            <x:Code>
+                <![CDATA[
+        private void OnLoadedLBox(object sender, RoutedEventArgs e)
+        {
+            ((ListBox)sender).UnselectAll();
+        }
+                ]]>
+            </x:Code>            <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid x:Name="root">
                         <Grid.ColumnDefinitions>

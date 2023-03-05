@@ -15,13 +15,13 @@ namespace ViewModels
         IUser? CurrentUser { get; }
 
         /// <summary>Команда попытки авторизации.</summary>
-        ICommand Authorize { get; }
+        RelayCommand Authorize { get; }
 
         /// <summary>Команда попытки гостевого входа.</summary>
-        ICommand Guest { get; }
+        RelayCommand Guest { get; }
 
          /// <summary>Команда попытки выхода из авторизации.</summary>
-        ICommand Exit { get; }
+        RelayCommand Exit { get; }
     }
 
 }

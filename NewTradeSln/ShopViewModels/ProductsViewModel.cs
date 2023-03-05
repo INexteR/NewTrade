@@ -4,7 +4,6 @@ using ViewModels;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Windows;
-using System.Windows.Input;
 
 namespace ShopViewModels
 {
@@ -16,7 +15,7 @@ namespace ShopViewModels
         {
             _shop = shop;
             _shop.ProductChanged += OnProductChanged;
-            _shop.ManufacturersChanged += OnManufacturersChanged;
+            _shop.SourcesLoadedChanged += OnSourcesChanged;
         }
 
         private void OnProductChanged(object sender, NotifyListChangedEventArgs<IProduct> e)
@@ -39,9 +38,22 @@ namespace ShopViewModels
                     break;
             }
         }
-        private void OnManufacturersChanged(object? sender, EventArgs e)
+        private void OnSourcesChanged(object? sender, EventArgs e)
         {
-            Manufacturers.Reset(_shop.GetManufacturers());          
+            if (_shop.IsSourcesLoaded)
+            {
+                Units = _shop.GetUnits();
+                Manufacturers = _shop.GetManufacturers();
+                Suppliers = _shop.GetSuppliers();
+                Categories = _shop.GetCategories();
+            }
+            else
+            {
+                Units = Array.Empty<IUnit>();
+                Manufacturers = Array.Empty<IManufacturer>();
+                Suppliers = Array.Empty<ISupplier>();
+                Categories = Array.Empty<ICategory>();
+            }
         }
 
         public string Name => _shop.Name;
@@ -49,18 +61,27 @@ namespace ShopViewModels
         public ObservableCollection<IProduct> Products { get; } = new();
         IEnumerable<IProduct> IProductsViewModel.Products => Products;
 
-        public ObservableCollection<IManufacturer> Manufacturers { get; } = new();
-        IEnumerable<IManufacturer> IManufacturersViewModel.Manufacturers => Manufacturers;
 
-        public RelayCommand<IProduct> AddProduct { get; } = null!;
-        ICommand IProductsViewModel.AddProduct => AddProduct;
+        public RelayCommand<IProduct> AddProduct => GetCommand<IProduct>(AddProductExecute);
+
+        private void AddProductExecute(IProduct parameter)
+        {
+            throw new NotImplementedException();
+        }
 
         public RelayCommand<IProduct> RemoveProduct => GetCommand<IProduct>(RemoveProductExecute, RemoveProductCanExecute);
-        ICommand IProductsViewModel.RemoveProduct => RemoveProduct;
-        
-        public RelayCommand<IProduct> ChangeProduct { get; } = null!;
-        ICommand IProductsViewModel.ChangeProduct => ChangeProduct;
-        
+
+        public RelayCommand<IProduct> ChangeProduct => GetCommand<IProduct>(ChangeProductExecute);
+
+        public IEnumerable<IManufacturer> Manufacturers { get => Get<IEnumerable<IManufacturer>>() ?? Array.Empty<IManufacturer>(); private set => Set(value); }
+        public IEnumerable<ISupplier> Suppliers { get => Get<IEnumerable<ISupplier>>() ?? Array.Empty<ISupplier>(); private set => Set(value); }
+        public IEnumerable<IUnit> Units { get => Get<IEnumerable<IUnit>>() ?? Array.Empty<IUnit>(); private set => Set(value); }
+        public IEnumerable<ICategory> Categories { get => Get<IEnumerable<ICategory>>() ?? Array.Empty<ICategory>(); private set => Set(value); }
+
+        private void ChangeProductExecute(IProduct parameter)
+        {
+            throw new NotImplementedException();
+        }
 
         private void RemoveProductExecute(IProduct product)
         {

@@ -2,6 +2,7 @@
 using ShopSQLite.Entities;
 using Model;
 using Microsoft.EntityFrameworkCore;
+using CommonNet6.Collection;
 
 namespace ShopSQLite
 {
@@ -12,7 +13,7 @@ namespace ShopSQLite
         public Shop(bool recreate = false)
         {
             // Тест создания маппером
-            var pr = Mapping.Mapper.Create<Product>(new {Name = "Проверка"});
+            var pr = Mapping.Mapper.Create<Product>(new { Name = "Проверка" });
 
             if (recreate)
             {
@@ -25,23 +26,36 @@ namespace ShopSQLite
 
         public Task LoadDataAsync() => Task.Run(() =>
         {
-            _ = GetUnits();
-            _ = GetManufacturers();
-            _ = GetSuppliers();
-            _ = GetCategories();
-            _ = GetProducts();
-            _ = GetOrders();
+            IsSourcesLoaded = false;
+            SourcesLoadedChanged(this, EventArgs.Empty);
+            using (var context = CatalogContext.Get(сonnectionString))
+            {
+                unitsList.Clear();
+                unitsList.AddRange(context.Units.ToList());
+                manufacturersList.Clear();
+                manufacturersList.AddRange(context.Manufacturers.ToList());
+                suppliersList.Clear();
+                suppliersList.AddRange(context.Suppliers.ToList());
+                categoriesList.Clear();
+                productsList.Clear();
+                productsList.AddRange(context.Products.ToList());
+                ordersList.Clear();
+                ordersList.AddRange(context.Orders.ToList());
+            }
+            IsSourcesLoaded = true;
+            SourcesLoadedChanged(this, EventArgs.Empty);
+            ProductChanged(this, NotifyListChangedEventArgs<IProduct>.Reset());
+
             //почему-то не перехватывается ↓
             //throw new Exception("Тестовое исключение");
         });
 
         public string Name { get; } = "ООО «Ткани»";
-
-
+        public bool IsSourcesLoaded { get; private set; }
 
         private readonly List<Manufacturer> manufacturersList = new();
 
-        public event EventHandler ManufacturersChanged = delegate { };
+        public event EventHandler SourcesLoadedChanged = delegate { };
 
         public IReadOnlyList<IManufacturer> GetManufacturers()
         {
@@ -52,7 +66,7 @@ namespace ShopSQLite
                     using (var context = CatalogContext.Get(сonnectionString))
                         manufacturersList.AddRange(context.Manufacturers.ToArray());
 
-                    ManufacturersChanged(this, EventArgs.Empty);
+                    SourcesLoadedChanged(this, EventArgs.Empty);
                 }
             }
             return manufacturersList;
