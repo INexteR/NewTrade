@@ -3,7 +3,7 @@ using Model;
 using ViewModels;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using ViewModel;
+using ViewModels;
 using System.Windows;
 using System.Windows.Input;
 
@@ -52,7 +52,13 @@ namespace ShopViewModels
         public ObservableCollection<IManufacturer> Manufacturers { get; } = new();
 
         public RelayCommand<IProduct> Remove => GetCommand<IProduct>(RemoveExecute, RemoveCanExecute);
-        ICommand IProductsViewModel.Remove => Remove;
+        //ICommand IProductsViewModel.Remove => Remove;
+
+        IEnumerable<IProduct> IProductsViewModel.Products { get; }
+        public RelayCommand<IProduct> AddProduct { get; }
+        public RelayCommand<IProduct> RemoveProduct { get; }
+        public RelayCommand<IProduct> ChangeProduct { get; }
+        IEnumerable<IManufacturer> IManufacturersViewModel.Manufacturers { get; }
 
         private void RemoveExecute(IProduct product)
         {
