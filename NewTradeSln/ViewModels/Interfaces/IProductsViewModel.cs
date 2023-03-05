@@ -1,6 +1,6 @@
 ﻿using Model;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace ViewModels
 {
@@ -19,13 +19,13 @@ namespace ViewModels
         IEnumerable<IProduct> Products { get; }
 
         /// <summary>Команда добавления товара.</summary>
-        RelayCommand<IProduct> AddProduct { get; }
+        ICommand AddProduct { get; }
 
         /// <summary>Команда удаления товара.</summary>
-        RelayCommand<IProduct> RemoveProduct { get; }
+        ICommand RemoveProduct { get; }
 
         /// <summary>Команда редактирования товара.</summary>
-        RelayCommand<IProduct> ChangeProduct { get; }
+        ICommand ChangeProduct { get; }
     }
 
 }

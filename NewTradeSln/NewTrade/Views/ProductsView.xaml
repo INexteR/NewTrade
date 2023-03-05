@@ -54,7 +54,7 @@
                     <Run Text="из" />
                     <Run Text="{Binding Products.Count, Mode=OneWay, BindsDirectlyToSource=True}" />
                 </TextBlock>
-                <Button Content="Удалить товар" Command="{Binding Remove}"
+                <Button Content="Удалить товар" Command="{Binding RemoveProduct}"
                         CommandParameter="{Binding SelectedItem, ElementName=list}" />
             </StackPanel>
 

@@ -3,7 +3,6 @@ using Model;
 using ViewModels;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using ViewModels;
 using System.Windows;
 using System.Windows.Input;
 
@@ -48,19 +47,22 @@ namespace ShopViewModels
         public string Name => _shop.Name;
 
         public ObservableCollection<IProduct> Products { get; } = new();
+        IEnumerable<IProduct> IProductsViewModel.Products => Products;
 
         public ObservableCollection<IManufacturer> Manufacturers { get; } = new();
+        IEnumerable<IManufacturer> IManufacturersViewModel.Manufacturers => Manufacturers;
 
-        public RelayCommand<IProduct> Remove => GetCommand<IProduct>(RemoveExecute, RemoveCanExecute);
-        //ICommand IProductsViewModel.Remove => Remove;
+        public RelayCommand<IProduct> AddProduct { get; } = null!;
+        ICommand IProductsViewModel.AddProduct => AddProduct;
 
-        IEnumerable<IProduct> IProductsViewModel.Products { get; }
-        public RelayCommand<IProduct> AddProduct { get; }
-        public RelayCommand<IProduct> RemoveProduct { get; }
-        public RelayCommand<IProduct> ChangeProduct { get; }
-        IEnumerable<IManufacturer> IManufacturersViewModel.Manufacturers { get; }
+        public RelayCommand<IProduct> RemoveProduct => GetCommand<IProduct>(RemoveProductExecute, RemoveProductCanExecute);
+        ICommand IProductsViewModel.RemoveProduct => RemoveProduct;
+        
+        public RelayCommand<IProduct> ChangeProduct { get; } = null!;
+        ICommand IProductsViewModel.ChangeProduct => ChangeProduct;
+        
 
-        private void RemoveExecute(IProduct product)
+        private void RemoveProductExecute(IProduct product)
         {
             try
             {
@@ -72,7 +74,7 @@ namespace ShopViewModels
             }
         }
 
-        private bool RemoveCanExecute(IProduct product)
+        private bool RemoveProductCanExecute(IProduct product)
         {
             return product != null;
         }

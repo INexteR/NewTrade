@@ -1,6 +1,6 @@
-﻿<local:AddOrUpdateProductDialogBase
+﻿<local:AddOrUpdateDialogBase
     x:ClassModifier="internal"
-    x:Class="NewTrade.Views.AddOrUpdateProductDialog"
+    x:Class="NewTrade.Views.AddOrUpdateDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -12,14 +12,14 @@
 
     <FrameworkElement.Resources>
         <!--Обязательный элемент - без него будет исключение.-->
-        <local:AddOrUpdateProductDialogData
+        <local:AddOrUpdateDialogData
             x:Key="dialogData"
             Mode="View"/>
     </FrameworkElement.Resources>
 
-    <StackPanel>
-        <TextBlock Text="{Binding Mode, Source={StaticResource dialogData}}"/>
-        <TextBlock Text="{Binding Entity.Name, Source={StaticResource dialogData}}"/>
-        <TextBlock Text="{Binding ViewModel.Name, Mode=OneWay, Source={StaticResource dialogData}}"/>
+    <StackPanel DataContext="{StaticResource dialogData}">
+        <TextBlock Text="{Binding Mode}"/>
+        <TextBlock Text="{Binding Entity.Name}"/>
+        <TextBlock Text="{Binding ViewModel.Name, Mode=OneWay}"/>
     </StackPanel>
-</local:AddOrUpdateProductDialogBase>
+</local:AddOrUpdateDialogBase>
