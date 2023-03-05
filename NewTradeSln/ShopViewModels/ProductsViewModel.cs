@@ -3,7 +3,6 @@ using Model;
 using ViewModels;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using ViewModel;
 
 namespace ShopViewModels
 {
@@ -50,5 +49,10 @@ namespace ShopViewModels
         public ObservableCollection<IManufacturer> Manufacturers { get; } = new();
 
         public IProduct? SelectedProduct { get => Get<IProduct?>(); set => Set(value); }
+        IEnumerable<IProduct> IProductsViewModel.Products { get; }
+        public RelayCommand<IProduct> AddProduct { get; }
+        public RelayCommand<IProduct> RemoveProduct { get; }
+        public RelayCommand<IProduct> ChangeProduct { get; }
+        IEnumerable<IManufacturer> IManufacturersViewModel.Manufacturers { get; }
     }
 }

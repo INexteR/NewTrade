@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections;
 using Model;
 using System.Collections.ObjectModel;
+using ShopSQLite.Entities;
 
 namespace ShopSQLite
 {
@@ -13,6 +14,9 @@ namespace ShopSQLite
 
         public Shop(bool recreate = false)
         {
+            // Тест создания маппером
+            var pr = Mapping.Mapper.Create<Product>(new {Name = "Проверка"});
+
             if (recreate)
             {
                 if (File.Exists(сonnectionString))

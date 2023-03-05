@@ -1,5 +1,6 @@
 ﻿
 using CommonNet6.Collection;
+using Mapping;
 using Microsoft.EntityFrameworkCore;
 using Model;
 using ShopSQLite.Entities;
@@ -16,7 +17,7 @@ namespace ShopSQLite
             Product @new;
             using (CatalogContext context = CatalogContext.Get(сonnectionString))
             {
-                context.Products.Add(product.Create());
+                context.Products.Add(product.Create<Product>());
                 context.SaveChanges();
                 @new = context.Products
                     .Include(p => p.Unit)
@@ -34,7 +35,7 @@ namespace ShopSQLite
             Product @new;
             using (CatalogContext context = CatalogContext.Get(сonnectionString))
             {
-                context.Products.Update(product.Create());
+                context.Products.Update(product.Create<Product>());
                 context.SaveChanges();
                 @new = context.Products
                     .Include(p => p.Unit)
