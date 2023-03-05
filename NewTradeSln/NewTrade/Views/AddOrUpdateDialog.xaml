@@ -9,13 +9,17 @@
     mc:Ignorable="d"
     Title="Редактирование товара - потом нужно менять заголовок в зависимости от режима."
     Height="450" Width="800">
-    
+
     <FrameworkElement.Resources>
         <!--Обязательный элемент - без него будет исключение.-->
-        <local:AddOrUpdateProductDialogData x:Key="dialogData"/>
+        <local:AddOrUpdateProductDialogData
+            x:Key="dialogData"
+            Mode="View"/>
     </FrameworkElement.Resources>
-   
-    <Grid>
-        
-    </Grid>
+
+    <StackPanel>
+        <TextBlock Text="{Binding Mode, Source={StaticResource dialogData}}"/>
+        <TextBlock Text="{Binding Entity.Name, Source={StaticResource dialogData}}"/>
+        <TextBlock Text="{Binding ViewModel.Name, Mode=OneWay, Source={StaticResource dialogData}}"/>
+    </StackPanel>
 </local:AddOrUpdateProductDialogBase>
