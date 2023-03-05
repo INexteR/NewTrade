@@ -2,7 +2,6 @@
 using ViewModels;
 using ShopSQLite;
 using System.Windows.Input;
-using ViewModel;
 
 namespace ShopViewModels
 {

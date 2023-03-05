@@ -1,5 +1,4 @@
 ﻿using ViewModels;
-using ViewModel;
 
 namespace NewTrade
 {

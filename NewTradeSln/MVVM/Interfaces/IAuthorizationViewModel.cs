@@ -1,7 +1,7 @@
 ﻿using Model;
 using System.Windows.Input;
 
-namespace ViewModel
+namespace ViewModels
 {
     /// <summary>Служба авторизации.</summary>
     public interface IAuthorizationViewModel

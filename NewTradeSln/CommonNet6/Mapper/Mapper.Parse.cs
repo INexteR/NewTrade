@@ -7,7 +7,7 @@ using System.Reflection;
 
 namespace Mapping
 {
-    public static class Mapper
+    public static partial class Mapper
     {
         public static T Parse<T>(this string line, params string[] propertyNames)
             where T : new()
@@ -17,23 +17,22 @@ namespace Mapping
             where T : new()
         {
             Type type = typeof(T);
-            var converterSetters = GetConverterSetters(type);
+            var propertyDatas = GetSetDatas(type);
 
             string[] props = line.Split(fieldSeparator, StringSplitOptions.TrimEntries);
 
             T item = new();
+
             for (int j = 0; j < props.Length; j++)
             {
                 var name = propertyNames[j];
-                var (converter, setter) = converterSetters[name];
+                var data = propertyDatas[name];
                 var prop = props[j];
-                var value = converter.ConvertFromInvariantString(prop)!;
-                setter.Invoke(item, new object[] { value });
+                data.SetValue(item, prop);
             }
 
             return item;
         }
-
 
         public static IEnumerable<T> LinesToItems<T>(this IEnumerable<string> lines, params string[] propertyNames)
             where T : new()
@@ -75,61 +74,71 @@ namespace Mapping
             where T : new()
             => ParseToArray<T>(text, "\r\n".ToCharArray(), propertyNames);
 
-        public static IReadOnlyDictionary<string, (TypeConverter converter, MethodInfo setter)> GetConverterSetters(Type type)
+        private static IReadOnlyDictionary<string, PropertySetData> GetSetDatas(Type type)
         {
-            if (!typeSetters.TryGetValue(type, out ReadOnlyDictionary<string, (TypeConverter converter, MethodInfo setter)>? converterSetters))
+            if (!typeSetters.TryGetValue(type, out ReadOnlyDictionary<string, PropertySetData>? setDatas))
             {
                 PropertyInfo[] propertiesInfo = type.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-                Dictionary<string, (TypeConverter converter, MethodInfo setter)> _converterSetters = new(propertiesInfo.Length);
-                converterSetters = new ReadOnlyDictionary<string, (TypeConverter converter, MethodInfo setter)>(_converterSetters);
+                Dictionary<string, PropertySetData> _converterSetters = new(propertiesInfo.Length);
+                setDatas = new ReadOnlyDictionary<string, PropertySetData>(_converterSetters);
 
                 var propertyDescriptors = TypeDescriptor.GetProperties(type);
                 foreach (var property in propertiesInfo)
                 {
+                    PropertyDescriptor? propertyDescriptor = propertyDescriptors[property.Name];
                     if (property.CanWrite)
                     {
-                        var converter = propertyDescriptors[property.Name]!.Converter;
-                        _converterSetters.Add(property.Name, (converter, property.GetSetMethod(true)!));
+                        _converterSetters.Add(property.Name, new PropertySetData(property.Name, propertyDescriptors[property.Name]!, property.SetValue));
                     }
                 }
-                typeSetters.Add(type, converterSetters);
+                typeSetters.Add(type, setDatas);
             }
-            return converterSetters;
+            return setDatas;
         }
 
-        private static readonly Dictionary<Type, ReadOnlyDictionary<string, (TypeConverter converter, MethodInfo setter)>> typeSetters = new();
-        private static readonly Dictionary<Type, ReadOnlyDictionary<string, (TypeConverter converter, MethodInfo setter)>> typeGetters
-            = new();
-
-        public static IReadOnlyDictionary<string, (TypeConverter converter, MethodInfo setter)> GetConverterGetters(Type type)
+        private readonly struct PropertySetData
         {
-            if (!typeGetters.TryGetValue(type, out ReadOnlyDictionary<string, (TypeConverter converter, MethodInfo setter)>? converterGetters))
-            {
-                PropertyInfo[] propertiesInfo = type.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-                Dictionary<string, (TypeConverter converter, MethodInfo setter)> _converterSetters = new(propertiesInfo.Length);
-                converterGetters = new ReadOnlyDictionary<string, (TypeConverter converter, MethodInfo setter)>(_converterSetters);
+            public readonly string name;
+            public readonly PropertyDescriptor propertyDescriptor;
+            public readonly Action<object, object?> setter;
 
-                PropertyDescriptorCollection propertyDescriptors = TypeDescriptor.GetProperties(type);
-                foreach (var property in propertiesInfo)
-                {
-                    if (property.CanRead && !(Type.GetTypeCode(property.PropertyType) is TypeCode.DBNull or TypeCode.Object))
-                    {
-                        var converter = propertyDescriptors[property.Name]!.Converter;
-                        _converterSetters.Add(property.Name, (converter, property.GetSetMethod(true)!));
-                    }
-                }
-                typeSetters.Add(type, converterGetters);
+            public PropertySetData(string name, PropertyDescriptor propertyDescriptor, Action<object, object?> setter)
+            {
+                this.name = name;
+                this.propertyDescriptor = propertyDescriptor;
+                this.setter = setter;
             }
-            return converterGetters;
+
+            private static readonly Action<PropertyDescriptor, object, EventArgs> onValueChanged =
+                typeof(PropertyDescriptor).GetMethod("OnValueChanged", BindingFlags.NonPublic | BindingFlags.Instance)?
+                .CreateDelegate<Action<PropertyDescriptor, object, EventArgs>>()
+                ?? throw new Exception("Куда-то пропал метод OnValueChanged.");
+
+            public void SetValue(object item, string value)
+            {
+                setter(item, propertyDescriptor.Converter.ConvertFromInvariantString(value));
+                onValueChanged(propertyDescriptor, item, EventArgs.Empty);
+            }
+            public void SetValue(object item, object? value)
+            {
+                if (value is string text)
+                {
+                    SetValue(item, text);
+                    return;
+                }
+
+                if (value is null || propertyDescriptor.PropertyType.IsAssignableFrom(value.GetType()))
+                {
+                    setter(item, value);
+                }
+                else
+                {
+                    setter(item, propertyDescriptor.Converter.ConvertFrom(value));
+                }
+                onValueChanged(propertyDescriptor, item, EventArgs.Empty);
+            }
         }
 
-
-        //public static TResult CreateFrom<Tsource, TResult>(this in Tsource source)
-        //    where TResult : new()
-        //{
-
-        //}
-
-
+        private static readonly Dictionary<Type, ReadOnlyDictionary<string, PropertySetData>> typeSetters = new();
     }
 }

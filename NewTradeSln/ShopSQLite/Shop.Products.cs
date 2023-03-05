@@ -1,5 +1,6 @@
 ﻿
 using CommonNet6.Collection;
+using Mapping;
 using Microsoft.EntityFrameworkCore;
 using Model;
 using ShopSQLite.Entities;
@@ -16,7 +17,7 @@ namespace ShopSQLite
             Product @new;
             using (CatalogContext context = CatalogContext.Get(сonnectionString))
             {
-                context.Products.Add(product.Create()); //а зачем копию? нельзя сам product?
+                context.Products.Add(product.Create<Product>());
                 context.SaveChanges();
                 @new = context.Products.First(p => p.Id == product.Id);
                 var entry = context.Entry(@new);
@@ -34,7 +35,7 @@ namespace ShopSQLite
             Product @new;
             using (CatalogContext context = CatalogContext.Get(сonnectionString))
             {
-                context.Products.Update(product.Create()); //и снова зачем копию
+                context.Products.Update(product.Create<Product>());
                 context.SaveChanges();
                 @new = context.Products.First(p => p.Id == product.Id);
                 var entry = context.Entry(@new);
