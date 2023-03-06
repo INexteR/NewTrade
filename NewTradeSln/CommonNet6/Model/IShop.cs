@@ -1,8 +1,7 @@
 ﻿namespace Model
 {
     /// <summary>Целевая модель.</summary>
-    public interface IShop : IAuthorization, ILoadSources, 
-         IProductsSource, IOrdersSource
+    public interface IShop : IAuthorization, ILoadSources, IProductsSource
     {
         /// <summary>Наименование магазина.</summary>
         string Name { get; }

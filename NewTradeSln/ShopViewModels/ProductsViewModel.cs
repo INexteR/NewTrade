@@ -23,18 +23,18 @@ namespace ShopViewModels
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Reset:
-                    Products.Reset(_shop.GetProducts());
+                    products.Reset(_shop.GetProducts());
                     break;
                 case NotifyCollectionChangedAction.Add:
-                    Products.Add(e.NewItem ?? throw new ArgumentNullException("e.NewItem"));
+                    products.Add(e.NewItem ?? throw new ArgumentNullException("e.NewItem"));
                     break;
                 case NotifyCollectionChangedAction.Remove:
                     var id = e.OldItem?.Id ?? throw new ArgumentNullException("e.OldItem");
-                    Products.FirstRemove(pr => pr.Id == id);
+                    products.FirstRemove(pr => pr.Id == id);
                     break;
                 case NotifyCollectionChangedAction.Replace:
-                    var index = Products.IndexOf(e.OldItem ?? throw new ArgumentNullException("e.OldItem"));
-                    Products[index] = e.NewItem ?? throw new ArgumentNullException("e.NewItem");
+                    var index = products.IndexOf(e.OldItem ?? throw new ArgumentNullException("e.OldItem"));
+                    products[index] = e.NewItem ?? throw new ArgumentNullException("e.NewItem");
                     break;
             }
         }
@@ -46,20 +46,14 @@ namespace ShopViewModels
                 Manufacturers = _shop.GetManufacturers();
                 Suppliers = _shop.GetSuppliers();
                 Categories = _shop.GetCategories();
-            }
-            else
-            {
-                Units = Array.Empty<IUnit>();
-                Manufacturers = Array.Empty<IManufacturer>();
-                Suppliers = Array.Empty<ISupplier>();
-                Categories = Array.Empty<ICategory>();
+                products.Reset(_shop.GetProducts());
             }
         }
 
         public string Name => _shop.Name;
 
-        public ObservableCollection<IProduct> Products { get; } = new();
-        IEnumerable<IProduct> IProductsViewModel.Products => Products;
+        private readonly ObservableCollection<IProduct> products = new();
+        public IEnumerable<IProduct> Products => products;
 
 
         public RelayCommand<IProduct> AddProduct => GetCommand<IProduct>(AddProductExecute);

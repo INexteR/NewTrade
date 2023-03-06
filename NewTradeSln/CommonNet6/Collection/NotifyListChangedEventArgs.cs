@@ -26,10 +26,6 @@ namespace CommonNet6.Collection
         {
             return new(NotifyCollectionChangedAction.Add, default, newItem, -1, newIndex);
         }
-        public static NotifyListChangedEventArgs<T> Reset()
-        {
-            return new(NotifyCollectionChangedAction.Reset, default, default, -1, -1);
-        }
         public static NotifyListChangedEventArgs<T> Replace(T? oldItem, T? newItem, int index)
         {
             return new(NotifyCollectionChangedAction.Replace, oldItem, newItem, index, index);
@@ -37,6 +33,10 @@ namespace CommonNet6.Collection
         public static NotifyListChangedEventArgs<T> Remove(T? oldItem, int oldIndex)
         {
             return new(NotifyCollectionChangedAction.Remove, oldItem, default, oldIndex, -1);
+        }
+        public static NotifyListChangedEventArgs<T> Reset()
+        {
+            return new(NotifyCollectionChangedAction.Reset, default, default, -1, -1);
         }
         public static NotifyListChangedEventArgs<T> Move(T? item, int oldIndex, int newIndex)
         {

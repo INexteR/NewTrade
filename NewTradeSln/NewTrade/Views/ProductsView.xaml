@@ -54,8 +54,7 @@
                     <Run Text="из" />
                     <Run Text="{Binding Products.Count, Mode=OneWay, BindsDirectlyToSource=True}" />
                 </TextBlock>
-                <Button Content="Удалить товар" Command="{Binding RemoveProduct}"
-                        CommandParameter="{Binding SelectedItem, ElementName=list}" />
+                <Button Content="Добавить товар" Command="{Binding AddProduct}"/>
             </StackPanel>
 
             <StackPanel Grid.Column="2"
@@ -92,15 +91,8 @@
                  SelectionMode="Single"
                  ScrollViewer.CanContentScroll="False"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                 Loaded="OnLoadedLBox">
-            <x:Code>
-                <![CDATA[
-        private void OnLoadedLBox(object sender, RoutedEventArgs e)
-        {
-            ((ListBox)sender).UnselectAll();
-        }
-                ]]>
-            </x:Code>            <ListBox.ItemTemplate>
+                 IsSynchronizedWithCurrentItem="False">
+            <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid x:Name="root">
                         <Grid.ColumnDefinitions>

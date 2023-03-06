@@ -13,6 +13,8 @@ namespace Model
         /// только целиком весь разом.</summary>
         event EventHandler SourcesLoadedChanged;
 
+        IReadOnlyList<IUnit> GetUnits();
+
         /// <summary>Возвращает всех производителей в индексированном списке
         /// несвязанном с Бизнес (Доменной) логикой.</summary>
         /// <returns>Индексированная коллекция (лист, массив и др.) всех производителей.</returns>
@@ -20,9 +22,12 @@ namespace Model
 
         IReadOnlyList<ISupplier> GetSuppliers();
 
-        IReadOnlyList<IUnit> GetUnits();
-
         IReadOnlyList<ICategory> GetCategories();
+
+        /// <summary>Возвращает все товары в индексированном списке
+        /// несвязанном с Бизнес (Доменной) логикой.</summary>
+        /// <returns>Индексированная коллекция (лист, массив и др.) всех товаров.</returns>
+        IReadOnlyCollection<IProduct> GetProducts();
 
     }
 }

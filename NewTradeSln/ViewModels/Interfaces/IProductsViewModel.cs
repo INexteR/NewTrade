@@ -13,11 +13,6 @@ namespace ViewModels
     {
         string Name { get; }
 
-        // TODO: С точки зрения источника нам не важен тим коллекции.
-        // В реализации это может массив, список, ObservableCollection, BindingLis и др.
-        // Важная для View функциональность - это только последжоавтельность товаров.
-        IEnumerable<IProduct> Products { get; }
-
         /// <summary>Команда добавления товара.</summary>
         RelayCommand<IProduct> AddProduct { get; }
 
