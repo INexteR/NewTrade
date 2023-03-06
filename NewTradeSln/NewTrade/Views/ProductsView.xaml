@@ -91,7 +91,8 @@
                  SelectionMode="Single"
                  ScrollViewer.CanContentScroll="False"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                 IsSynchronizedWithCurrentItem="False">
+                 IsSynchronizedWithCurrentItem="False"
+                 HorizontalContentAlignment="Stretch">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid x:Name="root">
@@ -155,10 +156,16 @@
             </ListBox.ItemTemplate>
             <ListBox.ItemContainerStyle>
                 <Style TargetType="ListBoxItem">
-                    <Setter Property="HorizontalContentAlignment"
-                            Value="Stretch" />
                     <Setter Property="Padding"
                             Value="0" />
+                    <Setter Property="ContextMenu">
+                        <Setter.Value>
+                            <ContextMenu>
+                                <MenuItem Header="Редактировать" />
+                                <MenuItem Header="Удалить" />
+                            </ContextMenu>
+                        </Setter.Value>
+                    </Setter>
                 </Style>
             </ListBox.ItemContainerStyle>
         </ListBox>

@@ -22,9 +22,7 @@ namespace ShopViewModels
         {
             switch (e.Action)
             {
-                case NotifyCollectionChangedAction.Reset:
-                    products.Reset(_shop.GetProducts());
-                    break;
+                case NotifyCollectionChangedAction.Reset: break;
                 case NotifyCollectionChangedAction.Add:
                     products.Add(e.NewItem ?? throw new ArgumentNullException("e.NewItem"));
                     break;
@@ -43,7 +41,7 @@ namespace ShopViewModels
             if (_shop.IsSourcesLoaded)
             {
                 Units = _shop.GetUnits();
-                Manufacturers = _shop.GetManufacturers();
+                manufacturers.Reset(_shop.GetManufacturers());
                 Suppliers = _shop.GetSuppliers();
                 Categories = _shop.GetCategories();
                 products.Reset(_shop.GetProducts());
@@ -58,19 +56,20 @@ namespace ShopViewModels
 
         public RelayCommand<IProduct> AddProduct => GetCommand<IProduct>(AddProductExecute);
 
+        public RelayCommand<IProduct> RemoveProduct => GetCommand<IProduct>(RemoveProductExecute);
+
+        public RelayCommand<IProduct> ChangeProduct => GetCommand<IProduct>(ChangeProductExecute);
+
+        private readonly ObservableCollection<IManufacturer> manufacturers = new();
+        public IEnumerable<IManufacturer> Manufacturers => manufacturers;
+        public IEnumerable<ISupplier> Suppliers { get => Get<IEnumerable<ISupplier>>() ?? Array.Empty<ISupplier>(); private set => Set(value); }
+        public IEnumerable<IUnit> Units { get => Get<IEnumerable<IUnit>>() ?? Array.Empty<IUnit>(); private set => Set(value); }
+        public IEnumerable<ICategory> Categories { get => Get<IEnumerable<ICategory>>() ?? Array.Empty<ICategory>(); private set => Set(value); }
+
         private void AddProductExecute(IProduct parameter)
         {
             throw new NotImplementedException();
         }
-
-        public RelayCommand<IProduct> RemoveProduct => GetCommand<IProduct>(RemoveProductExecute, RemoveProductCanExecute);
-
-        public RelayCommand<IProduct> ChangeProduct => GetCommand<IProduct>(ChangeProductExecute);
-
-        public IEnumerable<IManufacturer> Manufacturers { get => Get<IEnumerable<IManufacturer>>() ?? Array.Empty<IManufacturer>(); private set => Set(value); }
-        public IEnumerable<ISupplier> Suppliers { get => Get<IEnumerable<ISupplier>>() ?? Array.Empty<ISupplier>(); private set => Set(value); }
-        public IEnumerable<IUnit> Units { get => Get<IEnumerable<IUnit>>() ?? Array.Empty<IUnit>(); private set => Set(value); }
-        public IEnumerable<ICategory> Categories { get => Get<IEnumerable<ICategory>>() ?? Array.Empty<ICategory>(); private set => Set(value); }
 
         private void ChangeProductExecute(IProduct parameter)
         {
@@ -87,11 +86,6 @@ namespace ShopViewModels
             {
                 MessageBox.Show(e.Message);
             }
-        }
-
-        private bool RemoveProductCanExecute(IProduct product)
-        {
-            return product != null;
         }
     }
 }
