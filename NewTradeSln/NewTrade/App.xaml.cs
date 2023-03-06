@@ -21,7 +21,7 @@ namespace NewTrade
         private async void OnAppStartup(object sender, StartupEventArgs e)
         {
             locator = (Locator)FindResource(nameof(locator));
-            var shopModel = new Shop(); // Для пересборки БД - нужно задать true
+            var shopModel = new Shop(/*true*/); // Для пересборки БД - нужно задать true
             this.shopModel = shopModel;
             authorizationModel = shopModel;
             locator.Authorization = new AuthorizationViewModel(authorizationModel);

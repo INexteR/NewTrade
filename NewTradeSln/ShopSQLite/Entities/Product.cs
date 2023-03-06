@@ -14,7 +14,7 @@ namespace ShopSQLite.Entities
     {
         public Product()
         {
-            Orderproducts = new HashSet<Orderproduct>();
+            OrderProducts = new HashSet<OrderProduct>();
         }
 
         [Key]       
@@ -37,8 +37,13 @@ namespace ShopSQLite.Entities
         public virtual Manufacturer Manufacturer { get; set; } = null!;
         public virtual Supplier Supplier { get; set; } = null!;
         public virtual Unit Unit { get; set; } = null!;
-        public virtual ICollection<Orderproduct> Orderproducts { get; set; }
+        public virtual ICollection<OrderProduct> OrderProducts { get; set; }
 
+        IUnit IProduct.Unit => Unit;
         IManufacturer IProduct.Manufacturer => Manufacturer;
+        ISupplier IProduct.Supplier => Supplier;
+        ICategory IProduct.Category => Category;
+        IEnumerable<IOrderProduct> IProduct.OrderProducts => OrderProducts;
+        
     }
 }

@@ -85,7 +85,7 @@ namespace ShopViewModels
             catch (InvalidOperationException e)
             {
                 MessageBox.Show(e.Message);
-            }
+            }           
         }
     }
 }

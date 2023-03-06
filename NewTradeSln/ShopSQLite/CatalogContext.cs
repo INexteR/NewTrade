@@ -21,9 +21,9 @@ namespace ShopSQLite
         public virtual DbSet<Category> Categories { get; set; } = null!;
         public virtual DbSet<Manufacturer> Manufacturers { get; set; } = null!;
         public virtual DbSet<Order> Orders { get; set; } = null!;
-        public virtual DbSet<Orderproduct> Orderproducts { get; set; } = null!;
+        public virtual DbSet<OrderProduct> Orderproducts { get; set; } = null!;
         public virtual DbSet<Orderstatus> Orderstatuses { get; set; } = null!;
-        public virtual DbSet<Pickuppoint> Pickuppoints { get; set; } = null!;
+        public virtual DbSet<PickupPoint> Pickuppoints { get; set; } = null!;
         public virtual DbSet<Product> Products { get; set; } = null!;
         public virtual DbSet<Role> Roles { get; set; } = null!;
         public virtual DbSet<Supplier> Suppliers { get; set; } = null!;
@@ -64,11 +64,11 @@ namespace ShopSQLite
 
             modelBuilder.Entity<Orderstatus>().HasData(Data.orderstatuses);
 
-            modelBuilder.Entity<Pickuppoint>().HasData(Data.GetPickuppoints());
+            modelBuilder.Entity<PickupPoint>().HasData(Data.GetPickuppoints());
 
             modelBuilder.Entity<Order>().HasData(Data.GetOrders());
 
-            modelBuilder.Entity<Orderproduct>().HasData(Data.GetOrderproduct());
+            modelBuilder.Entity<OrderProduct>().HasData(Data.GetOrderproduct());
 
             OnModelCreatingPartial(modelBuilder);
         }

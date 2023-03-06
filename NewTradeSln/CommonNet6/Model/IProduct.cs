@@ -1,4 +1,6 @@
-﻿namespace Model
+﻿using System.Collections.Generic;
+
+namespace Model
 {
     public interface IProduct
     {
@@ -15,6 +17,10 @@
         string Description { get; }
         string? Path { get; }
 
+        IUnit Unit { get; }
         IManufacturer Manufacturer { get; }
+        ISupplier Supplier { get; }
+        ICategory Category { get; }
+        IEnumerable<IOrderProduct> OrderProducts { get; }
     }
 }

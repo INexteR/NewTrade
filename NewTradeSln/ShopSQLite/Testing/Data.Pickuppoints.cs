@@ -5,12 +5,12 @@ namespace ShopSQLite.Initialization
 {
     internal static partial class Data
     {
-        private static Pickuppoint[]? pickuppoints;
-        public static IEnumerable<Pickuppoint> GetPickuppoints()
+        private static PickupPoint[]? pickuppoints;
+        public static IEnumerable<PickupPoint> GetPickuppoints()
         {
-            return pickuppoints ??= pickuppointsText.ParseToArray<Pickuppoint>(nameof(Pickuppoint.Id),
-                                                                               nameof(Pickuppoint.Address),
-                                                                               nameof(Pickuppoint.Index));
+            return pickuppoints ??= pickuppointsText.ParseToArray<PickupPoint>(nameof(PickupPoint.Id),
+                                                                               nameof(PickupPoint.Address),
+                                                                               nameof(PickupPoint.Index));
         }
 
         private const string pickuppointsText = @"

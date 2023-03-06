@@ -5,9 +5,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace ShopSQLite.Entities
 {
     [Table("pickuppoint")]
-    internal partial class Pickuppoint : IPickupPoint
+    internal partial class PickupPoint : IPickupPoint
     {
-        public Pickuppoint()
+        public PickupPoint()
         {
             Orders = new HashSet<Order>();
         }

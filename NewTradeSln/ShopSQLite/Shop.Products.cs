@@ -50,7 +50,7 @@ namespace ShopSQLite
             int index = products.FindIndex(pr => pr.Id == product.Id);
             Product old = products[index];
 
-            if (old.Orderproducts.Count is 0)
+            if (old.OrderProducts.Count is 0)
             {
                 using (CatalogContext context = CatalogContext.Get(сonnectionString))
                 {

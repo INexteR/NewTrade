@@ -13,13 +13,12 @@
     <FrameworkElement.Resources>
         <!--Обязательный элемент - без него будет исключение.-->
         <local:AddOrUpdateDialogData
-            x:Key="dialogData"
-            Mode="View"/>
+            x:Key="dialogData"/>
     </FrameworkElement.Resources>
 
     <StackPanel DataContext="{StaticResource dialogData}">
         <TextBlock Text="{Binding Mode}"/>
-        <TextBlock Text="{Binding Entity.Name}"/>
+        <!--<TextBlock Text="{Binding Entity.Name}"/>-->
         <TextBlock Text="{Binding ViewModel.Name, Mode=OneWay}"/>
     </StackPanel>
 </local:AddOrUpdateDialogBase>

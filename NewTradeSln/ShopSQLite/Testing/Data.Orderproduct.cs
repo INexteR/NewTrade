@@ -5,12 +5,12 @@ namespace ShopSQLite.Initialization
 {
     internal static partial class Data
     {
-        private static Orderproduct[]? orderproduct;
-        public static IEnumerable<Orderproduct> GetOrderproduct()
+        private static OrderProduct[]? orderproduct;
+        public static IEnumerable<OrderProduct> GetOrderproduct()
         {
-            return orderproduct ??= orderproductText.ParseToArray<Orderproduct>(nameof(Orderproduct.OrderId),
-                                                                                nameof(Orderproduct.ProductId),
-                                                                                nameof(Orderproduct.ProductCount));
+            return orderproduct ??= orderproductText.ParseToArray<OrderProduct>(nameof(OrderProduct.OrderId),
+                                                                                nameof(OrderProduct.ProductId),
+                                                                                nameof(OrderProduct.ProductCount));
            
         }
         private const string orderproductText = @"1	1	5

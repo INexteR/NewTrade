@@ -49,12 +49,14 @@
                         Margin="10 3">
                 <Button Command="{Binding Authorization.Exit, Mode=OneWay, Source={StaticResource locator}}"
                         Content="Выход" />
-                <TextBlock Margin="0 15" HorizontalAlignment="Center">
+                <TextBlock Margin="0 15"
+                           HorizontalAlignment="Center">
                     <Run Text="{Binding Count, Source={StaticResource productsView}, Mode=OneWay}" />
                     <Run Text="из" />
                     <Run Text="{Binding Products.Count, Mode=OneWay, BindsDirectlyToSource=True}" />
                 </TextBlock>
-                <Button Content="Добавить товар" Command="{Binding AddProduct}"/>
+                <Button Content="Добавить товар"
+                        Command="{Binding AddProduct}" />
             </StackPanel>
 
             <StackPanel Grid.Column="2"
@@ -125,6 +127,10 @@
                                     <Run Text="Цена:" />
                                     <Run Text="{Binding Cost, Mode=OneWay, StringFormat={}{0:#.##} РУБ.}" />
                                 </TextBlock>
+                                <TextBlock>
+                                    <Run Text="Присутствует в заказе:" />
+                                    <Run Text="{Binding OrderProducts.Count, Mode=OneWay}" />
+                                </TextBlock>
                             </StackPanel>
                         </Border>
 
@@ -158,11 +164,16 @@
                 <Style TargetType="ListBoxItem">
                     <Setter Property="Padding"
                             Value="0" />
+                    <Setter Property="Tag"
+                            Value="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ListBox}}" />
                     <Setter Property="ContextMenu">
                         <Setter.Value>
-                            <ContextMenu>
+                            <ContextMenu FontSize="18"
+                                         DataContext="{Binding PlacementTarget, RelativeSource={RelativeSource Self}}">
                                 <MenuItem Header="Редактировать" />
-                                <MenuItem Header="Удалить" />
+                                <MenuItem Header="Удалить"
+                                          Command="{Binding Tag.RemoveProduct}"
+                                          CommandParameter="{Binding Content}" />
                             </ContextMenu>
                         </Setter.Value>
                     </Setter>

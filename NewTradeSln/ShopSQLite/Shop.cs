@@ -13,7 +13,7 @@ namespace ShopSQLite
         public Shop(bool recreate = false)
         {
             // Тест создания маппером
-            //var pr = Mapping.Mapper.Create<Product>(new { Name = "Проверка" });
+            var pr = Mapping.Mapper.Create<Product>(new { Name = "Проверка" });
 
             if (recreate)
             {
@@ -32,7 +32,7 @@ namespace ShopSQLite
                 manufacturers.AddRange(context.Manufacturers.ToList());
                 suppliers.AddRange(context.Suppliers.ToList());
                 categories.AddRange(context.Categories.ToList());
-                products.AddRange(context.Products.Include(p => p.Orderproducts).ToList());
+                products.AddRange(context.Products.Include(p => p.OrderProducts).ToList());
             }
             IsSourcesLoaded = true;
             SourcesLoadedChanged(this, EventArgs.Empty);

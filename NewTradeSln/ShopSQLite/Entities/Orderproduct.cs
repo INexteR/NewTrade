@@ -8,7 +8,7 @@ namespace ShopSQLite.Entities
     [PrimaryKey(nameof(OrderId), nameof(ProductId))]
     [Index(nameof(OrderId), Name = "order_idx")]
     [Index(nameof(ProductId), Name = "product_idx")]
-    internal partial class Orderproduct : IOrderProduct
+    internal partial class OrderProduct : IOrderProduct
     {
         public int OrderId { get; set; }
         public int ProductId { get; set; }
