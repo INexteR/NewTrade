@@ -10,7 +10,7 @@ namespace NewTrade.Views
     /// <summary>
     /// Логика взаимодействия для AddOrUpdateDialog.xaml
     /// </summary>
-    internal partial class AddOrUpdateProductDialog : AddOrUpdateDialogBase
+    internal partial class AddOrUpdateProductDialog : AddOrUpdateProductDialogBase
     {
         private AddOrUpdateProductDialog(DialogMode mode, ProductVM entity, IProductsViewModel viewModel) 
             : base(mode, entity, viewModel)
@@ -26,13 +26,6 @@ namespace NewTrade.Views
             ProductVM entity = args.Product is null ? new ProductVM() : args.Product.Create<ProductVM>();
             var window = new AddOrUpdateProductDialog(DialogMode.Add, entity, args.ViewModel);
             return window.ShowDialog();
-        }
-    }
-    internal class AddOrUpdateDialogBase : AddOrUpdateDialogBase<ProductVM, IProductsViewModel>
-    {
-        public AddOrUpdateDialogBase(DialogMode mode, ProductVM entity, IProductsViewModel viewModel)
-            : base(mode, entity, viewModel)
-        {
         }
     }
 
@@ -69,19 +62,19 @@ namespace NewTrade.Views
         public ICategory Category { get; set; }
         public IEnumerable<IOrderProduct> OrderProducts { get; }
     }
-    internal class AddOrUpdateDialogBase<TEntity, TViewModel> : Window
+    internal class AddOrUpdateProductDialogBase : Window
     {
-        protected readonly AddOrUpdateDialogData<TEntity, TViewModel> dialogData;
-        public AddOrUpdateDialogBase(DialogMode mode, TEntity entity, TViewModel viewModel)
+        protected readonly AddOrUpdateProductDialogData dialogData;
+        public AddOrUpdateProductDialogBase(DialogMode mode, ProductVM product, IProductsViewModel viewModel)
         {
             ((IComponentConnector)this).InitializeComponent();
-            dialogData = (AddOrUpdateDialogData<TEntity, TViewModel>)Resources[nameof(dialogData)];
+            dialogData = (AddOrUpdateProductDialogData) Resources[nameof(dialogData)];
             dialogData.Mode = mode;
-            dialogData.Entity = entity;
-            dialogData.ViewModel = viewModel;
+            dialogData.Product = product;
+            dialogData.ProductsViewModel = viewModel;
         }
 
-        public AddOrUpdateDialogBase()
+        public AddOrUpdateProductDialogBase()
         {
             dialogData = new();
         }
@@ -94,13 +87,10 @@ namespace NewTrade.Views
         Add, Update
     }
 
-    internal class AddOrUpdateProductDialogData : AddOrUpdateDialogData<ProductVM, IProductsViewModel>
-    { }
-
-    internal class AddOrUpdateDialogData<TEntity, TViewModel> : ViewModelBase
+    internal class AddOrUpdateProductDialogData : ViewModelBase
     {
-        public DialogMode Mode { get; set; }
-        public TempProduct? Product { get; set; }
-        public IProductsViewModel? ProductViewModel { get; set; }
+        public DialogMode Mode { get => Get<DialogMode>(); set=>Set(value); }
+        public ProductVM Product { get => Get<ProductVM>(); set => Set(value); }
+        public IProductsViewModel? ProductsViewModel { get => Get<IProductsViewModel>(); set => Set(value); }
     }
 }

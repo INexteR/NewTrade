@@ -1,4 +1,4 @@
-﻿<local:AddOrUpdateDialogBase
+﻿<local:AddOrUpdateProductDialogBase
     x:ClassModifier="internal"
     x:Class="NewTrade.Views.AddOrUpdateProductDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -18,8 +18,8 @@
 
     <StackPanel DataContext="{StaticResource dialogData}">
         <TextBlock Text="{Binding Mode}"/>
-        <TextBlock Text="{Binding Entity.Name}"/>
-        <TextBlock Text="{Binding Entity.ManufacturerId, Mode=OneWay}"/>
-        <TextBlock Text="{Binding ViewModel.Name, Mode=OneWay}"/>
+        <TextBlock Text="{Binding Product.Name}"/>
+        <TextBlock Text="{Binding Product.ManufacturerId}"/>
+        <TextBlock Text="{Binding ProductsViewModel.Name}"/>
     </StackPanel>
-</local:AddOrUpdateDialogBase>
+</local:AddOrUpdateProductDialogBase>
