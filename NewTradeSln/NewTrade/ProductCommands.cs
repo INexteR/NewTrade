@@ -1,27 +1,21 @@
-﻿using NewTrade.Views;
-using System;
+﻿using System;
+using System.Windows.Input;
 using System.Windows.Markup;
-using ViewModels;
 
 namespace NewTrade
 {
     internal class ProductCommands : MarkupExtension
     {
-        public static RelayCommand Add { get; } = new(p =>
-        {
-            if (p is AddOrUpdateProductDialogArgs args)
-                AddOrUpdateProductDialog.Add(args);
-            else if (p is IProductsViewModel vm)
-                AddOrUpdateProductDialog.Add(new AddOrUpdateProductDialogArgs(null, vm));
-        });
-        public static RelayCommand<AddOrUpdateProductDialogArgs> Update { get; } = new(args => AddOrUpdateProductDialog.Update(args));
+        public static RoutedUICommand Add { get; } = new("Добавление товара.", "AddProduct", typeof(ProductCommands));
+        public static RoutedUICommand Update { get; } = new("Редактирование товара.", "UpdateProduct", typeof(ProductCommands));
+        public static RoutedUICommand Remove { get; } = new("Удаление товара.", "RemoveProduct", typeof(ProductCommands));
 
-        public DialogMode Mode { get; set; }
+        public CommandEnum Mode { get; set; }
 
         public ProductCommands()
         { }
 
-        public ProductCommands(DialogMode mode)
+        public ProductCommands(CommandEnum mode)
         {
             Mode = mode;
         }
@@ -30,10 +24,17 @@ namespace NewTrade
         {
             return Mode switch
             {
-                DialogMode.Add => Add,
-                DialogMode.Update => Update,
+                CommandEnum.Add => Add,
+                CommandEnum.Update => Update,
+                CommandEnum.Remove => Remove,
                 _ => throw new NotImplementedException()
             };
         }
+
+        internal enum CommandEnum
+        {
+            Add, Update, Remove
+        }
+
     }
 }

@@ -4,14 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:NewTrade.Views"
-             xmlns:root="clr-namespace:NewTrade" xmlns:proxy="clr-namespace:Proxy" xmlns:cnvs="clr-namespace:Converters"
+             xmlns:root="clr-namespace:NewTrade" xmlns:proxy="clr-namespace:Proxy" xmlns:cnvs="clr-namespace:Converters" xmlns:ap="clr-namespace:AttachedProperties"
              mc:Ignorable="d"
              d:DesignHeight="450"
              d:DesignWidth="800"
              d:Background="White"
              d:DataContext="{Binding Products, Source={StaticResource locator}}">
     <UserControl.Resources>
-        <proxy:ProductsViewModelValueProxy x:Key="productsProxy"/>
         <root:ProductsViewSource x:Key="productsView"
                                  Source="{Binding Products}"
                                  SortDirection="{Binding SelectedValue, ElementName=sort}"
@@ -32,6 +31,11 @@
                       CommandParameter="{Binding PlacementTarget.Content, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
         </ContextMenu>
     </UserControl.Resources>
+    <UserControl.CommandBindings>
+        <CommandBinding Command="{root:ProductCommands Add}"  Executed="OnAddProduct"/>
+        <ap:CommandBindingHelper Command="{root:ProductCommands Remove}" Binding="{Binding RemoveProduct}"/>
+        <CommandBinding Command="{root:ProductCommands Update}" Executed="OnUpdateProduct"/>
+    </UserControl.CommandBindings>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -66,8 +70,7 @@
                     <Run Text="{Binding Products.Count, Mode=OneWay, BindsDirectlyToSource=True}" />
                 </TextBlock>
                 <Button Content="Добавить товар"
-                        Command="{root:ProductCommands Add}"
-                        CommandParameter="{Binding}"/>
+                        Command="{root:ProductCommands Add}"/>
             </StackPanel>
 
             <StackPanel Grid.Column="2"
@@ -177,19 +180,16 @@
                             Value="0" />
                     <Setter Property="ContextMenu">
                         <Setter.Value>
-                            <ContextMenu FontSize="18">
+                            <ContextMenu FontSize="18" x:Name="menu">
                                 <MenuItem Header="Редактировать"
-                                          Command="{root:ProductCommands Update}">
-                                    <MenuItem.CommandParameter>
-                                        <MultiBinding Converter="{cnvs:ProductArgs}">
-                                            <Binding/>
-                                            <Binding Path="Value" Source="{StaticResource productsProxy}"/>
-                                        </MultiBinding>
-                                    </MenuItem.CommandParameter>
-                                </MenuItem>
+                                          Command="{root:ProductCommands Update}"
+                                          CommandParameter="{Binding}"
+                                          CommandTarget="{Binding PlacementTarget, ElementName=menu}"/>
+
                                 <MenuItem Header="Удалить"
-                                          Command="{Binding Value.RemoveProduct, Mode=OneWay, Source={StaticResource productsProxy}}"
-                                          CommandParameter="{Binding}" />
+                                          Command="{root:ProductCommands Remove}"
+                                          CommandParameter="{Binding}"
+                                          CommandTarget="{Binding PlacementTarget, ElementName=menu}"/>
                             </ContextMenu>
                         </Setter.Value>
                     </Setter>
