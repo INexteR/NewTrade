@@ -4,13 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:NewTrade.Views"
-             xmlns:root="clr-namespace:NewTrade"
+             xmlns:root="clr-namespace:NewTrade" xmlns:proxy="clr-namespace:Proxy" xmlns:cnvs="clr-namespace:Converters"
              mc:Ignorable="d"
              d:DesignHeight="450"
              d:DesignWidth="800"
              d:Background="White"
              d:DataContext="{Binding Products, Source={StaticResource locator}}">
     <UserControl.Resources>
+        <proxy:ProductsViewModelValueProxy x:Key="productsProxy"/>
         <root:ProductsViewSource x:Key="productsView"
                                  Source="{Binding Products}"
                                  SortDirection="{Binding SelectedValue, ElementName=sort}"
@@ -65,8 +66,8 @@
                     <Run Text="{Binding Products.Count, Mode=OneWay, BindsDirectlyToSource=True}" />
                 </TextBlock>
                 <Button Content="Добавить товар"
-                        Command="{x:Static root:ViewsHelper.OpenAddDialog}"
-                        CommandParameter="{Binding}" />
+                        Command="{root:ProductCommands Add}"
+                        CommandParameter="{Binding}"/>
             </StackPanel>
 
             <StackPanel Grid.Column="2"
@@ -174,8 +175,24 @@
                 <Style TargetType="ListBoxItem">
                     <Setter Property="Padding"
                             Value="0" />
-                    <Setter Property="ContextMenu"
-                            Value="{StaticResource ctxmenu}" />
+                    <Setter Property="ContextMenu">
+                        <Setter.Value>
+                            <ContextMenu FontSize="18">
+                                <MenuItem Header="Редактировать"
+                                          Command="{root:ProductCommands Update}">
+                                    <MenuItem.CommandParameter>
+                                        <MultiBinding Converter="{cnvs:ProductArgs}">
+                                            <Binding/>
+                                            <Binding Path="Value" Source="{StaticResource productsProxy}"/>
+                                        </MultiBinding>
+                                    </MenuItem.CommandParameter>
+                                </MenuItem>
+                                <MenuItem Header="Удалить"
+                                          Command="{Binding Value.RemoveProduct, Mode=OneWay, Source={StaticResource productsProxy}}"
+                                          CommandParameter="{Binding}" />
+                            </ContextMenu>
+                        </Setter.Value>
+                    </Setter>
                 </Style>
             </ListBox.ItemContainerStyle>
         </ListBox>

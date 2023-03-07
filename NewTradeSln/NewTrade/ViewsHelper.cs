@@ -1,7 +1,8 @@
-﻿using NewTrade.Views;
+﻿using Model;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Windows.Data;
 using System.Windows.Input;
 using ViewModels;
 
@@ -27,8 +28,5 @@ namespace NewTrade
                 e.Handled = true;
             }
         };
-
-        public static ICommand OpenAddDialog { get; } = 
-            new RelayCommand<IProductsViewModel>(static productsViewModel => AddOrUpdateDialog.Add(null, productsViewModel));
     }
 }
