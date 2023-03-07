@@ -21,6 +21,15 @@
                                  ProductCost="{Binding Text, ElementName=cost}"
                                  ProductQuantityInStock="{Binding Text, ElementName=quantityInStock}" />
         <ImageSource x:Key="placeholder">/Resources/picture.png</ImageSource>
+        <ContextMenu FontSize="18"
+                     x:Key="ctxmenu"
+                     x:Shared="False"
+                     DataContext="{Binding Products, Source={StaticResource locator}, Mode=OneTime}">
+            <MenuItem Header="Редактировать" />
+            <MenuItem Header="Удалить"
+                      Command="{Binding RemoveProduct}"
+                      CommandParameter="{Binding PlacementTarget.Content, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+        </ContextMenu>
     </UserControl.Resources>
 
     <Grid>
@@ -56,7 +65,8 @@
                     <Run Text="{Binding Products.Count, Mode=OneWay, BindsDirectlyToSource=True}" />
                 </TextBlock>
                 <Button Content="Добавить товар"
-                        Command="{Binding AddProduct}" />
+                        Command="{x:Static root:ViewsHelper.OpenAddDialog}"
+                        CommandParameter="{Binding}" />
             </StackPanel>
 
             <StackPanel Grid.Column="2"
@@ -164,19 +174,8 @@
                 <Style TargetType="ListBoxItem">
                     <Setter Property="Padding"
                             Value="0" />
-                    <Setter Property="Tag"
-                            Value="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ListBox}}" />
-                    <Setter Property="ContextMenu">
-                        <Setter.Value>
-                            <ContextMenu FontSize="18"
-                                         DataContext="{Binding PlacementTarget, RelativeSource={RelativeSource Self}}">
-                                <MenuItem Header="Редактировать" />
-                                <MenuItem Header="Удалить"
-                                          Command="{Binding Tag.RemoveProduct}"
-                                          CommandParameter="{Binding Content}" />
-                            </ContextMenu>
-                        </Setter.Value>
-                    </Setter>
+                    <Setter Property="ContextMenu"
+                            Value="{StaticResource ctxmenu}" />
                 </Style>
             </ListBox.ItemContainerStyle>
         </ListBox>

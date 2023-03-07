@@ -1,11 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using NewTrade.Views;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Input;
+using ViewModels;
 
 namespace NewTrade
 {
-    public class ViewsHelper
+    public static class ViewsHelper
     {
         public static ReadOnlyDictionary<string, ListSortDirection?> Directions { get; }
             = new Dictionary<string, ListSortDirection?>
@@ -25,5 +27,8 @@ namespace NewTrade
                 e.Handled = true;
             }
         };
+
+        public static ICommand OpenAddDialog { get; } = 
+            new RelayCommand<IProductsViewModel>(static productsViewModel => AddOrUpdateDialog.Add(null, productsViewModel));
     }
 }

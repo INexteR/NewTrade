@@ -1,24 +1,17 @@
-﻿<local:AddOrUpdateDialogBase
-    x:ClassModifier="internal"
-    x:Class="NewTrade.Views.AddOrUpdateDialog"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:local="clr-namespace:NewTrade.Views"
-    mc:Ignorable="d"
-    Title="Редактирование товара - потом нужно менять заголовок в зависимости от режима."
-    Height="450" Width="800">
-
+﻿<Window x:ClassModifier="internal"
+        x:Class="NewTrade.Views.AddOrUpdateDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NewTrade.Views"
+        mc:Ignorable="d"
+        Title="Редактирование товара - потом нужно менять заголовок в зависимости от режима."
+        Height="450"
+        Width="800"
+        WindowStartupLocation="CenterScreen"
+        FontSize="18">
     <FrameworkElement.Resources>
-        <!--Обязательный элемент - без него будет исключение.-->
-        <local:AddOrUpdateDialogData
-            x:Key="dialogData"/>
+        <local:AddOrUpdateDialogData x:Key="dialogData" />
     </FrameworkElement.Resources>
-
-    <StackPanel DataContext="{StaticResource dialogData}">
-        <TextBlock Text="{Binding Mode}"/>
-        <!--<TextBlock Text="{Binding Entity.Name}"/>-->
-        <TextBlock Text="{Binding ViewModel.Name, Mode=OneWay}"/>
-    </StackPanel>
-</local:AddOrUpdateDialogBase>
+</Window>
