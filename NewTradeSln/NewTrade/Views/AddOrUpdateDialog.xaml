@@ -1,25 +1,144 @@
-﻿<local:AddOrUpdateProductDialogBase
-    x:ClassModifier="internal"
-    x:Class="NewTrade.Views.AddOrUpdateProductDialog"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:local="clr-namespace:NewTrade.Views"
-    mc:Ignorable="d"
-    Title="Редактирование товара - потом нужно менять заголовок в зависимости от режима."
-    Height="450" Width="800">
+﻿<Window x:ClassModifier="internal"
+        x:Class="NewTrade.Views.AddOrUpdateDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NewTrade.Views"
+        xmlns:cvts="clr-namespace:NewTrade.Converters"
+        mc:Ignorable="d"
+        Title="{Binding Products.Name, Source={StaticResource locator}}"
+        Height="450"
+        Width="800"
+        WindowStartupLocation="CenterScreen"
+        Style="{StaticResource wndStyle}">
+    <!--<FrameworkElement.Resources>
+        <local:AddOrUpdateDialogData x:Key="dialogData" />
+    </FrameworkElement.Resources>-->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
 
-    <FrameworkElement.Resources>
-        <!--Обязательный элемент - без него будет исключение.-->
-        <local:AddOrUpdateProductDialogData
-            x:Key="dialogData"/>
-    </FrameworkElement.Resources>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="130" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
 
-    <StackPanel DataContext="{StaticResource dialogData}">
-        <TextBlock Text="{Binding Mode}"/>
-        <TextBlock Text="{Binding Product.Name}"/>
-        <TextBlock Text="{Binding Product.ManufacturerId}"/>
-        <TextBlock Text="{Binding ProductsViewModel.Name}"/>
-    </StackPanel>
-</local:AddOrUpdateProductDialogBase>
+            <Border BorderThickness="2"
+                    BorderBrush="Black"
+                    CornerRadius="3"
+                    Margin="3">
+                <Image Source="{StaticResource logo}" />
+            </Border>
+
+            <TextBlock Grid.Column="1"
+                       FontSize="45"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       TextDecorations="Underline">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Mode, Source={StaticResource dialogData}}"
+                                         Value="Add">
+                                <Setter Property="Text"
+                                        Value="Добавление товара" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Mode, Source={StaticResource dialogData}}"
+                                         Value="Update">
+                                <Setter Property="Text"
+                                        Value="Редактирование товара" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+        </Grid>
+        <Grid Row="1"
+              DataContext="{Binding Product, Source={StaticResource dialogData}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="400" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <ScrollViewer>
+                <StackPanel>
+                    <TextBlock Text="Название" />
+                    <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
+                    <TextBlock Text="Единица измерения" />
+                    <ComboBox IsEditable="True"
+                              DisplayMemberPath="Name"
+                              ItemsSource="{Binding ProductsViewModel.Units, Source={StaticResource dialogData}}"
+                              SelectedIndex="{Binding UnitId, Converter={x:Static cvts:IdToIndexConverter.Instance}}" />
+                    <TextBlock Text="Цена" />
+                    <TextBox Text="{Binding Cost, UpdateSourceTrigger=PropertyChanged}"
+                             MaxLength="10" />
+                    <TextBlock Text="Производитель" />
+                    <ComboBox IsEditable="True"
+                              DisplayMemberPath="Name"
+                              ItemsSource="{Binding ProductsViewModel.Manufacturers, Source={StaticResource dialogData}}"
+                              SelectedIndex="{Binding ManufacturerId, Converter={x:Static cvts:IdToIndexConverter.Instance}}" />
+                    <TextBlock Text="Поставщик" />
+                    <ComboBox IsEditable="True"
+                              DisplayMemberPath="Name"
+                              ItemsSource="{Binding ProductsViewModel.Suppliers, Source={StaticResource dialogData}}"
+                              SelectedIndex="{Binding SupplierId, Converter={x:Static cvts:IdToIndexConverter.Instance}}" />
+                    <TextBlock Text="Категория товара" />
+                    <ComboBox IsEditable="True"
+                              DisplayMemberPath="Name"
+                              ItemsSource="{Binding ProductsViewModel.Categories, Source={StaticResource dialogData}}"
+                              SelectedIndex="{Binding CategoryId,Converter={x:Static cvts:IdToIndexConverter.Instance}}" />
+                    <TextBlock Text="Максимально-возможная скидка" />
+                    <TextBox Text="{Binding MaxDiscountAmount, UpdateSourceTrigger=PropertyChanged}" />
+                    <TextBlock Text="Скидка" />
+                    <TextBox Text="{Binding DiscountAmount, UpdateSourceTrigger=PropertyChanged}" />
+                    <TextBlock Text="Количество на складе" />
+                    <TextBox Text="{Binding QuantityInStock, UpdateSourceTrigger=PropertyChanged}" />
+                    <TextBlock Text="Описание" />
+                    <TextBox Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+            </ScrollViewer>
+
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Border BorderThickness="3"
+                        BorderBrush="Black"
+                        CornerRadius="5"
+                        HorizontalAlignment="Center">
+                    <Image Source="{Binding Path, TargetNullValue={StaticResource placeholder}}"
+                           Margin="7" />
+                </Border>
+
+                <StackPanel Grid.Row="1">
+                    <TextBlock Text="Путь к изображению" />
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBox Text="{Binding Path, Mode=OneWay}"
+                                 IsReadOnly="True"
+                                 IsReadOnlyCaretVisible="False" />
+                        <Button Grid.Column="1"
+                                Content="Выбрать" />
+                    </Grid>
+                </StackPanel>
+            </Grid>
+        </Grid>
+        <StackPanel Grid.Row="2"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    Margin="14">
+            <Button Content="..."
+                    Margin="0 0 20 0" />
+            <Button Content="Отмена"
+                    IsCancel="True" />
+        </StackPanel>
+    </Grid>
+</Window>

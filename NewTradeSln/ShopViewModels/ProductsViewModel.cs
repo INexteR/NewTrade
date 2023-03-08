@@ -3,7 +3,6 @@ using Model;
 using ViewModels;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Windows;
 
 namespace ShopViewModels
 {
@@ -78,14 +77,7 @@ namespace ShopViewModels
 
         private void RemoveProductExecute(IProduct product)
         {
-            //try
-            //{
-                _shop.Remove(product);
-            //}
-            //catch (InvalidOperationException e)
-            //{
-            //    MessageBox.Show(e.Message);
-            //}           
+            _shop.Remove(product);
         }
     }
 }

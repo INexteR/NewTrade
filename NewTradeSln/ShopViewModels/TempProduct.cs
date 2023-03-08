@@ -12,10 +12,10 @@ namespace ShopViewModels
             MaxDiscountAmount = -1;
             QuantityInStock = -1;
             Description = string.Empty;
-            Unit = null;
-            Manufacturer = null;
-            Supplier = null;
-            Category = null;
+            UnitId = -1;
+            ManufacturerId = -1;
+            SupplierId = -1;
+            CategoryId = -1;
         }
 
         public string Name
@@ -92,13 +92,13 @@ namespace ShopViewModels
 
         public string? Path { get => Get<string>()!; set => Set(value); }
 
-        public IUnit? Unit 
+        public int UnitId
         { 
-            get => Get<IUnit?>(); 
+            get => Get<int>(); 
             set
             {
                 ClearErrors();
-                if (value is null)
+                if (value is -1)
                 {
                     AddError(unitError);
                 }
@@ -106,13 +106,13 @@ namespace ShopViewModels
             }
         }
 
-        public IManufacturer? Manufacturer 
+        public int ManufacturerId
         { 
-            get => Get<IManufacturer?>();
+            get => Get<int>();
             set
             {
                 ClearErrors();
-                if (value is null)
+                if (value is -1)
                 {
                     AddError(manufacturerError);
                 }
@@ -120,26 +120,26 @@ namespace ShopViewModels
             }
         }
 
-        public ISupplier? Supplier 
+        public int SupplierId
         { 
-            get => Get<ISupplier?>(); 
+            get => Get<int>(); 
             set 
             {
                 ClearErrors();
-                if (value is null)
+                if (value is -1)
                 {
                     AddError(supplierError);
                 }
                 Set(value);
             } 
         }
-        public ICategory? Category 
+        public int CategoryId
         { 
-            get => Get<ICategory?>();
+            get => Get<int>();
             set
             {
                 ClearErrors();
-                if (value is null)
+                if (value is -1)
                 {
                     AddError(categoryError);
                 }
@@ -158,10 +158,10 @@ namespace ShopViewModels
         private const string descriptionError = "Введите описание";
 
         int IProduct.Id => throw new NotImplementedException();
-        int IProduct.UnitId => Unit?.Id ?? -1;
-        int IProduct.ManufacturerId => Manufacturer?.Id ?? -1;
-        int IProduct.SupplierId => Supplier?.Id ?? -1;
-        int IProduct.CategoryId => Category?.Id ?? -1;
+        IUnit IProduct.Unit => throw new NotImplementedException();
+        IManufacturer IProduct.Manufacturer => throw new NotImplementedException();
+        ISupplier IProduct.Supplier => throw new NotImplementedException();
+        ICategory IProduct.Category => throw new NotImplementedException();
         IEnumerable<IOrderProduct> IProduct.OrderProducts => throw new NotImplementedException();
     }
 }

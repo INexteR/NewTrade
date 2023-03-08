@@ -9,9 +9,6 @@
         mc:Ignorable="d"
         Height="450"
         Width="800"
-        Icon="/Resources/icon.ico"
-        FontFamily="Comic Sans MS"
-        FontSize="18"
         WindowStartupLocation="CenterScreen"
         DataContext="{Binding Authorization, Source={StaticResource locator}}">
     <Window.Resources>
@@ -23,7 +20,8 @@
         </DataTemplate>
     </Window.Resources>
     <Window.Style>
-        <Style TargetType="Window">
+        <Style TargetType="Window"
+               BasedOn="{StaticResource wndStyle}">
             <Setter Property="Title"
                     Value="Авторизация" />
             <Setter Property="Content"

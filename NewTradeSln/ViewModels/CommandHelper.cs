@@ -4,7 +4,7 @@ namespace ViewModels
 {
     public static class CommandHelper
     {
-        public static bool TryExecute(this ICommand command, object parameter)
+        public static bool TryExecute(this ICommand command, object? parameter)
         {
             bool can = command.CanExecute(parameter);
             if (can)
@@ -12,7 +12,7 @@ namespace ViewModels
             return can;
         }
         public static bool TryExecute(this ICommand command)
-            => command.CanExecute(null);
+            => command.TryExecute(null);
     }
 }
 

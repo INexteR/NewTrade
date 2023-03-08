@@ -9,5 +9,21 @@
         <local:Locator x:Key="locator" />
 
         <ImageSource x:Key="logo">/Resources/logo.png</ImageSource>
+
+        <ImageSource x:Key="placeholder">/Resources/picture.png</ImageSource>
+
+        <Style TargetType="Control" x:Key="ctrlStyle">
+            <Setter Property="FontSize"
+                    Value="18" />
+            <Setter Property="FontFamily"
+                    Value="Comic Sans MS" />
+        </Style>
+        
+        <Style TargetType="Window"
+               BasedOn="{StaticResource ctrlStyle}"
+               x:Key="wndStyle">
+            <Setter Property="Icon"
+                    Value="/Resources/icon.ico" />
+        </Style>
     </Application.Resources>
 </Application>

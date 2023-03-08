@@ -35,7 +35,6 @@ namespace NewTrade
         private void OnException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             MessageBox.Show(e.Exception.Message, "Исключение");
-            e.Handled = true;
         }
     }
 }

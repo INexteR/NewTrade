@@ -66,7 +66,7 @@ namespace NewTrade
                 new PropertyMetadata(static (d, e) =>
                 {
                     ProductsViewSource source = CheckSource(d);
-                    if (source.ManufacturerId != 0)
+                    if (source.ManufacturerId != -1)
                         source.filters.Add(source.ManufacturerFilter);
                     else
                         source.filters.Remove(source.ManufacturerFilter);

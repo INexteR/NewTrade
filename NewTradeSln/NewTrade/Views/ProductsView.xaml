@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:NewTrade.Views"
-             xmlns:root="clr-namespace:NewTrade" xmlns:proxy="clr-namespace:Proxy" xmlns:cnvs="clr-namespace:Converters" xmlns:ap="clr-namespace:AttachedProperties"
+             xmlns:root="clr-namespace:NewTrade"
              mc:Ignorable="d"
              d:DesignHeight="450"
              d:DesignWidth="800"
@@ -20,7 +20,6 @@
                                  ManufacturerName="{Binding Text, ElementName=manufacturer}"
                                  ProductCost="{Binding Text, ElementName=cost}"
                                  ProductQuantityInStock="{Binding Text, ElementName=quantityInStock}" />
-        <ImageSource x:Key="placeholder">/Resources/picture.png</ImageSource>
     </UserControl.Resources>
 
     <Grid>
@@ -56,7 +55,7 @@
                     <Run Text="{Binding Products.Count, Mode=OneWay, BindsDirectlyToSource=True}" />
                 </TextBlock>
                 <Button Content="Добавить товар"
-                        Click="OnAddProductClick"/>
+                        Click="{x:Static root:ViewsHelper.OpenDialogToAdd}" />
             </StackPanel>
 
             <StackPanel Grid.Column="2"
@@ -97,21 +96,14 @@
                  HorizontalContentAlignment="Stretch">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid x:Name="root" Background="Transparent">
+                    <Grid x:Name="root">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition />
                             <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <Grid.ContextMenu>
-                            <ContextMenu FontSize="18" x:Name="menu">
-                                <MenuItem Header="Редактировать"
-                                          Click="OnUpdateProductClick"/>
 
-                                <MenuItem Header="Удалить"
-                                          Click="OnRemoveProductClick"/>
-                            </ContextMenu>
-                        </Grid.ContextMenu>
+                        </Grid.ColumnDefinitions>
+
                         <Border Margin="10"
                                 BorderThickness="2"
                                 BorderBrush="Black">
@@ -168,23 +160,23 @@
 
                 </DataTemplate>
             </ListBox.ItemTemplate>
-            <!--<ListBox.ItemContainerStyle>
+            <ListBox.ItemContainerStyle>
                 <Style TargetType="ListBoxItem">
                     <Setter Property="Padding"
                             Value="0" />
                     <Setter Property="ContextMenu">
                         <Setter.Value>
-                            <ContextMenu FontSize="18" x:Name="menu">
+                            <ContextMenu Style="{StaticResource ctrlStyle}"
+                                         Tag="{Binding Products, Source={StaticResource locator}, Mode=OneTime}">
                                 <MenuItem Header="Редактировать"
-                                          Click="OnUpdateProductClick"/>
-
+                                          Click="{x:Static root:ViewsHelper.OpenDialogToUpdate}" />
                                 <MenuItem Header="Удалить"
-                                          Click="OnRemoveProductClick"/>
+                                          Click="{x:Static root:ViewsHelper.RemoveProductConfirmation}"/>
                             </ContextMenu>
                         </Setter.Value>
                     </Setter>
                 </Style>
-            </ListBox.ItemContainerStyle>-->
+            </ListBox.ItemContainerStyle>
         </ListBox>
 
         <GridSplitter Grid.Row="2"
