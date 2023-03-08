@@ -1,11 +1,8 @@
-﻿using Model;
-using NewTrade.Views;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Input;
-using ViewModels;
+using System.Windows.Media;
 
 namespace NewTrade
 {
@@ -30,35 +27,43 @@ namespace NewTrade
             }
         };
 
-        public static RoutedEventHandler OpenDialogToAdd { get; } = (s, e) =>       
-            AddOrUpdateDialog.Add((IProductsViewModel)((Button)s).DataContext);
-
-        public static RoutedEventHandler OpenDialogToUpdate { get; } = (s, e) =>       
-            AddOrUpdateDialog.Update((IProduct)((MenuItem)s).DataContext, GetProductsViewModel(s));
-        
-        public static RoutedEventHandler RemoveProductConfirmation { get; } = (s, e) =>
+        public static T? FindAncestor<T>(this DependencyObject dobj)
+            where T : DependencyObject
         {
-            var product = (IProduct)((MenuItem)s).DataContext;
-            var productsViewModel = GetProductsViewModel(s);
-            if (MessageBox.Show("Действительно удалить выбранный товар?", "Подтверждение", 
-                MessageBoxButton.OKCancel, MessageBoxImage.Question) is MessageBoxResult.OK)
+            var type = typeof(T);
+            while (dobj is not null)
             {
-                try
-                {
-                    productsViewModel.RemoveProduct.Execute(product);
-                }
-                catch (InvalidOperationException ex)
-                {
-                    MessageBox.Show(ex.Message, "Не удалось удалить выбранный товар.", default, MessageBoxImage.Error);
-                }
-            }
-        };
+                if (dobj is T t)
+                    return t;
 
-        private static IProductsViewModel GetProductsViewModel(object sender)
+                dobj = VisualTreeHelper.GetParent(dobj);
+            }
+            return null;
+        }
+
+        public static FrameworkElement? FindAncestorData<TData>(this DependencyObject dobj)
         {
-            var element = (FrameworkElement)sender;
-            var parent = (FrameworkElement)element.Parent;
-            return (IProductsViewModel)parent.Tag;
+            while (dobj is not null)
+            {
+                if (dobj is FrameworkElement element && element.DataContext is TData)
+                    return element;
+
+                dobj = VisualTreeHelper.GetParent(dobj);
+            }
+            return null;
+        }
+
+        public static TData? FindData<TData>(this DependencyObject dobj)
+        {
+            while (dobj is not null)
+            {
+                if (dobj is FrameworkElement element && element.DataContext is TData data)
+                    return data;
+
+                dobj = VisualTreeHelper.GetParent(dobj);
+            }
+
+            return default;
         }
     }
 }

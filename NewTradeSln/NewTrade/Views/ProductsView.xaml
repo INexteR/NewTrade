@@ -55,7 +55,7 @@
                     <Run Text="{Binding Products.Count, Mode=OneWay, BindsDirectlyToSource=True}" />
                 </TextBlock>
                 <Button Content="Добавить товар"
-                        Click="{x:Static root:ViewsHelper.OpenDialogToAdd}" />
+                        Click="{x:Static local:ProductsViewHelper.OnAddProductClick}"/>
             </StackPanel>
 
             <StackPanel Grid.Column="2"
@@ -103,7 +103,15 @@
                             <ColumnDefinition Width="Auto" />
 
                         </Grid.ColumnDefinitions>
+                        <Grid.ContextMenu>
+                            <ContextMenu FontSize="18" x:Name="menu">
+                                <MenuItem Header="Редактировать"
+                                          Click="{x:Static local:ProductsViewHelper.OnUpdateProductClick}"/>
 
+                                <MenuItem Header="Удалить"
+                                          Click="{x:Static local:ProductsViewHelper.OnRemoveProductClick}"/>
+                            </ContextMenu>
+                        </Grid.ContextMenu>
                         <Border Margin="10"
                                 BorderThickness="2"
                                 BorderBrush="Black">
@@ -160,23 +168,6 @@
 
                 </DataTemplate>
             </ListBox.ItemTemplate>
-            <ListBox.ItemContainerStyle>
-                <Style TargetType="ListBoxItem">
-                    <Setter Property="Padding"
-                            Value="0" />
-                    <Setter Property="ContextMenu">
-                        <Setter.Value>
-                            <ContextMenu Style="{StaticResource ctrlStyle}"
-                                         Tag="{Binding Products, Source={StaticResource locator}, Mode=OneTime}">
-                                <MenuItem Header="Редактировать"
-                                          Click="{x:Static root:ViewsHelper.OpenDialogToUpdate}" />
-                                <MenuItem Header="Удалить"
-                                          Click="{x:Static root:ViewsHelper.RemoveProductConfirmation}"/>
-                            </ContextMenu>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </ListBox.ItemContainerStyle>
         </ListBox>
 
         <GridSplitter Grid.Row="2"
