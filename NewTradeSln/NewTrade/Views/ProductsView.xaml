@@ -21,21 +21,7 @@
                                  ProductCost="{Binding Text, ElementName=cost}"
                                  ProductQuantityInStock="{Binding Text, ElementName=quantityInStock}" />
         <ImageSource x:Key="placeholder">/Resources/picture.png</ImageSource>
-        <ContextMenu FontSize="18"
-                     x:Key="ctxmenu"
-                     x:Shared="False"
-                     DataContext="{Binding Products, Source={StaticResource locator}, Mode=OneTime}">
-            <MenuItem Header="Редактировать" />
-            <MenuItem Header="Удалить"
-                      Command="{Binding RemoveProduct}"
-                      CommandParameter="{Binding PlacementTarget.Content, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
-        </ContextMenu>
     </UserControl.Resources>
-    <UserControl.CommandBindings>
-        <CommandBinding Command="{root:ProductCommands Add}"  Executed="OnAddProduct"/>
-        <ap:CommandBindingHelper Command="{root:ProductCommands Remove}" Binding="{Binding RemoveProduct}"/>
-        <CommandBinding Command="{root:ProductCommands Update}" Executed="OnUpdateProduct"/>
-    </UserControl.CommandBindings>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -70,7 +56,7 @@
                     <Run Text="{Binding Products.Count, Mode=OneWay, BindsDirectlyToSource=True}" />
                 </TextBlock>
                 <Button Content="Добавить товар"
-                        Command="{root:ProductCommands Add}"/>
+                        Click="OnAddProductClick"/>
             </StackPanel>
 
             <StackPanel Grid.Column="2"
@@ -111,13 +97,21 @@
                  HorizontalContentAlignment="Stretch">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid x:Name="root">
+                    <Grid x:Name="root" Background="Transparent">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
+                        <Grid.ContextMenu>
+                            <ContextMenu FontSize="18" x:Name="menu">
+                                <MenuItem Header="Редактировать"
+                                          Click="OnUpdateProductClick"/>
 
+                                <MenuItem Header="Удалить"
+                                          Click="OnRemoveProductClick"/>
+                            </ContextMenu>
+                        </Grid.ContextMenu>
                         <Border Margin="10"
                                 BorderThickness="2"
                                 BorderBrush="Black">
@@ -174,7 +168,7 @@
 
                 </DataTemplate>
             </ListBox.ItemTemplate>
-            <ListBox.ItemContainerStyle>
+            <!--<ListBox.ItemContainerStyle>
                 <Style TargetType="ListBoxItem">
                     <Setter Property="Padding"
                             Value="0" />
@@ -182,19 +176,15 @@
                         <Setter.Value>
                             <ContextMenu FontSize="18" x:Name="menu">
                                 <MenuItem Header="Редактировать"
-                                          Command="{root:ProductCommands Update}"
-                                          CommandParameter="{Binding}"
-                                          CommandTarget="{Binding PlacementTarget, ElementName=menu}"/>
+                                          Click="OnUpdateProductClick"/>
 
                                 <MenuItem Header="Удалить"
-                                          Command="{root:ProductCommands Remove}"
-                                          CommandParameter="{Binding}"
-                                          CommandTarget="{Binding PlacementTarget, ElementName=menu}"/>
+                                          Click="OnRemoveProductClick"/>
                             </ContextMenu>
                         </Setter.Value>
                     </Setter>
                 </Style>
-            </ListBox.ItemContainerStyle>
+            </ListBox.ItemContainerStyle>-->
         </ListBox>
 
         <GridSplitter Grid.Row="2"

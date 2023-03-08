@@ -21,8 +21,33 @@ namespace NewTrade.Views
 
         private void OnAddProduct(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
         {
+        }
+
+        private void OnAddProductClick(object sender, RoutedEventArgs e)
+        {
             IProductsViewModel viewModel = (IProductsViewModel)DataContext;
-            AddOrUpdateProductDialog.Add(new((IProduct)e.Parameter, viewModel));
+            AddOrUpdateProductDialog.Add(new(null, viewModel));
+        }
+
+        private void OnRemoveProductClick(object sender, RoutedEventArgs e)
+        {
+            IProductsViewModel viewModel = (IProductsViewModel)DataContext;
+            FrameworkElement element = (FrameworkElement)sender;
+            IProduct product = (IProduct)element.DataContext;
+
+            string message = $"Товар {product.Name} производител {product.Manufacturer.Name} будет удален.";
+            if (MessageBox.Show(message, "Удаление товара", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+            {
+                viewModel.RemoveProduct.TryExecute(product);
+            }
+        }
+
+        private void OnUpdateProductClick(object sender, RoutedEventArgs e)
+        {
+            IProductsViewModel viewModel = (IProductsViewModel)DataContext;
+            FrameworkElement element = (FrameworkElement)sender;
+            IProduct product = (IProduct)element.DataContext;
+            AddOrUpdateProductDialog.Update(new(product, viewModel));
         }
     }
 }

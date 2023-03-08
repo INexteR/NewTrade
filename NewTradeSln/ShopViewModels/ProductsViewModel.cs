@@ -78,14 +78,14 @@ namespace ShopViewModels
 
         private void RemoveProductExecute(IProduct product)
         {
-            try
-            {
+            //try
+            //{
                 _shop.Remove(product);
-            }
-            catch (InvalidOperationException e)
-            {
-                MessageBox.Show(e.Message);
-            }           
+            //}
+            //catch (InvalidOperationException e)
+            //{
+            //    MessageBox.Show(e.Message);
+            //}           
         }
     }
 }
