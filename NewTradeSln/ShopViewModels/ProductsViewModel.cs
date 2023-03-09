@@ -65,9 +65,9 @@ namespace ShopViewModels
         public IEnumerable<IUnit> Units { get => Get<IEnumerable<IUnit>>() ?? Array.Empty<IUnit>(); private set => Set(value); }
         public IEnumerable<ICategory> Categories { get => Get<IEnumerable<ICategory>>() ?? Array.Empty<ICategory>(); private set => Set(value); }
 
-        private void AddProductExecute(IProduct parameter)
+        private void AddProductExecute(IProduct product)
         {
-            throw new NotImplementedException();
+            _shop.Add(product);
         }
 
         private void ChangeProductExecute(IProduct parameter)

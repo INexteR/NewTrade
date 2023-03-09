@@ -19,6 +19,12 @@ namespace ShopSQLite
             {
                 var entry = context.Products.Add(@new);
                 context.SaveChanges();
+
+                context.Units.AttachRange(units);
+                context.Manufacturers.AttachRange(manufacturers);
+                context.Suppliers.AttachRange(suppliers);
+                context.Categories.AttachRange(categories);
+
                 entry.Reference(p => p.Unit).Load();
                 entry.Reference(p => p.Manufacturer).Load();
                 entry.Reference(p => p.Supplier).Load();
