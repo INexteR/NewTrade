@@ -4,6 +4,6 @@
              xmlns:local="clr-namespace:Demo"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <ImageSource x:Key="logo">/Resources/logo.png</ImageSource>
     </Application.Resources>
 </Application>

@@ -1,7 +1,7 @@
 ﻿namespace ShopSQLite.Entities
 {
     [Table("roles")]
-    internal partial class Role
+    public partial class Role
     {
         public Role()
         {

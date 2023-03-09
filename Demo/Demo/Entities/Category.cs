@@ -1,7 +1,7 @@
 ﻿namespace ShopSQLite.Entities
 {
     [Table("categories")]
-    internal partial class Category
+    partial class Category
     {
         public Category()
         {

@@ -21,9 +21,9 @@ namespace ShopSQLite
         public virtual DbSet<Category> Categories { get; set; } = null!;
         public virtual DbSet<Manufacturer> Manufacturers { get; set; } = null!;
         public virtual DbSet<Order> Orders { get; set; } = null!;
-        public virtual DbSet<OrderProduct> Orderproducts { get; set; } = null!;
-        public virtual DbSet<Orderstatus> Orderstatuses { get; set; } = null!;
-        public virtual DbSet<PickupPoint> Pickuppoints { get; set; } = null!;
+        public virtual DbSet<OrderProduct> OrderProducts { get; set; } = null!;
+        public virtual DbSet<Orderstatus> OrderStatuses { get; set; } = null!;
+        public virtual DbSet<PickupPoint> PickupPoints { get; set; } = null!;
         public virtual DbSet<Product> Products { get; set; } = null!;
         public virtual DbSet<Role> Roles { get; set; } = null!;
         public virtual DbSet<Supplier> Suppliers { get; set; } = null!;

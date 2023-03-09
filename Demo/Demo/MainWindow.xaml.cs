@@ -15,12 +15,16 @@ global using System.Windows.Shapes;
 global using System.ComponentModel.DataAnnotations;
 global using System.ComponentModel.DataAnnotations.Schema;
 global using Microsoft.EntityFrameworkCore;
+global using ShopSQLite;
 global using ShopSQLite.Entities;
 global using ShopSQLite.Initialization;
 global using System.Collections.ObjectModel;
 global using System.ComponentModel;
+global using System.Runtime.CompilerServices;
 global using System.Reflection;
 global using Mapping;
+global using Demo.Views;
+global using Demo.VMs;
 
 namespace Demo
 {
@@ -32,6 +36,21 @@ namespace Demo
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        protected override void OnContentChanged(object oldContent, object newContent)
+        {
+            base.OnContentChanged(oldContent, newContent);
+            if (newContent is AuthorizeView) Title = "Авторизация";
+            if (newContent is ProductsView) Title = "Каталог";
+        }
+    }
+
+    public static class WinHelper
+    {
+        public static void Navigate(this UserControl oldView, UserControl newView)
+        {
+            ((Window)oldView.Parent).Content = newView;
         }
     }
 }

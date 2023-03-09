@@ -4,23 +4,19 @@ namespace ShopSQLite
 {
     internal partial class CatalogContext : DbContext
     {
+        private const string connectionString = "sqliteTest.db";
 
-        private readonly string сonnectionString;
-
-        public static CatalogContext Get(string сonnectionString)
+        public static CatalogContext Get()
         {
-            return new CatalogContext(сonnectionString);
+            return new ();
         }
-
-        public CatalogContext(string сonnectionString)
-            => this.сonnectionString = сonnectionString;
 
         public virtual DbSet<Category> Categories { get; set; } = null!;
         public virtual DbSet<Manufacturer> Manufacturers { get; set; } = null!;
         public virtual DbSet<Order> Orders { get; set; } = null!;
-        public virtual DbSet<OrderProduct> Orderproducts { get; set; } = null!;
-        public virtual DbSet<Orderstatus> Orderstatuses { get; set; } = null!;
-        public virtual DbSet<PickupPoint> Pickuppoints { get; set; } = null!;
+        public virtual DbSet<OrderProduct> OrderProducts { get; set; } = null!;
+        public virtual DbSet<Orderstatus> OrderStatuses { get; set; } = null!;
+        public virtual DbSet<PickupPoint> PickuPpoints { get; set; } = null!;
         public virtual DbSet<Product> Products { get; set; } = null!;
         public virtual DbSet<Role> Roles { get; set; } = null!;
         public virtual DbSet<Supplier> Suppliers { get; set; } = null!;
@@ -33,11 +29,11 @@ namespace ShopSQLite
             if (!optionsBuilder.IsConfigured)
             {
 
-                _ = optionsBuilder.UseSqlite(сonnectionString);
+                _ = optionsBuilder.UseSqlite(connectionString);
 
                 optionsBuilder
                     .EnableSensitiveDataLogging()
-                    .UseSqlite($"Data Source={сonnectionString}");
+                    .UseSqlite($"Data Source={connectionString}");
                 optionsBuilder.LogTo(Console.WriteLine, new[] { RelationalEventId.CommandExecuted });
 
             }
