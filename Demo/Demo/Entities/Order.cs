@@ -3,7 +3,7 @@
     [Table("orders")]
     [Index(nameof(PickupPointId), Name = "pickuppoint_idx")]
     [Index(nameof(OrderStatusId), Name = "orderstatus_idx")]
-    internal partial class Order
+    public partial class Order
     {
         public Order()
         {

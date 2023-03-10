@@ -1,7 +1,7 @@
 ﻿namespace ShopSQLite.Entities
 {
     [Table("orderstatuses")]
-    internal partial class Orderstatus
+    public partial class Orderstatus
     {
         public Orderstatus()
         {

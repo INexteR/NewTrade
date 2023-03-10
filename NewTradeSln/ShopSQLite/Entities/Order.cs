@@ -12,7 +12,7 @@ namespace ShopSQLite.Entities
     {
         public Order()
         {
-            Orderproducts = new HashSet<OrderProduct>();
+            OrderProducts = new HashSet<OrderProduct>();
         }
 
         [Key]
@@ -26,7 +26,7 @@ namespace ShopSQLite.Entities
 
         public virtual Orderstatus OrderStatus { get; set; } = null!;
         public virtual PickupPoint PickupPoint { get; set; } = null!;
-        public virtual ICollection<OrderProduct> Orderproducts { get; set; }
+        public virtual ICollection<OrderProduct> OrderProducts { get; set; }
 
         IPickupPoint IOrder.PickupPoint => PickupPoint;
         IOrderStatus IOrder.OrderStatus => OrderStatus;

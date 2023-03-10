@@ -1,7 +1,7 @@
 ﻿namespace ShopSQLite.Entities
 {
     [Table("manufacturers")]
-    internal partial class Manufacturer
+    public partial class Manufacturer
     {
         public Manufacturer()
         {

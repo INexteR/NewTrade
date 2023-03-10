@@ -1,7 +1,7 @@
 ﻿namespace ShopSQLite.Entities
 {
     [Table("pickuppoint")]
-    internal partial class PickupPoint
+    public partial class PickupPoint
     {
         public PickupPoint()
         {

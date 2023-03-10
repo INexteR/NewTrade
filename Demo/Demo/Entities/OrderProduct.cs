@@ -4,7 +4,7 @@
     [PrimaryKey(nameof(OrderId), nameof(ProductId))]
     [Index(nameof(OrderId), Name = "order_idx")]
     [Index(nameof(ProductId), Name = "product_idx")]
-    internal partial class OrderProduct
+    public partial class OrderProduct
     {
         public int OrderId { get; set; }
         public int ProductId { get; set; }

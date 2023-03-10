@@ -12,5 +12,8 @@
         WindowStartupLocation="CenterScreen"
         FontSize="18"
         Icon="/Resources/icon.ico">
-    <vs:AuthorizeView />
+    <Window.DataContext>
+        <local:BigViewModel />
+    </Window.DataContext>
+    <vs:AuthorizeView/>
 </Window>

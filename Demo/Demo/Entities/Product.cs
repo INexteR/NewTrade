@@ -5,7 +5,7 @@
     [Index(nameof(ManufacturerId), Name = "manufacturer_idx")]
     [Index(nameof(SupplierId), Name = "supplier_idx")]
     [Index(nameof(UnitId), Name = "unit_idx")]
-    internal partial class Product
+    public partial class Product
     {
         public Product()
         {

@@ -4,11 +4,11 @@ namespace ShopSQLite
 {
     internal partial class CatalogContext : DbContext
     {
-        private const string connectionString = "sqliteTest.db";
+        private readonly string dataBaseName;
 
-        public static CatalogContext Get()
+        public CatalogContext(string dataBaseName)
         {
-            return new ();
+            this.dataBaseName = dataBaseName;
         }
 
         public virtual DbSet<Category> Categories { get; set; } = null!;
@@ -16,7 +16,7 @@ namespace ShopSQLite
         public virtual DbSet<Order> Orders { get; set; } = null!;
         public virtual DbSet<OrderProduct> OrderProducts { get; set; } = null!;
         public virtual DbSet<Orderstatus> OrderStatuses { get; set; } = null!;
-        public virtual DbSet<PickupPoint> PickuPpoints { get; set; } = null!;
+        public virtual DbSet<PickupPoint> PickupPoints { get; set; } = null!;
         public virtual DbSet<Product> Products { get; set; } = null!;
         public virtual DbSet<Role> Roles { get; set; } = null!;
         public virtual DbSet<Supplier> Suppliers { get; set; } = null!;
@@ -29,11 +29,11 @@ namespace ShopSQLite
             if (!optionsBuilder.IsConfigured)
             {
 
-                _ = optionsBuilder.UseSqlite(connectionString);
+                _ = optionsBuilder.UseSqlite(dataBaseName);
 
                 optionsBuilder
                     .EnableSensitiveDataLogging()
-                    .UseSqlite($"Data Source={connectionString}");
+                    .UseSqlite($"Data Source={dataBaseName}");
                 optionsBuilder.LogTo(Console.WriteLine, new[] { RelationalEventId.CommandExecuted });
 
             }
