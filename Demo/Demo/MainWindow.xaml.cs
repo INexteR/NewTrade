@@ -56,9 +56,10 @@ namespace Demo
 
     public static class WinHelper
     {
-        public static void Navigate<TNewView>(this UserControl oldView) where TNewView : UserControl, new()
+        public static void Navigate<TNewView>(this DependencyObject oldView)
+            where TNewView : new()
         {
-            ((Window)oldView.Parent).Content = new TNewView();
+            Window.GetWindow(oldView).Content = new TNewView();
         }
     }
 }
