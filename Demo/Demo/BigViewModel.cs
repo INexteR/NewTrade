@@ -1,9 +1,18 @@
-﻿namespace Demo
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace Demo
 {
     public class BigViewModel : BaseInpc
     {
         private const string dataBaseName = "sqliteTest.db";
         private readonly CatalogContext catalog = new(dataBaseName);
+
+        public static BigViewModel Instance { get; } = new();
+        private BigViewModel()
+        {
+            Manufacturers = catalog.Manufacturers.Local.ToObservableCollection();
+            Products = catalog.Products.Local.ToObservableCollection();
+        }
 
         public void Init(bool recreate = false)
         {
@@ -13,34 +22,35 @@
                     File.Delete(dataBaseName);
             }
             catalog.Database.EnsureCreated();
+
+            // Если все сущности загружаются, то не нужно делать Include()
+            catalog.Roles.Load();
+            catalog.Categories.Load();
             catalog.Manufacturers.Load();
-            catalog.Products.Include(p => p.Unit).Include(p => p.Manufacturer)
-                .Include(p => p.Supplier).Include(p => p.Category)
-                .Include(p => p.OrderProducts).Load();
+            catalog.Suppliers.Load();
+            catalog.Units.Load();
+            catalog.Users.Load();
+            catalog.Products.Load();
+            catalog.OrderStatuses.Load();
+            catalog.PickupPoints.Load();
+            catalog.Orders.Load();
+            catalog.OrderProducts.Load();
         }
 
         public User? User { get; private set; }
 
         public User? Authorize(string login, string password)
-        {
-            foreach (var user in catalog.Users)
-            {
-                if (user.Login == login && user.Password == password)
-                {
-                    return User = user;
-                }
-            }
-            return null;
-        }
+            => catalog.Users.Local.FirstOrDefault(user => user.Login == login && user.Password == password);
 
         public void Exit()
         {
             User = null;
         }
 
-        public ObservableCollection<Manufacturer> Manufacturers => catalog.Manufacturers.Local.ToObservableCollection();
+        public ObservableCollection<Manufacturer> Manufacturers { get; }
 
-        public ObservableCollection<Product> Products => catalog.Products.Local.ToObservableCollection();
+        public ObservableCollection<Product> Products { get; }
+
 
     }
 }

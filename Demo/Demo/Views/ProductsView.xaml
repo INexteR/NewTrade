@@ -9,7 +9,7 @@
              d:DesignHeight="450"
              d:DesignWidth="800"
              d:Background="White"
-             Loaded="UserControl_Loaded">
+             DataContext="{x:Static root:BigViewModel.Instance}">
     <UserControl.Resources>
         <CollectionViewSource x:Key="productsView" Source="{Binding Products}"/>
     </UserControl.Resources>

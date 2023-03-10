@@ -4,8 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Demo.Views"
+             xmlns:root="clr-namespace:Demo"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" d:Background="White" Loaded="UserControl_Loaded">
+             d:DesignHeight="450" d:DesignWidth="800" d:Background="White"
+             DataContext="{x:Static root:BigViewModel.Instance}">
     <Grid>
         <StackPanel VerticalAlignment="Center"
                     HorizontalAlignment="Center"

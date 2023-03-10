@@ -5,26 +5,22 @@
     /// </summary>
     public partial class ProductsView : UserControl
     {
-        private BigViewModel viewModel = null!;
-        private CollectionViewSource source = null!;
+        private readonly BigViewModel viewModel = BigViewModel.Instance;
+        private readonly CollectionViewSource source = null!;
         public ProductsView()
         {
             InitializeComponent();
+
+            source = (CollectionViewSource)Resources["productsView"];
+            sort.SelectionChanged += Sort_SelectionChanged;
+            filter.SelectionChanged += Filter_SelectionChanged;
+            search.TextChanged += Search_TextChanged;
         }
 
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
             viewModel.Exit();
             this.Navigate<AuthorizeView>();
-        }
-
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            viewModel = (BigViewModel)DataContext;
-            source = (CollectionViewSource)Resources["productsView"];
-            sort.SelectionChanged += Sort_SelectionChanged;
-            filter.SelectionChanged += Filter_SelectionChanged;
-            search.TextChanged += Search_TextChanged;
         }
 
         private void Sort_SelectionChanged(object sender, SelectionChangedEventArgs e)

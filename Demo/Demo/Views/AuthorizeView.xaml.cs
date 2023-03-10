@@ -5,7 +5,7 @@
     /// </summary>
     public partial class AuthorizeView : UserControl
     {
-        private BigViewModel viewModel = null!;
+        private BigViewModel viewModel = BigViewModel.Instance;
         public AuthorizeView()
         {
             InitializeComponent();
@@ -27,11 +27,6 @@
         private void Guest_Click(object sender, RoutedEventArgs e)
         {
             this.Navigate<ProductsView>();
-        }
-
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            viewModel = (BigViewModel)DataContext;
         }
     }
 }
