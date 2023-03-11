@@ -4,6 +4,8 @@ using ShopSQLite;
 using ShopViewModels;
 using System;
 using System.Collections.Generic;
+using System.Windows.Documents;
+using System.Windows.Input;
 using ViewModels;
 
 namespace NewTrade.Views
@@ -23,8 +25,6 @@ namespace NewTrade.Views
             dialogData.Mode = mode;
             dialogData.Product = product;
             dialogData.ProductsViewModel = viewModel;
-            if (mode is DialogMode.Add)
-                Title = "Добавление товара";
         }
 
         public static void Update(IProduct product, IProductsViewModel viewModel)
@@ -32,7 +32,11 @@ namespace NewTrade.Views
             TempProduct copy = product?.Create<TempProduct>()
                 ?? throw new ArgumentNullException(nameof(product));
 
-            var window = new AddOrUpdateProductDialog(DialogMode.Update, copy, viewModel);
+            var window = new AddOrUpdateProductDialog(DialogMode.Update, copy, viewModel)
+            {
+                Title = "Редактирование товара",
+            };
+            window.button.Command = viewModel.UpdateProduct;
             window.ShowDialog();
         }
         public static void Add(IProduct? product, IProductsViewModel viewModel)
@@ -40,7 +44,11 @@ namespace NewTrade.Views
             TempProduct copy = product is null ? new TempProduct()
                                              : product.Create<TempProduct>();
 
-            var window = new AddOrUpdateProductDialog(DialogMode.Add, copy, viewModel);
+            var window = new AddOrUpdateProductDialog(DialogMode.Add, copy, viewModel) 
+            { 
+                Title = "Добавление товара"
+            };
+            window.button.Command = viewModel.AddProduct;
             window.ShowDialog();
         }
     }

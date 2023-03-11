@@ -6,7 +6,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NewTrade.Views"
         mc:Ignorable="d"
-        Title="Редактирование товара"
         Height="450"
         Width="800"
         Style="{StaticResource wndStyle}"
@@ -124,11 +123,23 @@
                     HorizontalAlignment="Center"
                     Margin="14">
             <Button Content="Сохранить"
-                    Command="{Binding AddProduct}"
-                    CommandParameter="{Binding Product, Source={StaticResource dialogData}}"
-                    Margin="0 0 20 0" />
+                    x:Name="button"
+                    CommandParameter="{Binding Product, NotifyOnValidationError=False, Source={StaticResource dialogData}, Mode=OneTime}"
+                    Margin="0 0 20 0">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Product.HasErrors, Source={StaticResource dialogData}}"
+                                         Value="True">
+                                <Setter Property="IsEnabled"
+                                        Value="False" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
             <Button Content="Отмена"
-                    IsCancel="True" />
+                    Command="Close" />
         </StackPanel>
     </Grid>
 </Window>

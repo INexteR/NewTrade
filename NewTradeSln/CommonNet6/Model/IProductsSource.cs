@@ -20,6 +20,6 @@ namespace Model
 
         /// <summary>Изменение товара.</summary>
         /// <param name="product">Изменяемый товар.</param>
-        void Change(IProduct product);
+        void Update(IProduct product);
     }
 }

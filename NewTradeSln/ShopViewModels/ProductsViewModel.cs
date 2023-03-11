@@ -54,10 +54,9 @@ namespace ShopViewModels
 
 
         public RelayCommand<IProduct> AddProduct => GetCommand<IProduct>(AddProductExecute);
-
         public RelayCommand<IProduct> RemoveProduct => GetCommand<IProduct>(RemoveProductExecute);
 
-        public RelayCommand<IProduct> ChangeProduct => GetCommand<IProduct>(ChangeProductExecute);
+        public RelayCommand<IProduct> UpdateProduct => GetCommand<IProduct>(UpdateProductExecute);
 
         private readonly ObservableCollection<IManufacturer> manufacturers = new();
         public IEnumerable<IManufacturer> Manufacturers => manufacturers;
@@ -70,10 +69,20 @@ namespace ShopViewModels
             _shop.Add(product);
         }
 
-        private void ChangeProductExecute(IProduct parameter)
+        //private bool AddProductCanExecute(TempProduct product)
+        //{           
+        //    return !product.HasErrors;
+        //}
+
+        private void UpdateProductExecute(IProduct product)
         {
-            throw new NotImplementedException();
+            _shop.Update(product);
         }
+
+        //private bool UpdateProductCanExecute(TempProduct product)
+        //{
+        //    return !product.HasErrors;
+        //}
 
         private void RemoveProductExecute(IProduct product)
         {

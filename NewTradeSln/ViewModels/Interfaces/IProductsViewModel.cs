@@ -1,6 +1,4 @@
 ﻿using Model;
-using System.Collections.Generic;
-using System.Windows.Input;
 
 namespace ViewModels
 {
@@ -20,7 +18,7 @@ namespace ViewModels
         RelayCommand<IProduct> RemoveProduct { get; }
 
         /// <summary>Команда редактирования товара.</summary>
-        RelayCommand<IProduct> ChangeProduct { get; }
+        RelayCommand<IProduct> UpdateProduct { get; }
     }
 
 }
