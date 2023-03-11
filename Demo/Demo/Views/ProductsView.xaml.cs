@@ -54,28 +54,19 @@
 
             filter = (string.IsNullOrEmpty(searchText), searchManufacturer == null) switch
             {
-                (false, false) => NameManufacturerSearch,
-                (false, true) => NameSearch,
-                (true, false) => ManufacturerSearch,
+                (false, false) => (object sender, FilterEventArgs e) =>
+                {
+                    Product product = (Product)e.Item;
+                    e.Accepted = product.Manufacturer == searchManufacturer &&
+                                 product.Name.Contains(searchText);
+                }
+                ,
+                (false, true) => (object sender, FilterEventArgs e) => e.Accepted = ((Product)e.Item).Name.Contains(searchText),
+                (true, false) => (object sender, FilterEventArgs e) => e.Accepted = ((Product)e.Item).Manufacturer == searchManufacturer,
                 _ => null,
             };
 
             source.Filter += filter;
-            void NameSearch(object sender, FilterEventArgs e)
-            {
-                e.Accepted = ((Product)e.Item).Name.Contains(searchText);
-            }
-            void ManufacturerSearch(object sender, FilterEventArgs e)
-            {
-                e.Accepted = ((Product)e.Item).Manufacturer == searchManufacturer;
-            }
-            void NameManufacturerSearch(object sender, FilterEventArgs e)
-            {
-                Product product = (Product)e.Item;
-                e.Accepted = product.Manufacturer == searchManufacturer &&
-                             product.Name.Contains(searchText);
-            }
         }
-
     }
 }
