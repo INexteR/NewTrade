@@ -124,12 +124,36 @@
                     Orientation="Horizontal"
                     HorizontalAlignment="Center"
                     Margin="14">
-            <Button Content="Сохранить"
+            <Grid>
+                <Button Content="Сохранить"
                     x:Name="button"
                     CommandParameter="{Binding Product, NotifyOnValidationError=False, Source={StaticResource dialogData}}"
                     Margin="0 0 20 0"
                     IsEnabled="{Binding Product.HasErrors, Source={StaticResource dialogData}, Converter={cnvs:BooleanNot}}">
-            </Button>
+                </Button>
+                <Grid Background="Transparent"
+                      DataContext="{Binding Product, NotifyOnValidationError=False, Source={StaticResource dialogData}}"
+                      Validation.ErrorTemplate="{x:Null}">
+                    <FrameworkElement.Style>
+                        <Style TargetType="FrameworkElement">
+                            <Style.Triggers>
+                                <Trigger Property="Validation.HasError" Value="False">
+                                    <Setter Property="Visibility" Value="Hidden"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </FrameworkElement.Style>
+                    <FrameworkElement.ToolTip>
+                        <ToolTip x:Name="tip">
+                            <StackPanel>
+                                <TextBlock Text="Все ошибки."/>
+                                <ItemsControl ItemsSource="{Binding PlacementTarget.(Validation.Errors), RelativeSource={RelativeSource FindAncestor, AncestorType=ToolTip}}"
+                                              DisplayMemberPath="ErrorContent"/>
+                            </StackPanel>
+                        </ToolTip>
+                    </FrameworkElement.ToolTip>
+                </Grid>
+            </Grid>
             <Button Content="Отмена"
                     Click="{x:Static root:ViewsHelper.CloseWindow}"/>
         </StackPanel>
