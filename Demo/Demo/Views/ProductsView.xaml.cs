@@ -32,48 +32,50 @@
             }
         }
 
-        private string? searchText;
-        private object searchManufacturer =  ViewsHelper.AllManufacturers;
+        private string? inputText;
+        private object selectedManufacturer = ViewsHelper.AllManufacturers;
         public string? SearchText
         {
-            get => searchText;
-            set { searchText = value; SearchChanged(value?.Trim(), SearchManufacturer as Manufacturer); }
+            get => inputText;
+            set { inputText = value; SearchChanged(); }
         }
         public object SearchManufacturer
         {
-            get => searchManufacturer;
-            set { searchManufacturer = value ?? ViewsHelper.AllManufacturers; SearchChanged(SearchText?.Trim(), value as Manufacturer); }
+            get => selectedManufacturer;
+            set { selectedManufacturer = value ?? ViewsHelper.AllManufacturers; SearchChanged(); }
         }
 
         private FilterEventHandler? filter;
-        private void SearchChanged(string? text, Manufacturer? manufacturer)
+        private void SearchChanged()
         {
+            string searchText = inputText?.Trim() ?? string.Empty;
+            Manufacturer? searchManufacturer = selectedManufacturer as Manufacturer;
             source.Filter -= filter;
 
-            filter = (string.IsNullOrEmpty(text), manufacturer == null) switch
+            filter = (string.IsNullOrEmpty(searchText), searchManufacturer == null) switch
             {
-                (false, false) => (s, e) => NameManufacturerSearch(s, e, text!, manufacturer!),
-                (false, true) => (s, e) => NameSearch(s, e, text!),
-                (true, false) => (s, e) => ManufacturerSearch(s, e, manufacturer!),
+                (false, false) => NameManufacturerSearch,
+                (false, true) => NameSearch,
+                (true, false) => ManufacturerSearch,
                 _ => null,
             };
 
             source.Filter += filter;
+            void NameSearch(object sender, FilterEventArgs e)
+            {
+                e.Accepted = ((Product)e.Item).Name.Contains(searchText);
+            }
+            void ManufacturerSearch(object sender, FilterEventArgs e)
+            {
+                e.Accepted = ((Product)e.Item).Manufacturer == searchManufacturer;
+            }
+            void NameManufacturerSearch(object sender, FilterEventArgs e)
+            {
+                Product product = (Product)e.Item;
+                e.Accepted = product.Manufacturer == searchManufacturer &&
+                             product.Name.Contains(searchText);
+            }
         }
 
-        private static void NameSearch(object sender, FilterEventArgs e, string name)
-        {
-            e.Accepted = ((Product)e.Item).Name.Contains(name);
-        }
-        private static void ManufacturerSearch(object sender, FilterEventArgs e, Manufacturer manufacturer)
-        {
-            e.Accepted = ((Product)e.Item).Manufacturer == manufacturer;
-        }
-        private static void NameManufacturerSearch(object sender, FilterEventArgs e, string name, Manufacturer manufacturer)
-        {
-            Product product = (Product)e.Item;
-            e.Accepted = product.Manufacturer == manufacturer &&
-                         product.Name.Contains(name);
-        }
     }
 }
