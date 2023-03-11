@@ -7,14 +7,13 @@
     {
         private readonly BigViewModel viewModel = BigViewModel.Instance;
         private readonly CollectionViewSource source = null!;
+
         public ProductsView()
         {
             InitializeComponent();
 
             source = (CollectionViewSource)Resources["productsView"];
             sort.SelectionChanged += Sort_SelectionChanged;
-            filter.SelectionChanged += Filter_SelectionChanged;
-            search.TextChanged += Search_TextChanged;
         }
 
         private void Exit_Click(object sender, RoutedEventArgs e)
@@ -33,50 +32,48 @@
             }
         }
 
-        private void Search_TextChanged(object sender, TextChangedEventArgs e)
+        private string? searchText;
+        private object searchManufacturer =  ViewsHelper.AllManufacturers;
+        public string? SearchText
         {
-            source.Filter -= ftr;
-            if (!string.IsNullOrWhiteSpace(search.Text))
+            get => searchText;
+            set { searchText = value; SearchChanged(value?.Trim(), SearchManufacturer as Manufacturer); }
+        }
+        public object SearchManufacturer
+        {
+            get => searchManufacturer;
+            set { searchManufacturer = value ?? ViewsHelper.AllManufacturers; SearchChanged(SearchText?.Trim(), value as Manufacturer); }
+        }
+
+        private FilterEventHandler? filter;
+        private void SearchChanged(string? text, Manufacturer? manufacturer)
+        {
+            source.Filter -= filter;
+
+            filter = (string.IsNullOrEmpty(text), manufacturer == null) switch
             {
-                if (IsFilterNotContains(NameSearch))
-                    ftr += NameSearch;
-            }
-            else
-                ftr -= NameSearch;
-            source.Filter += ftr;
+                (false, false) => (s, e) => NameManufacturerSearch(s, e, text!, manufacturer!),
+                (false, true) => (s, e) => NameSearch(s, e, text!),
+                (true, false) => (s, e) => ManufacturerSearch(s, e, manufacturer!),
+                _ => null,
+            };
+
+            source.Filter += filter;
         }
 
-        private void Filter_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private static void NameSearch(object sender, FilterEventArgs e, string name)
         {
-            source.Filter -= ftr;
-            if (filter.SelectedIndex != 0)
-            {
-                if (IsFilterNotContains(ManufacturerFilter))
-                    ftr += ManufacturerFilter;
-            }
-            else
-                ftr -= ManufacturerFilter;
-            source.Filter += ftr;
+            e.Accepted = ((Product)e.Item).Name.Contains(name);
         }
-
-        private bool IsFilterNotContains(FilterEventHandler filter)
+        private static void ManufacturerSearch(object sender, FilterEventArgs e, Manufacturer manufacturer)
         {
-            return ftr is null || !ftr.GetInvocationList().Contains(filter);
+            e.Accepted = ((Product)e.Item).Manufacturer == manufacturer;
         }
-
-        private FilterEventHandler? ftr;
-
-        private void NameSearch(object sender, FilterEventArgs e)
+        private static void NameManufacturerSearch(object sender, FilterEventArgs e, string name, Manufacturer manufacturer)
         {
-            if (!((Product)e.Item).Name.Contains(search.Text))
-                e.Accepted = false;
+            Product product = (Product)e.Item;
+            e.Accepted = product.Manufacturer == manufacturer &&
+                         product.Name.Contains(name);
         }
-        private void ManufacturerFilter(object sender, FilterEventArgs e)
-        {
-            if (((Product)e.Item).Manufacturer != Manufacturer)
-                e.Accepted = false;
-        }
-
-        private Manufacturer? Manufacturer => filter.SelectedItem as Manufacturer;
     }
 }

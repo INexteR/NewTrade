@@ -5,7 +5,7 @@
     /// </summary>
     public partial class AuthorizeView : UserControl
     {
-        private BigViewModel viewModel = BigViewModel.Instance;
+        private readonly BigViewModel viewModel = BigViewModel.Instance;
         public AuthorizeView()
         {
             InitializeComponent();

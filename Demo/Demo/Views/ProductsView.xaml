@@ -177,7 +177,8 @@
                 </Grid.RowDefinitions>
                 <TextBlock Text="Поиск по всем данным" />
                 <TextBox Grid.Row="1"
-                         VerticalAlignment="Center" x:Name="search"/>
+                         VerticalAlignment="Center"
+                         Text="{Binding SearchText, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ProductsView}}}"/>
             </Grid>
 
             <Grid Column="1">
@@ -216,9 +217,9 @@
                 <TextBlock Text="Фильтрация по производителю" />
                 <ComboBox VerticalAlignment="Center"
                           SelectedIndex="0"
-                          x:Name="filter"
                           DisplayMemberPath="Name"
-                          Grid.Row="1">
+                          Grid.Row="1"
+                          SelectedItem="{Binding SearchManufacturer, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ProductsView}}}">
                     <ComboBox.Resources>
                         <CollectionViewSource x:Key="manufacturers"
                                               Source="{Binding Manufacturers}" />
