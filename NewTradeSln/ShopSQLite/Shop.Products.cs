@@ -1,10 +1,9 @@
 ﻿
 using CommonNet6.Collection;
 using Mapping;
-using Microsoft.EntityFrameworkCore;
 using Model;
 using ShopSQLite.Entities;
-using System.Collections;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace ShopSQLite
 {
@@ -41,6 +40,12 @@ namespace ShopSQLite
             {
                 var entry = context.Products.Update(@new);
                 context.SaveChanges();
+
+                context.Units.AttachRange(units);
+                context.Manufacturers.AttachRange(manufacturers);
+                context.Suppliers.AttachRange(suppliers);
+                context.Categories.AttachRange(categories);
+
                 entry.Reference(p => p.Unit).Load();
                 entry.Reference(p => p.Manufacturer).Load();
                 entry.Reference(p => p.Supplier).Load();

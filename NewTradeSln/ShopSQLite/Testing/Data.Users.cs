@@ -7,7 +7,7 @@ namespace ShopSQLite.Initialization
     internal static partial class Data
     {
         private static User[]? users;
-        public static IEnumerable<IUser> GetUsers()
+        public static IEnumerable<User> GetUsers()
         {
             return users ??= usersText.ParseToArray<User>(nameof(User.Id),
                                                           nameof(User.Surname),

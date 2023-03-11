@@ -16,20 +16,19 @@ namespace NewTrade.Views
         public static RoutedEventHandler OnRemoveProductClick { get; } = (sender, e) =>
         {
             var (viewModel, product) = GetData(sender);
-            string message = $"Товар {product.Name} производител {product.Manufacturer.Name} будет удален.";
-            if (MessageBox.Show(message, "Удаление товара", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+            string message = $"Действительно удалить выбранный товар?";
+            if (MessageBox.Show(message, "Удаление товара", MessageBoxButton.OKCancel) is MessageBoxResult.OK)
             {
-                viewModel.RemoveProduct.TryExecute(product);
+                viewModel.RemoveProduct.Execute(product);
             }
         };
 
         public static RoutedEventHandler OnUpdateProductClick { get; } = (sender, e) =>
         {
             var (viewModel, product) = GetData(sender);
-
             AddOrUpdateProductDialog.Update(product, viewModel);
-        }
-        ;
+        };
+        
         private static (IProductsViewModel viewModel, IProduct product) GetData(object sender)
         {
             FrameworkElement element = (FrameworkElement)sender;

@@ -15,7 +15,7 @@ namespace NewTrade.Views
     {
         private readonly AddOrUpdateProductDialogData dialogData;
 
-        private AddOrUpdateProductDialog(DialogMode mode, ProductVM product, IProductsViewModel viewModel)
+        private AddOrUpdateProductDialog(DialogMode mode, TempProduct product, IProductsViewModel viewModel)
         {
             InitializeComponent();
 
@@ -23,13 +23,13 @@ namespace NewTrade.Views
             dialogData.Mode = mode;
             dialogData.Product = product;
             dialogData.ProductsViewModel = viewModel;
-            if (mode == DialogMode.Add)
+            if (mode is DialogMode.Add)
                 Title = "Добавление товара";
         }
 
         public static void Update(IProduct product, IProductsViewModel viewModel)
         {
-            ProductVM copy = product?.Create<ProductVM>()
+            TempProduct copy = product?.Create<TempProduct>()
                 ?? throw new ArgumentNullException(nameof(product));
 
             var window = new AddOrUpdateProductDialog(DialogMode.Update, copy, viewModel);
@@ -37,33 +37,12 @@ namespace NewTrade.Views
         }
         public static void Add(IProduct? product, IProductsViewModel viewModel)
         {
-            ProductVM copy = product is null ? new ProductVM()
-                                             : product.Create<ProductVM>();
+            TempProduct copy = product is null ? new TempProduct()
+                                             : product.Create<TempProduct>();
 
             var window = new AddOrUpdateProductDialog(DialogMode.Add, copy, viewModel);
             window.ShowDialog();
         }
-    }
-
-    internal class ProductVM : IProduct
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public int UnitId { get; set; }
-        public decimal Cost { get; set; }
-        public int ManufacturerId { get; set; }
-        public int SupplierId { get; set; }
-        public int CategoryId { get; set; }
-        public int MaxDiscountAmount { get; set; }
-        public sbyte? DiscountAmount { get; set; }
-        public int QuantityInStock { get; set; }
-        public string Description { get; set; }
-        public string? Path { get; set; }
-        public IUnit Unit { get; set; }
-        public IManufacturer Manufacturer { get; set; }
-        public ISupplier Supplier { get; set; }
-        public ICategory Category { get; set; }
-        public IEnumerable<IOrderProduct> OrderProducts { get; }
     }
 
     internal enum DialogMode
@@ -74,7 +53,7 @@ namespace NewTrade.Views
     internal class AddOrUpdateProductDialogData : ViewModelBase
     {
         public DialogMode Mode { get => Get<DialogMode>(); set => Set(value); }
-        public ProductVM? Product { get => Get<ProductVM>(); set => Set(value); }
+        public TempProduct? Product { get => Get<TempProduct>(); set => Set(value); }
         public IProductsViewModel? ProductsViewModel { get => Get<IProductsViewModel>(); set => Set(value); }
     }
 }

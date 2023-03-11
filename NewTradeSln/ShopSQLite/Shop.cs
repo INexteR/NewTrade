@@ -12,9 +12,6 @@ namespace ShopSQLite
 
         public Shop(bool recreate = false)
         {
-            // Тест создания маппером
-            var pr = Mapping.Mapper.Create<Product>(new { Name = "Проверка" });
-
             if (recreate)
             {
                 if (File.Exists(сonnectionString))
@@ -36,8 +33,6 @@ namespace ShopSQLite
             }
             IsSourcesLoaded = true;
             SourcesLoadedChanged(this, EventArgs.Empty);
-
-            //почему-то не перехватывается ↓
             //throw new Exception("Тестовое исключение");
         });
 

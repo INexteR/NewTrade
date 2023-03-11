@@ -30,7 +30,6 @@ namespace NewTrade
         public static T? FindAncestor<T>(this DependencyObject dobj)
             where T : DependencyObject
         {
-            var type = typeof(T);
             while (dobj is not null)
             {
                 if (dobj is T t)
@@ -41,11 +40,11 @@ namespace NewTrade
             return null;
         }
 
-        public static FrameworkElement? FindAncestorData<TData>(this DependencyObject dobj)
+        public static FrameworkElement? FindDataAncestor<TData>(this DependencyObject dobj)
         {
             while (dobj is not null)
             {
-                if (dobj is FrameworkElement element && element.DataContext is TData)
+                if (dobj is FrameworkElement element and { DataContext: TData })
                     return element;
 
                 dobj = VisualTreeHelper.GetParent(dobj);
@@ -57,12 +56,11 @@ namespace NewTrade
         {
             while (dobj is not null)
             {
-                if (dobj is FrameworkElement element && element.DataContext is TData data)
+                if (dobj is FrameworkElement and { DataContext: TData data })
                     return data;
 
                 dobj = VisualTreeHelper.GetParent(dobj);
             }
-
             return default;
         }
     }
