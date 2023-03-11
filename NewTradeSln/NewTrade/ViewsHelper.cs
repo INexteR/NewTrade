@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Input;
 using System.Windows.Media;
+using ViewModels;
 
 namespace NewTrade
 {
@@ -63,5 +64,7 @@ namespace NewTrade
             }
             return default;
         }
+
+        public static RoutedEventHandler CloseWindow { get; } = (s, _) => Window.GetWindow((DependencyObject)s).Close();
     }
 }
