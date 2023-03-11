@@ -28,6 +28,11 @@ namespace NewTrade.Views
             var (viewModel, product) = GetData(sender);
             AddOrUpdateProductDialog.Update(product, viewModel);
         };
+        public static RoutedEventHandler OnCopyProductClick { get; } = (sender, e) =>
+        {
+            var (viewModel, product) = GetData(sender);
+            AddOrUpdateProductDialog.Add(product, viewModel);
+        };
         
         private static (IProductsViewModel viewModel, IProduct product) GetData(object sender)
         {

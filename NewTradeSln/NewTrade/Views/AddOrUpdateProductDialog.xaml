@@ -126,7 +126,7 @@
                     Margin="14">
             <Button Content="Сохранить"
                     x:Name="button"
-                    CommandParameter="{Binding Product, NotifyOnValidationError=False, Source={StaticResource dialogData}, Mode=OneTime}"
+                    CommandParameter="{Binding Product, NotifyOnValidationError=False, Source={StaticResource dialogData}}"
                     Margin="0 0 20 0"
                     IsEnabled="{Binding Product.HasErrors, Source={StaticResource dialogData}, Converter={cnvs:BooleanNot}}">
             </Button>

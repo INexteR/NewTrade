@@ -108,6 +108,9 @@
                                          x:Name="menu">
                                 <MenuItem Header="Редактировать"
                                           Click="{x:Static local:ProductsViewHelper.OnUpdateProductClick}" />
+                                
+                                <MenuItem Header="Копировать"
+                                          Click="{x:Static local:ProductsViewHelper.OnCopyProductClick}" />
 
                                 <MenuItem Header="Удалить"
                                           Click="{x:Static local:ProductsViewHelper.OnRemoveProductClick}" />

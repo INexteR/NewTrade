@@ -147,6 +147,13 @@ namespace ShopViewModels
             }
         }
 
+        public int Id { get; private set; }
+        public IUnit Unit { get; }
+        public IManufacturer Manufacturer { get; }
+        public ISupplier Supplier { get; }
+        public ICategory Category { get; }
+        public IEnumerable<IOrderProduct> OrderProducts { get; }
+
         private const string nameError = "Введите имя";
         private const string unitError = "Выберите единицу измерения";
         private const string costError = "Введите цену";
@@ -157,11 +164,5 @@ namespace ShopViewModels
         private const string quantityInStockError = "Введите количество на складе";
         private const string descriptionError = "Введите описание";
 
-        int IProduct.Id => throw new NotImplementedException();
-        IUnit IProduct.Unit => throw new NotImplementedException();
-        IManufacturer IProduct.Manufacturer => throw new NotImplementedException();
-        ISupplier IProduct.Supplier => throw new NotImplementedException();
-        ICategory IProduct.Category => throw new NotImplementedException();
-        IEnumerable<IOrderProduct> IProduct.OrderProducts => throw new NotImplementedException();
     }
 }

@@ -38,18 +38,16 @@ namespace ShopSQLite
             Product @new = product.Create<Product>();
             using (CatalogContext context = CatalogContext.Get(сonnectionString))
             {
-                var entry = context.Products.Update(@new);
-                context.SaveChanges();
-
                 context.Units.AttachRange(units);
                 context.Manufacturers.AttachRange(manufacturers);
                 context.Suppliers.AttachRange(suppliers);
                 context.Categories.AttachRange(categories);
 
-                entry.Reference(p => p.Unit).Load();
-                entry.Reference(p => p.Manufacturer).Load();
-                entry.Reference(p => p.Supplier).Load();
-                entry.Reference(p => p.Category).Load();
+                if (context.Products.Local.FirstOrDefault(pr => pr.Id == product.Id) is Product att)
+                    context.Entry(att).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
+
+                var entry = context.Products.Update(@new);
+                context.SaveChanges();
             }
             int index = products.FindIndex(pr => pr.Id == @new.Id);
             Product old = products[index];
