@@ -119,7 +119,7 @@
                         <Border Margin="10"
                                 BorderThickness="2"
                                 BorderBrush="Black">
-                            <Image Source="{Binding Path, TargetNullValue={StaticResource placeholder}}"
+                            <Image Source="{Binding Path, TargetNullValue={StaticResource placeholder}, Converter={local:ImageNameToPath}}"
                                    Width="160"
                                    Height="140" />
                         </Border>
