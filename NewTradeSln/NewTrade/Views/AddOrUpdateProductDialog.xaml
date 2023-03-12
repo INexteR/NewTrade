@@ -37,6 +37,7 @@
             </Border>
 
             <TextBlock Grid.Column="1"
+                       Margin="5"
                        FontSize="45"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"
@@ -49,53 +50,57 @@
                 <ColumnDefinition Width="450" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <ScrollViewer>
-                <StackPanel Margin="10">
-                    <TextBlock Text="Название" />
-                    <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
-                    <TextBlock Text="Единица измерения" />
-                    <ComboBox IsEditable="True"
-                              DisplayMemberPath="Name"
-                              ItemsSource="{Binding ProductsViewModel.Units, Source={StaticResource dialogData}}"
-                              SelectedValuePath="Id"
-                              SelectedValue="{Binding UnitId, Converter={x:Static cnvs:IdConverter.Instance}}" />
-                    <TextBlock Text="Цена" />
-                    <TextBox Text="{Binding Cost, UpdateSourceTrigger=PropertyChanged,Converter={x:Static cnvs:DecimalConverter.Instance}}"
-                             MaxLength="10"
-                             PreviewTextInput="{x:Static root:ViewsHelper.OnlyNumbers}" />
-                    <TextBlock Text="Производитель" />
-                    <ComboBox IsEditable="True"
-                              DisplayMemberPath="Name"
-                              ItemsSource="{Binding ProductsViewModel.Manufacturers, Source={StaticResource dialogData}}"
-                              SelectedValuePath="Id"
-                              SelectedValue="{Binding ManufacturerId, Converter={x:Static cnvs:IdConverter.Instance}}" />
-                    <TextBlock Text="Поставщик" />
-                    <ComboBox IsEditable="True"
-                              DisplayMemberPath="Name"
-                              ItemsSource="{Binding ProductsViewModel.Suppliers, Source={StaticResource dialogData}}"
-                              SelectedValuePath="Id"
-                              SelectedValue="{Binding SupplierId, Converter={x:Static cnvs:IdConverter.Instance}}" />
-                    <TextBlock Text="Категория товара" />
-                    <ComboBox IsEditable="True"
-                              DisplayMemberPath="Name"
-                              ItemsSource="{Binding ProductsViewModel.Categories, Source={StaticResource dialogData}}"
-                              SelectedValuePath="Id"
-                              SelectedValue="{Binding CategoryId, Converter={x:Static cnvs:IdConverter.Instance}}" />
-                    <TextBlock Text="Максимально-возможная скидка" />
-                    <TextBox Text="{Binding MaxDiscountAmount, UpdateSourceTrigger=PropertyChanged, Converter={x:Static cnvs:DigitConverter.Instance}}"
-                             PreviewKeyDown="{x:Static root:ViewsHelper.OnlyDigits}"
-                             MaxLength="2" />
-                    <TextBlock Text="Скидка" />
-                    <TextBox Text="{Binding DiscountAmount, UpdateSourceTrigger=PropertyChanged, Converter={x:Static cnvs:DigitConverter.Instance}}"
-                             PreviewKeyDown="{x:Static root:ViewsHelper.OnlyDigits}"
-                             MaxLength="2" />
-                    <TextBlock Text="Количество на складе" />
-                    <TextBox Text="{Binding QuantityInStock, UpdateSourceTrigger=PropertyChanged, Converter={x:Static cnvs:DigitConverter.Instance}}"
-                             PreviewKeyDown="{x:Static root:ViewsHelper.OnlyDigits}" />
-                    <TextBlock Text="Описание" />
-                    <TextBox Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" />
-                </StackPanel>
-            </ScrollViewer>
+            <Border BorderThickness="1"
+                    BorderBrush="Black"
+                    Margin="5">
+                <ScrollViewer>
+                    <StackPanel Margin="5 0 5 5">
+                        <TextBlock Text="Название" />
+                        <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBlock Text="Единица измерения" />
+                        <ComboBox IsEditable="True"
+                                  DisplayMemberPath="Name"
+                                  ItemsSource="{Binding ProductsViewModel.Units, Source={StaticResource dialogData}}"
+                                  SelectedValuePath="Id"
+                                  SelectedValue="{Binding UnitId, Converter={x:Static cnvs:IdConverter.Instance}}" />
+                        <TextBlock Text="Цена" />
+                        <TextBox Text="{Binding Cost, UpdateSourceTrigger=PropertyChanged,Converter={x:Static cnvs:DecimalConverter.Instance}}"
+                                 MaxLength="10"
+                                 PreviewTextInput="{x:Static root:ViewsHelper.OnlyNumbers}" />
+                        <TextBlock Text="Производитель" />
+                        <ComboBox IsEditable="True"
+                                  DisplayMemberPath="Name"
+                                  ItemsSource="{Binding ProductsViewModel.Manufacturers, Source={StaticResource dialogData}}"
+                                  SelectedValuePath="Id"
+                                  SelectedValue="{Binding ManufacturerId, Converter={x:Static cnvs:IdConverter.Instance}}" />
+                        <TextBlock Text="Поставщик" />
+                        <ComboBox IsEditable="True"
+                                  DisplayMemberPath="Name"
+                                  ItemsSource="{Binding ProductsViewModel.Suppliers, Source={StaticResource dialogData}}"
+                                  SelectedValuePath="Id"
+                                  SelectedValue="{Binding SupplierId, Converter={x:Static cnvs:IdConverter.Instance}}" />
+                        <TextBlock Text="Категория товара" />
+                        <ComboBox IsEditable="True"
+                                  DisplayMemberPath="Name"
+                                  ItemsSource="{Binding ProductsViewModel.Categories, Source={StaticResource dialogData}}"
+                                  SelectedValuePath="Id"
+                                  SelectedValue="{Binding CategoryId, Converter={x:Static cnvs:IdConverter.Instance}}" />
+                        <TextBlock Text="Максимально-возможная скидка" />
+                        <TextBox Text="{Binding MaxDiscountAmount, UpdateSourceTrigger=PropertyChanged, Converter={x:Static cnvs:DigitConverter.Instance}}"
+                                 PreviewKeyDown="{x:Static root:ViewsHelper.OnlyDigits}"
+                                 MaxLength="2" />
+                        <TextBlock Text="Скидка" />
+                        <TextBox Text="{Binding DiscountAmount, UpdateSourceTrigger=PropertyChanged, Converter={x:Static cnvs:DigitConverter.Instance}}"
+                                 PreviewKeyDown="{x:Static root:ViewsHelper.OnlyDigits}"
+                                 MaxLength="2" />
+                        <TextBlock Text="Количество на складе" />
+                        <TextBox Text="{Binding QuantityInStock, UpdateSourceTrigger=PropertyChanged, Converter={x:Static cnvs:DigitConverter.Instance}}"
+                                 PreviewKeyDown="{x:Static root:ViewsHelper.OnlyDigits}" />
+                        <TextBlock Text="Описание" />
+                        <TextBox Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" />
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
 
             <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
@@ -105,12 +110,13 @@
                 <Border BorderThickness="3"
                         BorderBrush="Black"
                         CornerRadius="5"
-                        HorizontalAlignment="Center">
+                        Margin="5">
                     <Image Source="{Binding Path, TargetNullValue={StaticResource placeholder}}"
                            Margin="7" />
                 </Border>
 
-                <StackPanel Grid.Row="1">
+                <StackPanel Grid.Row="1"
+                            Margin="5">
                     <TextBlock Text="Путь к изображению" />
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -121,6 +127,7 @@
                                  IsReadOnly="True"
                                  IsReadOnlyCaretVisible="False" />
                         <Button Grid.Column="1"
+                                Margin="10 0 0 0"
                                 Content="Выбрать" />
                     </Grid>
                 </StackPanel>
@@ -135,10 +142,9 @@
                     x:Name="button"
                     CommandParameter="{Binding Product, ValidatesOnNotifyDataErrors=False, Source={StaticResource dialogData}}"
                     Margin="0 0 20 0"
-                    IsEnabled="{Binding Product.HasErrors, Source={StaticResource dialogData}, Converter={cnvs:BooleanNot}}"
-                    Click="{x:Static root:ViewsHelper.CloseWindow}">
+                    IsEnabled="{Binding Product.HasErrors, Source={StaticResource dialogData}, Converter={cnvs:BooleanNot}}">
             </Button>
-            <Button Content="Отмена"/>
+            <Button Content="Отмена" />
         </StackPanel>
     </Grid>
 </Window>
