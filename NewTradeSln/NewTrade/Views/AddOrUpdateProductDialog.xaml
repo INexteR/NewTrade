@@ -106,7 +106,7 @@
                         BorderBrush="Black"
                         CornerRadius="5"
                         HorizontalAlignment="Center">
-                    <Image Source="{Binding Path, TargetNullValue={StaticResource placeholder}}"
+                    <Image Source="{Binding Path, TargetNullValue={StaticResource placeholder}, Converter={local:ImageNameToPath}}"
                            Margin="7" />
                 </Border>
 
