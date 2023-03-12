@@ -14,6 +14,7 @@ namespace ShopSQLite
         public void Add(IProduct product)
         {
             Product @new = product.Create<Product>();
+            @new.Id = 0;
             using (CatalogContext context = CatalogContext.Get(сonnectionString))
             {
                 var entry = context.Products.Add(@new);

@@ -10,6 +10,7 @@ namespace ShopViewModels
             Name = string.Empty;
             Cost = -1;
             MaxDiscountAmount = -1;
+            DiscountAmount = -1;
             QuantityInStock = -1;
             Description = string.Empty;
             UnitId = -1;

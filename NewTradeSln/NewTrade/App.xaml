@@ -25,5 +25,9 @@
             <Setter Property="Icon"
                     Value="/Resources/icon.ico" />
         </Style>
+
+        <Style TargetType="Button">
+            <Setter Property="Padding" Value="4 1 4 3"/>
+        </Style>
     </Application.Resources>
 </Application>

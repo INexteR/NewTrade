@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
+using System.Globalization;
 using System.Windows.Input;
 using System.Windows.Media;
 using ViewModels;
@@ -26,6 +28,22 @@ namespace NewTrade
             {
                 e.Handled = true;
             }
+        };
+
+        public static TextCompositionEventHandler OnlyNumbers { get; } = (s, e) =>
+        {
+            var textBox = (TextBox)s;
+            string fullText;
+            // Если TextBox содержит выделенный текст, то заменяем его на e.Text
+            if (textBox.SelectionLength > 0)
+            {
+                fullText = textBox.Text.Replace(textBox.SelectedText, e.Text);
+            }
+            else
+            {   // Иначе нам нужно вставить новый текст в позицию курсора
+                fullText = textBox.Text.Insert(textBox.CaretIndex, e.Text);
+            }
+            e.Handled = !decimal.TryParse(fullText, CultureInfo.InvariantCulture, out var _);
         };
 
         public static T? FindAncestor<T>(this DependencyObject dobj)
@@ -65,6 +83,7 @@ namespace NewTrade
             return default;
         }
 
-        public static RoutedEventHandler CloseWindow { get; } = (s, _) => Window.GetWindow((DependencyObject)s).Close();
+        public static RoutedEventHandler CloseWindow { get; } = (_, e) => 
+        Window.GetWindow((DependencyObject)e.Source).Close();
     }
 }
