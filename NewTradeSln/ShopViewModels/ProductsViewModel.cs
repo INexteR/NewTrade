@@ -17,11 +17,10 @@ namespace ShopViewModels
             _shop.SourcesLoadedChanged += OnSourcesChanged;
         }
 
-        private void OnProductChanged(object sender, NotifyListChangedEventArgs<IProduct> e)
+        private void OnProductChanged(object sender, NotifyCollectionChangedAction<IProduct> e)
         {
             switch (e.Action)
             {
-                case NotifyCollectionChangedAction.Reset: break;
                 case NotifyCollectionChangedAction.Add:
                     products.Add(e.NewItem ?? throw new ArgumentNullException("e.NewItem"));
                     break;
@@ -33,6 +32,7 @@ namespace ShopViewModels
                     var index = products.IndexOf(e.OldItem ?? throw new ArgumentNullException("e.OldItem"));
                     products[index] = e.NewItem ?? throw new ArgumentNullException("e.NewItem");
                     break;
+                default: throw new NotImplementedException();
             }
         }
         private void OnSourcesChanged(object? sender, EventArgs e)

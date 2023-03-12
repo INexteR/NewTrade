@@ -13,21 +13,21 @@ namespace Model
         /// только целиком весь разом.</summary>
         event EventHandler SourcesLoadedChanged;
 
-        IReadOnlyList<IUnit> GetUnits();
+        IEnumerable<IUnit> GetUnits();
 
         /// <summary>Возвращает всех производителей в индексированном списке
         /// несвязанном с Бизнес (Доменной) логикой.</summary>
         /// <returns>Индексированная коллекция (лист, массив и др.) всех производителей.</returns>
-        IReadOnlyList<IManufacturer> GetManufacturers();
+        IEnumerable<IManufacturer> GetManufacturers();
 
-        IReadOnlyList<ISupplier> GetSuppliers();
+        IEnumerable<ISupplier> GetSuppliers();
 
-        IReadOnlyList<ICategory> GetCategories();
+        IEnumerable<ICategory> GetCategories();
 
         /// <summary>Возвращает все товары в индексированном списке
         /// несвязанном с Бизнес (Доменной) логикой.</summary>
         /// <returns>Индексированная коллекция (лист, массив и др.) всех товаров.</returns>
-        IReadOnlyCollection<IProduct> GetProducts();
+        IEnumerable<IProduct> GetProducts();
 
     }
 }

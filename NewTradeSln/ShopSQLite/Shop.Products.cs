@@ -3,7 +3,7 @@ using CommonNet6.Collection;
 using Mapping;
 using Model;
 using ShopSQLite.Entities;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Collections.ObjectModel;
 
 namespace ShopSQLite
 {
@@ -15,59 +15,42 @@ namespace ShopSQLite
         {
             Product @new = product.Create<Product>();
             @new.Id = 0;
-            using (CatalogContext context = CatalogContext.Get(сonnectionString))
-            {
-                var entry = context.Products.Add(@new);
-                context.SaveChanges();
 
-                context.Units.AttachRange(units);
-                context.Manufacturers.AttachRange(manufacturers);
-                context.Suppliers.AttachRange(suppliers);
-                context.Categories.AttachRange(categories);
+            var entry = catalog.Products.Add(@new);
+            catalog.SaveChanges();
 
-                entry.Reference(p => p.Unit).Load();
-                entry.Reference(p => p.Manufacturer).Load();
-                entry.Reference(p => p.Supplier).Load();
-                entry.Reference(p => p.Category).Load();
-            }
             products.Add(@new);
-            ProductChanged(this, NotifyListChangedEventArgs<IProduct>.Add(@new, products.Count - 1));
+            ProductChanged(this, NotifyCollectionChangedAction<IProduct>.Add(@new));
         }
 
         public void Update(IProduct product)
         {
+
+            Product? old = catalog.Products.Find(product.Id);
+            if (old is null)
+                throw new ArgumentException("Товара с таким Id нет.", nameof(product));
+            else
+                catalog.Entry(old).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
+
             Product @new = product.Create<Product>();
-            using (CatalogContext context = CatalogContext.Get(сonnectionString))
-            {
-                context.Units.AttachRange(units);
-                context.Manufacturers.AttachRange(manufacturers);
-                context.Suppliers.AttachRange(suppliers);
-                context.Categories.AttachRange(categories);
+            var entry = catalog.Products.Update(@new);
+            catalog.SaveChanges();
 
-                if (context.Products.Local.FirstOrDefault(pr => pr.Id == product.Id) is Product att)
-                    context.Entry(att).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
-
-                var entry = context.Products.Update(@new);
-                context.SaveChanges();
-            }
-            int index = products.FindIndex(pr => pr.Id == @new.Id);
-            Product old = products[index];
-            products[index] = @new;
-            ProductChanged(this, NotifyListChangedEventArgs<IProduct>.Replace(old, @new, index));
+            ProductChanged(this, NotifyCollectionChangedAction<IProduct>.Replace(old, @new));
         }
+
         public void Remove(IProduct product)
         {
-            int index = products.FindIndex(pr => pr.Id == product.Id);
-            Product old = products[index];
+            Product? old = catalog.Products.Find(product.Id);
+            if (old is null)
+                throw new ArgumentException("Товара с таким Id нет.", nameof(product));
 
             if (old.OrderProducts.Count is 0)
             {
-                using (CatalogContext context = CatalogContext.Get(сonnectionString))
-                {
-                    context.Products.Remove(old);
-                    context.SaveChanges();
-                }
-                ProductChanged(this, NotifyListChangedEventArgs<IProduct>.Remove(old, index));
+                catalog.Products.Remove(old);
+                catalog.SaveChanges();
+
+                ProductChanged(this, NotifyCollectionChangedAction<IProduct>.Remove(old));
             }
             else
             {
@@ -75,7 +58,7 @@ namespace ShopSQLite
             }
         }
 
-        private readonly List<Product> products = new();
-        public IReadOnlyCollection<IProduct> GetProducts() => products;
+        private readonly ObservableCollection<Product> products;
+        public IEnumerable<IProduct> GetProducts() => products.Select(x => x);
     }
 }
