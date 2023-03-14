@@ -9,13 +9,13 @@ namespace NewTrade.Views
     public class ImageNameToPathConverter : IValueConverter
     {
         private const string ImageFolder = "Images";
-        private static readonly string ImageFolderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ImageFolder);
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public static readonly string ImageFolderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ImageFolder);
+        public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             string name = (string)value;
             if (string.IsNullOrWhiteSpace(name))
-                return name;
-            return Path.Combine(ImageFolderPath, name);
+                return null;
+            return File.ReadAllBytes(Path.Combine(ImageFolderPath, name));
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -23,7 +23,7 @@ namespace NewTrade.Views
             throw new NotImplementedException();
         }
         private ImageNameToPathConverter() { }
-        public static ImageNameToPathConverter Insatance { get; } = new();
+        public static ImageNameToPathConverter Instance { get; } = new();
     }
 
     [MarkupExtensionReturnType(typeof(ImageNameToPathConverter))]
@@ -31,7 +31,7 @@ namespace NewTrade.Views
     {
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
-            return ImageNameToPathConverter .Insatance;
+            return ImageNameToPathConverter.Instance;
         }
     }
 }

@@ -9,8 +9,8 @@ namespace ShopViewModels
         {
             Name = string.Empty;
             Cost = -1;
-            MaxDiscountAmount = -1;
             DiscountAmount = -1;
+            MaxDiscountAmount = -1;
             QuantityInStock = -1;
             Description = string.Empty;
             UnitId = -1;
@@ -47,8 +47,8 @@ namespace ShopViewModels
             }
         }
 
-        public int MaxDiscountAmount 
-        { 
+        public int MaxDiscountAmount
+        {
             get => Get<int>();
             set
             {
@@ -57,11 +57,30 @@ namespace ShopViewModels
                 {
                     AddError(maxDiscountAmountError);
                 }
+                else if (!DiscountAmount.HasValue || value < DiscountAmount.Value)
+                {
+                    AddError("Максимальная скидка не может быть меньше скидки");
+                }
+                else ClearErrors(nameof(DiscountAmount));
                 Set(value);
             }
         }
 
-        public sbyte? DiscountAmount { get => Get<sbyte?>(); set => Set(value); }
+        public sbyte? DiscountAmount
+        {
+            get => Get<sbyte?>();
+            set
+            {
+                ClearErrors();
+                if (value.HasValue && value.Value > MaxDiscountAmount)
+                {
+                    AddError("Скидка не может быть больше максимальной скидки");
+                }
+                else if (MaxDiscountAmount != -1) 
+                    ClearErrors(nameof(MaxDiscountAmount));
+                Set(value);
+            }
+        }
 
         public int QuantityInStock
         {
@@ -77,8 +96,8 @@ namespace ShopViewModels
             }
         }
 
-        public string Description 
-        { 
+        public string Description
+        {
             get => Get<string>()!;
             set
             {
@@ -94,8 +113,8 @@ namespace ShopViewModels
         public string? Path { get => Get<string>()!; set => Set(value); }
 
         public int UnitId
-        { 
-            get => Get<int>(); 
+        {
+            get => Get<int>();
             set
             {
                 ClearErrors();
@@ -108,7 +127,7 @@ namespace ShopViewModels
         }
 
         public int ManufacturerId
-        { 
+        {
             get => Get<int>();
             set
             {
@@ -122,9 +141,9 @@ namespace ShopViewModels
         }
 
         public int SupplierId
-        { 
-            get => Get<int>(); 
-            set 
+        {
+            get => Get<int>();
+            set
             {
                 ClearErrors();
                 if (value is -1)
@@ -132,10 +151,10 @@ namespace ShopViewModels
                     AddError(supplierError);
                 }
                 Set(value);
-            } 
+            }
         }
         public int CategoryId
-        { 
+        {
             get => Get<int>();
             set
             {
@@ -149,13 +168,13 @@ namespace ShopViewModels
         }
 
         public int Id { get; private set; }
-        public IUnit Unit { get; }
-        public IManufacturer Manufacturer { get; }
-        public ISupplier Supplier { get; }
-        public ICategory Category { get; }
-        public IEnumerable<IOrderProduct> OrderProducts { get; }
+        IUnit IProduct.Unit => throw new NotImplementedException();
+        IManufacturer IProduct.Manufacturer => throw new NotImplementedException();
+        ISupplier IProduct.Supplier => throw new NotImplementedException();
+        ICategory IProduct.Category => throw new NotImplementedException();
+        IEnumerable<IOrderProduct> IProduct.OrderProducts => throw new NotImplementedException();
 
-        private const string nameError = "Введите имя";
+        private const string nameError = "Введите название";
         private const string unitError = "Выберите единицу измерения";
         private const string costError = "Введите цену";
         private const string manufacturerError = "Выберите производителя";

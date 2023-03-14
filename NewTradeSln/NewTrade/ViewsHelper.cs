@@ -5,7 +5,10 @@ using System.Linq;
 using System.Globalization;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.IO;
+using NewTrade.Views;
 using ViewModels;
+using ShopViewModels;
 
 namespace NewTrade
 {
@@ -24,7 +27,7 @@ namespace NewTrade
         public static KeyEventHandler OnlyDigits { get; } = (s, e) =>
         {
             if (e.Key is not (>= Key.D0 and <= Key.D9 or
-            >= Key.NumPad0 and <= Key.NumPad9 or Key.Back))
+            >= Key.NumPad0 and <= Key.NumPad9 or Key.Back or Key.Left or Key.Right))
             {
                 e.Handled = true;
             }
@@ -85,5 +88,6 @@ namespace NewTrade
 
         public static RoutedEventHandler CloseWindow { get; } = (_, e) => 
         Window.GetWindow((DependencyObject)e.Source).Close();
+
     }
 }

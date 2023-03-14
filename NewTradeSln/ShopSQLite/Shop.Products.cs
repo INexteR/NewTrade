@@ -25,13 +25,22 @@ namespace ShopSQLite
 
         public void Update(IProduct product)
         {
-
             Product? old = catalog.Products.Find(product.Id);
             if (old is null)
                 throw new ArgumentException("Товара с таким Id нет.", nameof(product));
-            else
-                catalog.Entry(old).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
 
+            var props = typeof(IProduct).GetProperties();
+            for (int i = -1; ++i < 12;)
+            {
+                var prop = props[i];
+                var oldValue = prop.GetValue(old);
+                var newValue = prop.GetValue(product);
+                if (!Equals(oldValue, newValue)) 
+                    goto update;
+            }
+            return;
+        update:
+            catalog.Entry(old).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
             Product @new = product.Create<Product>();
             var entry = catalog.Products.Update(@new);
             catalog.SaveChanges();

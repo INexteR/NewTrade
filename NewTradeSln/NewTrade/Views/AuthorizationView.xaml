@@ -23,15 +23,17 @@
                 <Image Source="{StaticResource logo}" />
             </Border>
             <StackPanel DataContext="{StaticResource lp}">
+                <StackPanel.Resources>
+                    <Style TargetType="TextBox"
+                           BasedOn="{StaticResource textBoxValidationStyle}" />
+                </StackPanel.Resources>
                 <TextBlock FontSize="24"
                            Text="Вход в учетную запись"
                            Margin="0 0 0 5" />
                 <TextBlock Text="ЛОГИН" />
-                <TextBox Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}"
-                         Validation.ErrorTemplate="{x:Null}" TextChanged="OnEnabledValidation"/>
+                <TextBox Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}"/>
                 <TextBlock Text="ПАРОЛЬ" />
-                <TextBox Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}"
-                         Validation.ErrorTemplate="{x:Null}" TextChanged="OnEnabledValidation" />
+                <TextBox Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
             <Button Content="Войти"
                     Command="{Binding Authorize}"

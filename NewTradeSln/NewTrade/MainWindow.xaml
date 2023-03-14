@@ -7,8 +7,8 @@
         xmlns:vms="clr-namespace:ShopViewModels;assembly=ShopViewModels"
         xmlns:vs="clr-namespace:NewTrade.Views"
         mc:Ignorable="d"
-        Height="450"
-        Width="800"
+        Height="485"
+        Width="825"
         WindowStartupLocation="CenterScreen"
         DataContext="{Binding Authorization, Source={StaticResource locator}}">
     <Window.Resources>

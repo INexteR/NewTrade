@@ -10,12 +10,5 @@ namespace NewTrade.Views
         {
             InitializeComponent();
         }
-
-        private void OnEnabledValidation(object sender, TextChangedEventArgs e)
-        {
-            var tb = (TextBox)sender;
-            Validation.SetErrorTemplate(tb, Validation.GetErrorTemplate(this));
-            tb.TextChanged -= OnEnabledValidation;
-        }
     }
 }

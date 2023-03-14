@@ -137,7 +137,7 @@
                                 </TextBlock>
                                 <TextBlock>
                                     <Run Text="Цена:" />
-                                    <Run Text="{Binding Cost, Mode=OneWay, StringFormat={}{0:#.##} РУБ.}" />
+                                    <Run Text="{Binding Cost, Mode=OneWay, StringFormat={}{0:#.####} РУБ.}" />
                                 </TextBlock>
                                 <TextBlock>
                                     <Run Text="Присутствует в заказе:" />
@@ -202,9 +202,9 @@
                         <TextBox x:Name="description" />
                         <TextBlock Text="Производитель" />
                         <TextBox x:Name="manufacturer" />
-                        <TextBlock Text="Цена" />
+                        <TextBlock Text="Цена (РУБ.)" />
                         <TextBox x:Name="cost"
-                                 PreviewKeyDown="{x:Static root:ViewsHelper.OnlyDigits}" />
+                                 PreviewTextInput="{x:Static root:ViewsHelper.OnlyNumbers}"/>
                         <TextBlock Text="Наличие на складе" />
                         <TextBox x:Name="quantityInStock"
                                  PreviewKeyDown="{x:Static root:ViewsHelper.OnlyDigits}" />

@@ -1,6 +1,7 @@
 ﻿using Model;
 using System;
 using ViewModels;
+using System.IO;
 
 namespace NewTrade.Views
 {
@@ -20,6 +21,8 @@ namespace NewTrade.Views
             if (MessageBox.Show(message, "Удаление товара", MessageBoxButton.OKCancel) is MessageBoxResult.OK)
             {
                 viewModel.RemoveProduct.Execute(product);
+                if (product.Path != null)
+                File.Delete(Path.Combine(ImageNameToPathConverter.ImageFolderPath, product.Path));
             }
         };
 
