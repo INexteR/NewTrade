@@ -29,17 +29,18 @@ namespace ShopSQLite
         }
 
         public Task LoadDataAsync() => Task.Run(() =>
-            {
-                catalog.Units.Load();
-                catalog.Manufacturers.Load();
-                catalog.Suppliers.Load();
-                catalog.Categories.Load();
-                catalog.Products.Load();
+        {
+            catalog.Units.Load();
+            catalog.Manufacturers.Load();
+            catalog.Suppliers.Load();
+            catalog.Categories.Load();            
+            catalog.Products.Load();
+            catalog.OrderProducts.Load();
 
-                IsSourcesLoaded = true;
-                SourcesLoadedChanged(this, EventArgs.Empty);
-                //throw new Exception("Тестовое исключение");
-            });
+            IsSourcesLoaded = true;
+            SourcesLoadedChanged(this, EventArgs.Empty);
+            //throw new Exception("Тестовое исключение");
+        });
 
         public string Name { get; } = "ООО «Ткани»";
         public bool IsSourcesLoaded { get; private set; }

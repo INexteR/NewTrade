@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:NewTrade"
              xmlns:vms="clr-namespace:ShopViewModels;assembly=ShopViewModels"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              StartupUri="MainWindow.xaml"
              Startup="OnAppStartup">
     <Application.Resources>
@@ -27,10 +28,30 @@
                     Value="/Resources/icon.ico" />
         </Style>
 
-        <Style TargetType="Button">
+        <Style x:Key="brush1">
+            <Setter Property="Control.Background"
+                    Value="#FF349C3D" />
+        </Style>
+
+        <Style x:Key="brush2">
+            <Setter Property="Control.Background"
+                    Value="#FF8FCC4E" />
+        </Style>
+
+        <Style TargetType="Button"
+               BasedOn="{StaticResource brush1}">
             <Setter Property="Padding"
                     Value="4 1 4 3" />
         </Style>
+
+        <Style TargetType="ListBoxItem"
+               BasedOn="{StaticResource brush1}" />
+        <Style TargetType="ComboBoxItem"
+               BasedOn="{StaticResource brush1}" />
+        <Style TargetType="MenuItem"
+               BasedOn="{StaticResource brush2}" />
+        <Style TargetType="RadioButton"
+               BasedOn="{StaticResource brush2}" />
 
         <Style TargetType="ItemsControl"
                x:Key="errorItems">
@@ -48,7 +69,8 @@
             </Setter>
         </Style>
         <Style TargetType="TextBox"
-               x:Key="textBoxValidationStyle">
+               x:Key="textBoxValidationStyle"
+               BasedOn="{StaticResource brush2}">
             <Setter Property="Validation.ErrorTemplate"
                     Value="{x:Null}" />
             <Setter Property="Template">
@@ -56,6 +78,7 @@
                     <ControlTemplate TargetType="TextBox">
                         <StackPanel>
                             <TextBox Style="{x:Null}"
+                                     Background="{TemplateBinding Background}"
                                      Text="{Binding Text, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource TemplatedParent}}"
                                      MaxLength="{TemplateBinding MaxLength}" />
                             <ItemsControl Style="{StaticResource errorItems}" />
@@ -72,12 +95,13 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="ComboBox">
                         <StackPanel>
-                            <ComboBox Style="{x:Null}" 
+                            <ComboBox Style="{x:Null}"
                                       IsEditable="True"
                                       ItemsSource="{TemplateBinding ItemsSource}"
                                       SelectedValuePath="{TemplateBinding SelectedValuePath}"
                                       DisplayMemberPath="{TemplateBinding DisplayMemberPath}"
-                                      SelectedValue="{Binding SelectedValue, RelativeSource={RelativeSource TemplatedParent}}" />
+                                      SelectedValue="{Binding SelectedValue, RelativeSource={RelativeSource TemplatedParent}}">
+                            </ComboBox>
                             <ItemsControl Style="{StaticResource errorItems}" />
                         </StackPanel>
                     </ControlTemplate>

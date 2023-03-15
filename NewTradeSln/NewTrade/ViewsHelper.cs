@@ -89,5 +89,9 @@ namespace NewTrade
         public static RoutedEventHandler CloseWindow { get; } = (_, e) => 
         Window.GetWindow((DependencyObject)e.Source).Close();
 
+        public static void Msg(this string txt, string? title = null, MessageBoxButton btn = default, MessageBoxImage img = MessageBoxImage.Error)
+        {
+            MessageBox.Show(txt, title, btn, img);
+        }
     }
 }

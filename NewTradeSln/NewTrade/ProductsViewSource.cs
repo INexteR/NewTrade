@@ -218,7 +218,7 @@ namespace NewTrade
 
         private bool ProductCostSearch(IProduct product)
         {
-            return product.Cost.ToString().Contains(ProductCost,
+            return product.Cost.ToString(System.Globalization.CultureInfo.InvariantCulture).Contains(ProductCost,
                 StringComparison.OrdinalIgnoreCase);
         }
 

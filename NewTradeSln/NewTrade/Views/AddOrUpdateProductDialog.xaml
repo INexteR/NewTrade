@@ -58,12 +58,14 @@
                         <StackPanel.Resources>
                             <Style TargetType="TextBox"
                                    BasedOn="{StaticResource textBoxValidationStyle}" />
-                            <Style TargetType="ComboBox" BasedOn="{StaticResource comboBoxValidationStyle}"/>
+                            <Style TargetType="ComboBox"
+                                   BasedOn="{StaticResource comboBoxValidationStyle}" />
                         </StackPanel.Resources>
                         <TextBlock Text="Название" />
                         <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
                         <TextBlock Text="Единица измерения" />
-                        <ComboBox FontSize="16" DisplayMemberPath="Name"
+                        <ComboBox FontSize="16"
+                                  DisplayMemberPath="Name"
                                   ItemsSource="{Binding ProductsViewModel.Units, Source={StaticResource dialogData}}"
                                   SelectedValuePath="Id"
                                   SelectedValue="{Binding UnitId, Converter={x:Static cnvs:IdConverter.Instance}}" />
@@ -72,17 +74,20 @@
                                  MaxLength="10"
                                  PreviewTextInput="{x:Static root:ViewsHelper.OnlyNumbers}" />
                         <TextBlock Text="Производитель" />
-                        <ComboBox FontSize="16" DisplayMemberPath="Name"
+                        <ComboBox FontSize="16"
+                                  DisplayMemberPath="Name"
                                   ItemsSource="{Binding ProductsViewModel.Manufacturers, Source={StaticResource dialogData}}"
                                   SelectedValuePath="Id"
                                   SelectedValue="{Binding ManufacturerId, Converter={x:Static cnvs:IdConverter.Instance}}" />
                         <TextBlock Text="Поставщик" />
-                        <ComboBox FontSize="16" DisplayMemberPath="Name"
+                        <ComboBox FontSize="16"
+                                  DisplayMemberPath="Name"
                                   ItemsSource="{Binding ProductsViewModel.Suppliers, Source={StaticResource dialogData}}"
                                   SelectedValuePath="Id"
                                   SelectedValue="{Binding SupplierId, Converter={x:Static cnvs:IdConverter.Instance}}" />
                         <TextBlock Text="Категория товара" />
-                        <ComboBox FontSize="16" DisplayMemberPath="Name"
+                        <ComboBox FontSize="16"
+                                  DisplayMemberPath="Name"
                                   ItemsSource="{Binding ProductsViewModel.Categories, Source={StaticResource dialogData}}"
                                   SelectedValuePath="Id"
                                   SelectedValue="{Binding CategoryId, Converter={x:Static cnvs:IdConverter.Instance}}" />
@@ -125,7 +130,8 @@
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <TextBox Text="{Binding Path, Mode=OneWay}"
+                        <TextBox Style="{StaticResource brush2}"
+                                 Text="{Binding Path, Mode=OneWay}"
                                  IsReadOnly="True"
                                  IsReadOnlyCaretVisible="False"
                                  Name="path" />

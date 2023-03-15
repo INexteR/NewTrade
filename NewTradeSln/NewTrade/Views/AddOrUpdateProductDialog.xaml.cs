@@ -11,6 +11,7 @@ using ViewModels;
 using System.IO;
 using Microsoft.Win32;
 using System.Diagnostics.Contracts;
+using System.Windows.Media.Imaging;
 
 namespace NewTrade.Views
 {
@@ -72,15 +73,29 @@ namespace NewTrade.Views
             };
             if (dialog.ShowDialog() is true)
             {
+                using (var imageStream = File.OpenRead(dialog.FileName))
+                {
+                    var decoder = BitmapDecoder.Create(imageStream, BitmapCreateOptions.IgnoreColorProfile,
+                        BitmapCacheOption.Default);
+                    var frame = decoder.Frames[0];
+                    if (frame.PixelWidth > 300 || frame.PixelHeight > 200)
+                    {
+                        "Разрешение изображения превышает 300×200 пикселей".Msg("Не удалось выбрать изображение");
+                        return;
+                    }
+                }
+                
                 var fileName = Path.GetFileName(dialog.FileName);
-                var newImage = Path.Combine(ImageNameToPathConverter.ImageFolderPath, fileName);
+                var newImage = Path.Combine(ImageNameToPathConverter.ImageFolderPath, fileName);                
+                
+
                 if (File.Exists(newImage))
                 {   //если выбран файл, отличный от выбранного до него
                     if (fileName != ImagePath)
                     {   //если файл не равен начальному
                         if (fileName != firstPath)
                         {
-                            MessageBox.Show("Данное изображение уже используется", null, default, MessageBoxImage.Error);
+                            "Данное изображение уже используется".Msg();
                             return;
                         }//если предыдущее значение файла не равно начальному и не пусто
                         if (ImagePath != firstPath && ImagePath != null)

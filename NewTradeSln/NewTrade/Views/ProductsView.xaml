@@ -104,11 +104,10 @@
 
                         </Grid.ColumnDefinitions>
                         <Grid.ContextMenu>
-                            <ContextMenu FontSize="18"
-                                         x:Name="menu">
+                            <ContextMenu Style="{StaticResource ctrlStyle}">
                                 <MenuItem Header="Редактировать"
                                           Click="{x:Static local:ProductsViewHelper.OnUpdateProductClick}" />
-                                
+
                                 <MenuItem Header="Копировать"
                                           Click="{x:Static local:ProductsViewHelper.OnCopyProductClick}" />
 
@@ -172,6 +171,15 @@
 
                 </DataTemplate>
             </ListBox.ItemTemplate>
+
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Padding"
+                            Value="0" />
+                    <Setter Property="Background"
+                            Value="{x:Null}" />
+                </Style>
+            </ListBox.ItemContainerStyle>
         </ListBox>
 
         <GridSplitter Grid.Row="2"
@@ -196,6 +204,10 @@
                               VerticalAlignment="Center"
                               VerticalScrollBarVisibility="Auto">
                     <StackPanel Margin="0 0 5 0">
+                        <StackPanel.Resources>
+                            <Style TargetType="TextBox"
+                                   BasedOn="{StaticResource brush2}" />
+                        </StackPanel.Resources>
                         <TextBlock Text="Название" />
                         <TextBox x:Name="name" />
                         <TextBlock Text="Описание" />
@@ -204,7 +216,7 @@
                         <TextBox x:Name="manufacturer" />
                         <TextBlock Text="Цена (РУБ.)" />
                         <TextBox x:Name="cost"
-                                 PreviewTextInput="{x:Static root:ViewsHelper.OnlyNumbers}"/>
+                                 PreviewTextInput="{x:Static root:ViewsHelper.OnlyNumbers}" />
                         <TextBlock Text="Наличие на складе" />
                         <TextBox x:Name="quantityInStock"
                                  PreviewKeyDown="{x:Static root:ViewsHelper.OnlyDigits}" />

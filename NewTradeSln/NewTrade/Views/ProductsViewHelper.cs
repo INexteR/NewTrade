@@ -18,7 +18,8 @@ namespace NewTrade.Views
         {
             var (viewModel, product) = GetData(sender);
             string message = $"Действительно удалить выбранный товар?";
-            if (MessageBox.Show(message, "Удаление товара", MessageBoxButton.OKCancel) is MessageBoxResult.OK)
+            if (MessageBox.Show(message, "Удаление товара", MessageBoxButton.OKCancel, MessageBoxImage.Question) 
+            is MessageBoxResult.OK)
             {
                 viewModel.RemoveProduct.Execute(product);
                 if (product.Path != null)
