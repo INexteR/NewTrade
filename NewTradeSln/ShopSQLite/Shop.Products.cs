@@ -4,6 +4,7 @@ using Mapping;
 using Model;
 using ShopSQLite.Entities;
 using System.Collections.ObjectModel;
+using System.Runtime.CompilerServices;
 
 namespace ShopSQLite
 {
@@ -11,8 +12,20 @@ namespace ShopSQLite
     {
         public event NotifyListChangedEventHandler<IProduct> ProductChanged = (_, _) => { };
 
+        private void RoleVerifyAccess(Rights rights, [CallerMemberName] string methodName = "")
+        {
+            if (!RoleCheckAccess(rights))
+                throw new MethodAccessException($"Доступ к методу \"{methodName}\" для роли {CurrentUser?.Role.Name ?? "null"} запрещён;");
+        }
+        public bool RoleCheckAccess(Rights rights)
+        {
+            return CurrentUser?.Role.Rights is Rights currentRights && (currentRights & rights) == rights;
+        }
+
         public void Add(IProduct product)
         {
+            RoleVerifyAccess(Rights.Adding);
+
             Product @new = product.Create<Product>();
             @new.Id = 0;
 
@@ -25,7 +38,7 @@ namespace ShopSQLite
 
         public void Update(IProduct product)
         {
-            Product? old = catalog.Products.Find(product.Id) ?? 
+            Product? old = catalog.Products.Find(product.Id) ??
                 throw new ArgumentException("Товара с таким Id нет.", nameof(product));
             var props = typeof(IProduct).GetProperties();
             for (int i = -1; ++i < 12;)
@@ -33,7 +46,7 @@ namespace ShopSQLite
                 var prop = props[i];
                 var oldValue = prop.GetValue(old);
                 var newValue = prop.GetValue(product);
-                if (!Equals(oldValue, newValue)) 
+                if (!Equals(oldValue, newValue))
                     goto update;
             }
             return;
@@ -48,7 +61,7 @@ namespace ShopSQLite
 
         public void Remove(IProduct product)
         {
-            Product? old = catalog.Products.Find(product.Id) ?? 
+            Product? old = catalog.Products.Find(product.Id) ??
                 throw new ArgumentException("Товара с таким Id нет.", nameof(product));
             if (old.OrderProducts.Count is 0)
             {

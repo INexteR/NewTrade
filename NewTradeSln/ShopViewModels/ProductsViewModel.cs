@@ -53,7 +53,8 @@ namespace ShopViewModels
         public IEnumerable<IProduct> Products => products;
 
 
-        public RelayCommand<IProduct> AddProduct => GetCommand<IProduct>(AddProductExecute);
+        public RelayCommand<IProduct> AddProduct => GetCommand<IProduct>(AddProductExecute, AddProductCanExecute);
+
         public RelayCommand<IProduct> RemoveProduct => GetCommand<IProduct>(RemoveProductExecute);
 
         public RelayCommand<IProduct> UpdateProduct => GetCommand<IProduct>(UpdateProductExecute);
@@ -63,6 +64,11 @@ namespace ShopViewModels
         public IEnumerable<ISupplier> Suppliers { get => Get<IEnumerable<ISupplier>>() ?? Array.Empty<ISupplier>(); private set => Set(value); }
         public IEnumerable<IUnit> Units { get => Get<IEnumerable<IUnit>>() ?? Array.Empty<IUnit>(); private set => Set(value); }
         public IEnumerable<ICategory> Categories { get => Get<IEnumerable<ICategory>>() ?? Array.Empty<ICategory>(); private set => Set(value); }
+
+        private bool AddProductCanExecute(IProduct parameter)
+        {
+            return _shop.RoleCheckAccess(Rights.Adding);
+        }
 
         private void AddProductExecute(IProduct product)
         {
