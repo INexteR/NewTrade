@@ -15,6 +15,12 @@ namespace ShopViewModels
             _shop = shop;
             _shop.ProductChanged += OnProductChanged;
             _shop.SourcesLoadedChanged += OnSourcesChanged;
+            _shop.AuthorizationChanged += OnAuthorizationChanged;
+        }
+
+        private void OnAuthorizationChanged(object? sender, AuthorizationChangedArgs e)
+        {
+            AddProduct.RaiseCanExecuteChanged();
         }
 
         private void OnProductChanged(object sender, NotifyCollectionChangedAction<IProduct> e)
