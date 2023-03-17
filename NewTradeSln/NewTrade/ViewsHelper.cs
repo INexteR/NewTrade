@@ -1,14 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using Model;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Globalization;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.IO;
-using NewTrade.Views;
-using ViewModels;
-using ShopViewModels;
 
 namespace NewTrade
 {
@@ -93,5 +90,37 @@ namespace NewTrade
         {
             MessageBox.Show(txt, title, btn, img);
         }
+
+        public static RoutedEventHandler RemoveAddingButton { get; } = (s, e) =>
+        {
+            var panel = (Panel)s;
+            var locator = (Locator)panel.FindResource("locator");
+            if (locator.Authorization.CurrentUser is null or { Role.Rights: Rights.Updating })
+            {
+                panel.Children.RemoveAt(panel.Children.Count - 1);
+            }
+        };
+
+        public static EventHandler ContextMenuSetup { get; } = (s, e) =>
+        {
+            var userControl = (UserControl)s!;
+            var contextMenu = (ContextMenu)userControl.Resources["contextMenu"];
+            var locator = (Locator)userControl.FindResource("locator");
+            var user = locator.Authorization.CurrentUser;
+            switch (user)
+            {
+                case null:
+                    userControl.Resources.Remove("contextMenu");
+                    break;
+                case { Role.Rights: Rights.Adding }:
+                    contextMenu.Items.RemoveAt(2);
+                    contextMenu.Items.RemoveAt(0);
+                    break;
+                case { Role.Rights: Rights.Updating }:
+                    contextMenu.Items.RemoveAt(2);
+                    contextMenu.Items.RemoveAt(1);
+                    break;
+            }
+        };
     }
 }

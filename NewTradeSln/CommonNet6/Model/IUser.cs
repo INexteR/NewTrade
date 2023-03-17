@@ -23,6 +23,6 @@ namespace Model
         string? Password { get; }
 
         /// <summary>Роль.</summary>
-        IRole? Role { get; }
+        IRole Role { get; }
     }
 }

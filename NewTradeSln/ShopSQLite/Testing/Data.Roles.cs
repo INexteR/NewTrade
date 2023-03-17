@@ -6,17 +6,12 @@ namespace ShopSQLite.Initialization
 {
     internal static partial class Data
     {
-        private static Role[]? roles;
-        public static Role[] GetRoles()
+        public static Role[] roles =
         {
-            return roles ??= rolesText.ParseToArray<Role>(nameof(Role.Id), nameof(Role.Name), nameof(Role.Rights));
-        }
+            new Role { Id = 1, Name = "Администратор"},
+            new Role { Id = 2, Name = "Менеджер"},
+            new Role { Id = 3, Name = "Клиент"}
+        };
 
-        private const string rolesText= @"
-1	Администратор	Full
-2	Менеджер	Viewing
-3	Клиент	Viewing
-4	Гость	Viewing
-";
     }
 }

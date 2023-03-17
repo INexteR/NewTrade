@@ -49,7 +49,7 @@ namespace ShopSQLite
                 lock (authorizationChangedLocker)
                 {
                     Status = AuthorizationStatus.Authorized;
-                    CurrentUser = new User() { Name = "Гость" };
+                    //CurrentUser = new User() { Name = "Гость" };
                     OnAuthorizationChanged();
                 }
                 return;

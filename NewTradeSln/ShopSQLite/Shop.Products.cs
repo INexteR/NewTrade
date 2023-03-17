@@ -25,10 +25,8 @@ namespace ShopSQLite
 
         public void Update(IProduct product)
         {
-            Product? old = catalog.Products.Find(product.Id);
-            if (old is null)
+            Product? old = catalog.Products.Find(product.Id) ?? 
                 throw new ArgumentException("Товара с таким Id нет.", nameof(product));
-
             var props = typeof(IProduct).GetProperties();
             for (int i = -1; ++i < 12;)
             {
@@ -50,10 +48,8 @@ namespace ShopSQLite
 
         public void Remove(IProduct product)
         {
-            Product? old = catalog.Products.Find(product.Id);
-            if (old is null)
+            Product? old = catalog.Products.Find(product.Id) ?? 
                 throw new ArgumentException("Товара с таким Id нет.", nameof(product));
-
             if (old.OrderProducts.Count is 0)
             {
                 catalog.Products.Remove(old);

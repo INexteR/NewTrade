@@ -5,11 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:NewTrade.Views"
              xmlns:root="clr-namespace:NewTrade"
+             xmlns:cvt="clr-namespace:NewTrade.Converters"
              mc:Ignorable="d"
              d:DesignHeight="450"
              d:DesignWidth="800"
              d:Background="White"
-             d:DataContext="{Binding Products, Source={StaticResource locator}}">
+             d:DataContext="{Binding Products, Source={StaticResource locator}}"
+             Initialized="{x:Static root:ViewsHelper.ContextMenuSetup}">
     <UserControl.Resources>
         <root:ProductsViewSource x:Key="productsView"
                                  Source="{Binding Products}"
@@ -20,6 +22,17 @@
                                  ManufacturerName="{Binding Text, ElementName=manufacturer}"
                                  ProductCost="{Binding Text, ElementName=cost}"
                                  ProductQuantityInStock="{Binding Text, ElementName=quantityInStock}" />
+        <ContextMenu x:Key="contextMenu"
+                     Style="{StaticResource ctrlStyle}">
+            <MenuItem Header="Редактировать"
+                      Click="{x:Static local:ProductsViewHelper.OnUpdateProductClick}" />
+
+            <MenuItem Header="Копировать"
+                      Click="{x:Static local:ProductsViewHelper.OnCopyProductClick}" />
+
+            <MenuItem Header="Удалить"
+                      Click="{x:Static local:ProductsViewHelper.OnDeleteProductClick}" />
+        </ContextMenu>
     </UserControl.Resources>
 
     <Grid>
@@ -45,6 +58,7 @@
             </Border>
 
             <StackPanel Grid.Column="1"
+                        Loaded="{x:Static root:ViewsHelper.RemoveAddingButton}"
                         Margin="10 3">
                 <Button Command="{Binding Authorization.Exit, Mode=OneWay, Source={StaticResource locator}}"
                         Content="Выход" />
@@ -96,25 +110,14 @@
                  HorizontalContentAlignment="Stretch">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid x:Name="root">
+                    <Grid x:Name="root"
+                          ContextMenu="{DynamicResource contextMenu}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition />
                             <ColumnDefinition Width="Auto" />
 
                         </Grid.ColumnDefinitions>
-                        <Grid.ContextMenu>
-                            <ContextMenu Style="{StaticResource ctrlStyle}">
-                                <MenuItem Header="Редактировать"
-                                          Click="{x:Static local:ProductsViewHelper.OnUpdateProductClick}" />
-
-                                <MenuItem Header="Копировать"
-                                          Click="{x:Static local:ProductsViewHelper.OnCopyProductClick}" />
-
-                                <MenuItem Header="Удалить"
-                                          Click="{x:Static local:ProductsViewHelper.OnRemoveProductClick}" />
-                            </ContextMenu>
-                        </Grid.ContextMenu>
                         <Border Margin="10"
                                 BorderThickness="2"
                                 BorderBrush="Black">

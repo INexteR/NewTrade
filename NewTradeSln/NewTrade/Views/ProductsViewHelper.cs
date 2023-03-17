@@ -14,7 +14,7 @@ namespace NewTrade.Views
             AddOrUpdateProductDialog.Add(null, viewModel);
         };
 
-        public static RoutedEventHandler OnRemoveProductClick { get; } = (sender, e) =>
+        public static RoutedEventHandler OnDeleteProductClick { get; } = (sender, e) =>
         {
             var (viewModel, product) = GetData(sender);
             string message = $"Действительно удалить выбранный товар?";

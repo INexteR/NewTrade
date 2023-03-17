@@ -91,17 +91,19 @@
                x:Key="comboBoxValidationStyle">
             <Setter Property="Validation.ErrorTemplate"
                     Value="{x:Null}" />
+            <Setter Property="Background" Value="#FF8FCC4E" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ComboBox">
                         <StackPanel>
                             <ComboBox Style="{x:Null}"
+                                      Background="{TemplateBinding Background}"
                                       IsEditable="True"
                                       ItemsSource="{TemplateBinding ItemsSource}"
                                       SelectedValuePath="{TemplateBinding SelectedValuePath}"
                                       DisplayMemberPath="{TemplateBinding DisplayMemberPath}"
-                                      SelectedValue="{Binding SelectedValue, RelativeSource={RelativeSource TemplatedParent}}">
-                            </ComboBox>
+                                      SelectedValue="{Binding SelectedValue, RelativeSource={RelativeSource TemplatedParent}}" 
+                                      Loaded="ComboBox_Loaded"/>
                             <ItemsControl Style="{StaticResource errorItems}" />
                         </StackPanel>
                     </ControlTemplate>

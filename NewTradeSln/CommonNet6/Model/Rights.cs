@@ -11,8 +11,8 @@ namespace Model
         /// <summary>Добавление - клиент</summary>
         Adding = 1, 
         /// <summary>Редактирование - менеджер</summary>
-        Editing = 2,
+        Updating = 2,
         /// <summary>Все права - администратор</summary>
-        Full = Adding | Editing,
+        Full = Adding | Updating,
     }
 }

@@ -32,6 +32,6 @@ namespace ShopSQLite.Entities
 
         public virtual Role Role { get; set; } = null!;
 
-        IRole? IUser.Role => Role;
+        IRole IUser.Role => Role;
     }
 }

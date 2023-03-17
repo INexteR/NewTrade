@@ -32,13 +32,11 @@ namespace Model
                 throw new ArgumentException("Неожиданное значение.", nameof(newStatus));
             }
 
-            switch (newStatus)
+            if (newStatus is AuthorizationStatus.InProcessing or AuthorizationStatus.None 
+                && newUser is not null)
             {
-                case AuthorizationStatus.Authorized when newUser is null:
-                    throw new ArgumentNullException(nameof(newUser));
-
-                case AuthorizationStatus.InProcessing or AuthorizationStatus.None when newUser is not null:
-                    throw new ArgumentException($"Допустимо только для {AuthorizationStatus.Authorized}.", nameof(newUser));
+                throw new ArgumentException($"Допустимо только для {AuthorizationStatus.Authorized}.", 
+                    nameof(newUser));
             }
 
             NewStatus = newStatus;

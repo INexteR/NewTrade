@@ -30,6 +30,8 @@ namespace ShopSQLite
 
         public Task LoadDataAsync() => Task.Run(() =>
         {
+            catalog.Roles.Load();
+            catalog.Users.Load();
             catalog.Units.Load();
             catalog.Manufacturers.Load();
             catalog.Suppliers.Load();
@@ -39,7 +41,6 @@ namespace ShopSQLite
 
             IsSourcesLoaded = true;
             SourcesLoadedChanged(this, EventArgs.Empty);
-            //throw new Exception("Тестовое исключение");
         });
 
         public string Name { get; } = "ООО «Ткани»";

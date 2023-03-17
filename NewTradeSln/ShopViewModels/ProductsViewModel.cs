@@ -69,20 +69,10 @@ namespace ShopViewModels
             _shop.Add(product);
         }
 
-        //private bool AddProductCanExecute(TempProduct product)
-        //{           
-        //    return !product.HasErrors;
-        //}
-
         private void UpdateProductExecute(IProduct product)
         {
             _shop.Update(product);
         }
-
-        //private bool UpdateProductCanExecute(TempProduct product)
-        //{
-        //    return !product.HasErrors;
-        //}
 
         private void RemoveProductExecute(IProduct product)
         {

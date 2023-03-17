@@ -1,5 +1,4 @@
 ﻿using Mapping;
-using Model;
 using ShopSQLite.Entities;
 
 namespace ShopSQLite.Initialization

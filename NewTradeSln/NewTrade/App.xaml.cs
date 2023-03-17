@@ -3,6 +3,8 @@ using ShopSQLite;
 using ShopViewModels;
 using System;
 using System.Threading.Tasks;
+using System.Windows.Data;
+using System.Windows.Media;
 using System.Windows.Threading;
 
 namespace NewTrade
@@ -20,14 +22,13 @@ namespace NewTrade
 
         private async void OnAppStartup(object sender, StartupEventArgs e)
         {
-            locator = (Locator)FindResource(nameof(locator));
+            locator = (Locator)Resources[nameof(locator)];
             var shopModel = new Shop(/*true*/); // Для пересборки БД - нужно задать true
             this.shopModel = shopModel;
             authorizationModel = shopModel;
             locator.Authorization = new AuthorizationViewModel(authorizationModel);
             locator.Products = new ProductsViewModel(shopModel);
 
-            // Здесь нужно добавить обработку ошибок 
             DispatcherUnhandledException += OnException;
             await shopModel.LoadDataAsync();
         }
@@ -36,6 +37,19 @@ namespace NewTrade
         {
             e.Exception.Message.Msg("Исключение");
             e.Handled = true;
+        }
+
+        private void ComboBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            var cBox = (ComboBox)sender;
+            var tBtn = (Control)cBox.Template.FindName("toggleButton", cBox);
+            var border = (Border)tBtn.Template.FindName("templateRoot", tBtn);
+            border.Background = cBox.Background;
+
+            var PART_EditableTextBox = (TextBox)cBox.Template.FindName("PART_EditableTextBox", cBox);
+            
+            border = (Border)PART_EditableTextBox.Parent;
+            border.Background = cBox.Background;
         }
     }
 }

@@ -48,7 +48,7 @@ namespace ShopSQLite
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Role>().HasData(Data.GetRoles());
+            modelBuilder.Entity<Role>().HasData(Data.roles);
 
             modelBuilder.Entity<Category>().HasData(Data.categories);
 

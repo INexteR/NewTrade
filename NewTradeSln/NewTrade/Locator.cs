@@ -5,9 +5,9 @@ namespace NewTrade
 {
     public class Locator : ViewModelBase
     {
-        public IAuthorizationViewModel? Authorization
+        public IAuthorizationViewModel Authorization
         {
-            get => Get<IAuthorizationViewModel?>();
+            get => Get<IAuthorizationViewModel>()!;
             set => Set(value);
         }
         //public IManufacturersViewModel? ManufacturersSource
@@ -15,9 +15,9 @@ namespace NewTrade
         //    get => Get<IManufacturersViewModel?>();
         //    set => Set(value);
         //}
-        public IProductsViewModel? Products
+        public IProductsViewModel Products
         {
-            get => Get<IProductsViewModel?>();
+            get => Get<IProductsViewModel>()!;
             set => Set(value);
         }
     }
