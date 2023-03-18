@@ -48,18 +48,17 @@ namespace ShopViewModels
         }
 
         public string Name => _shop.Name;
+      
+        public RelayCommand<IProduct> AddProduct => GetCommand<IProduct>(AddProductExecute);
+        public RelayCommand<IProduct> RemoveProduct => GetCommand<IProduct>(DeleteProductExecute);
+        public RelayCommand<IProduct> UpdateProduct => GetCommand<IProduct>(UpdateProductExecute);
 
         private readonly ObservableCollection<IProduct> products = new();
         public IEnumerable<IProduct> Products => products;
 
-
-        public RelayCommand<IProduct> AddProduct => GetCommand<IProduct>(AddProductExecute);
-        public RelayCommand<IProduct> RemoveProduct => GetCommand<IProduct>(RemoveProductExecute);
-
-        public RelayCommand<IProduct> UpdateProduct => GetCommand<IProduct>(UpdateProductExecute);
-
         private readonly ObservableCollection<IManufacturer> manufacturers = new();
         public IEnumerable<IManufacturer> Manufacturers => manufacturers;
+
         public IEnumerable<ISupplier> Suppliers { get => Get<IEnumerable<ISupplier>>() ?? Array.Empty<ISupplier>(); private set => Set(value); }
         public IEnumerable<IUnit> Units { get => Get<IEnumerable<IUnit>>() ?? Array.Empty<IUnit>(); private set => Set(value); }
         public IEnumerable<ICategory> Categories { get => Get<IEnumerable<ICategory>>() ?? Array.Empty<ICategory>(); private set => Set(value); }
@@ -74,9 +73,13 @@ namespace ShopViewModels
             _shop.Update(product);
         }
 
-        private void RemoveProductExecute(IProduct product)
+        private void DeleteProductExecute(IProduct product)
         {
-            _shop.Remove(product);
+            _shop.Delete(product);
         }
+
+        public bool CanAdd => _shop.CanAdd;
+        public bool CanUpdate => _shop.CanUpdate;
+        public bool CanDelete => _shop.CanDelete;
     }
 }

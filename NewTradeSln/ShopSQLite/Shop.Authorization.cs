@@ -21,9 +21,6 @@ namespace ShopSQLite
             if (Status != AuthorizationStatus.Authorized)
                 throw new Exception($"Выход возможен только из состояния {AuthorizationStatus.Authorized}.");
 
-            // Какие-то действия.
-
-            // Потом:
             lock (authorizationChangedLocker)
             {
                 Status = AuthorizationStatus.None;
@@ -42,20 +39,18 @@ namespace ShopSQLite
                 OnAuthorizationChanged();
             }
 
-            Thread.Sleep(1_000);
+            Thread.Sleep(new Random().Next(500, 2501));
 
             if (login is null && password is null)
             {
                 lock (authorizationChangedLocker)
                 {
                     Status = AuthorizationStatus.Authorized;
-                    //CurrentUser = new User() { Name = "Гость" };
                     OnAuthorizationChanged();
                 }
                 return;
             }
 
-            // Какие-то действия, потом проверка
             //byte[]? hash = ModelHelper.GetHashPassword(password);
             // Это временное решение. По нормальному нужно сравнивать хеши.
             User? user = catalog.Users.FirstOrDefault(user => user.Login == login && user.Password == password);
@@ -65,7 +60,7 @@ namespace ShopSQLite
                 lock (authorizationChangedLocker)
                 {
                     Status = AuthorizationStatus.Authorized;
-                    CurrentUser = user;// запоминание авторизированого пользователя.
+                    CurrentUser = user;
                     OnAuthorizationChanged();
                 }
             }

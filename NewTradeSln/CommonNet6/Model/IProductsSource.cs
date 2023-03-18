@@ -16,10 +16,14 @@ namespace Model
 
         /// <summary>Удаление товара.</summary>
         /// <param name="product">Удаляемый товар.</param>
-        void Remove(IProduct product);
+        void Delete(IProduct product);
 
         /// <summary>Изменение товара.</summary>
         /// <param name="product">Изменяемый товар.</param>
         void Update(IProduct product);
+
+        bool CanAdd { get; }
+        bool CanUpdate { get; }
+        bool CanDelete { get; }
     }
 }

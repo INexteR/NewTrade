@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Windows.Input;
 using System.Windows.Media;
+using ViewModels;
 
 namespace NewTrade
 {
@@ -94,33 +95,32 @@ namespace NewTrade
         public static RoutedEventHandler RemoveAddingButton { get; } = (s, e) =>
         {
             var panel = (Panel)s;
-            var locator = (Locator)panel.FindResource("locator");
-            if (locator.Authorization.CurrentUser is null or { Role.Rights: Rights.Updating })
+            var viewModel = (IProductsViewModel)panel;
+            if (!viewModel.CanAdd)
             {
                 panel.Children.RemoveAt(panel.Children.Count - 1);
             }
         };
 
-        public static EventHandler ContextMenuSetup { get; } = (s, e) =>
+        public static RoutedEventHandler ContextMenuSetup { get; } = (s, e) =>
         {
-            var userControl = (UserControl)s!;
+            var userControl = (UserControl)s;
             var contextMenu = (ContextMenu)userControl.Resources["contextMenu"];
-            var locator = (Locator)userControl.FindResource("locator");
-            var user = locator.Authorization.CurrentUser;
-            switch (user)
+            var viewModel = (IProductsViewModel)userControl.DataContext;
+            if (viewModel.CanDelete)
+                return;
+            if (viewModel.CanUpdate)
             {
-                case null:
-                    userControl.Resources.Remove("contextMenu");
-                    break;
-                case { Role.Rights: Rights.Adding }:
-                    contextMenu.Items.RemoveAt(2);
-                    contextMenu.Items.RemoveAt(0);
-                    break;
-                case { Role.Rights: Rights.Updating }:
-                    contextMenu.Items.RemoveAt(2);
-                    contextMenu.Items.RemoveAt(1);
-                    break;
+                contextMenu.Items.RemoveAt(2);
+                contextMenu.Items.RemoveAt(1);
             }
+            else if (viewModel.CanAdd)
+            {
+                contextMenu.Items.RemoveAt(2);
+                contextMenu.Items.RemoveAt(0);
+            }
+            else
+                userControl.Resources.Remove("contextMenu");
         };
     }
 }

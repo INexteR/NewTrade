@@ -1,18 +1,15 @@
-﻿using System;
-
-namespace Model
+﻿namespace Model
 {
-    /// <summary>Возможные комбинации прав.</summary>
-    [Flags]
+    /// <summary>Возможные права.</summary>
     public enum Rights
     {
         /// <summary>Просмотр - гость</summary>
-        Viewing = 0, 
+        Viewing,
         /// <summary>Добавление - клиент</summary>
-        Adding = 1, 
+        Adding,
         /// <summary>Редактирование - менеджер</summary>
-        Updating = 2,
+        Updating,
         /// <summary>Все права - администратор</summary>
-        Full = Adding | Updating,
+        Full
     }
 }

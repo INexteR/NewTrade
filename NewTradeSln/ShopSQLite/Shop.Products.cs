@@ -4,6 +4,7 @@ using Mapping;
 using Model;
 using ShopSQLite.Entities;
 using System.Collections.ObjectModel;
+using System.Runtime.CompilerServices;
 
 namespace ShopSQLite
 {
@@ -11,8 +12,19 @@ namespace ShopSQLite
     {
         public event NotifyListChangedEventHandler<IProduct> ProductChanged = (_, _) => { };
 
+        private void RoleVerifyAccess(Rights rights, [CallerMemberName] string methodName = "")
+        {
+            if (!RoleCheckAccess(rights))
+                throw new MethodAccessException($"Доступ к методу \"{methodName}\" для роли {CurrentUser?.Role.Name ?? "гость"} запрещён;");
+        }
+        private bool RoleCheckAccess(Rights rights)
+        {
+            return CurrentUser?.Role.Rights is Rights currentRights && (currentRights & rights) == rights;
+        }
+
         public void Add(IProduct product)
         {
+            RoleVerifyAccess(Rights.Adding);
             Product @new = product.Create<Product>();
             @new.Id = 0;
 
@@ -25,6 +37,7 @@ namespace ShopSQLite
 
         public void Update(IProduct product)
         {
+            RoleVerifyAccess(Rights.Updating);
             Product? old = catalog.Products.Find(product.Id) ?? 
                 throw new ArgumentException("Товара с таким Id нет.", nameof(product));
             var props = typeof(IProduct).GetProperties();
@@ -46,8 +59,9 @@ namespace ShopSQLite
             ProductChanged(this, NotifyCollectionChangedAction<IProduct>.Replace(old, @new));
         }
 
-        public void Remove(IProduct product)
+        public void Delete(IProduct product)
         {
+            RoleVerifyAccess(Rights.Full);
             Product? old = catalog.Products.Find(product.Id) ?? 
                 throw new ArgumentException("Товара с таким Id нет.", nameof(product));
             if (old.OrderProducts.Count is 0)
@@ -65,5 +79,9 @@ namespace ShopSQLite
 
         private readonly ObservableCollection<Product> products;
         public IEnumerable<IProduct> GetProducts() => products.Select(x => x);
+
+        public bool CanAdd => RoleCheckAccess(Rights.Adding);
+        public bool CanUpdate => RoleCheckAccess(Rights.Updating);
+        public bool CanDelete => RoleCheckAccess(Rights.Full);
     }
 }
