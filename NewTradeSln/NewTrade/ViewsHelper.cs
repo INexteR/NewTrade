@@ -96,10 +96,10 @@ namespace NewTrade
         {
             var panel = (Panel)s;
             var viewModel = (IProductsViewModel)panel.DataContext;
-            if (!viewModel.CanAdd)
-            {
-                panel.Children.RemoveAt(panel.Children.Count - 1);
-            }
+            //if (!viewModel.CanAdd)
+            //{
+            //    panel.Children.RemoveAt(panel.Children.Count - 1);
+            //}
         };
 
         public static RoutedEventHandler ContextMenuSetup { get; } = (s, e) =>
@@ -107,20 +107,20 @@ namespace NewTrade
             var userControl = (UserControl)s;
             var contextMenu = (ContextMenu)userControl.Resources["contextMenu"];
             var viewModel = (IProductsViewModel)userControl.DataContext;
-            if (viewModel.CanDelete)
-                return;
-            if (viewModel.CanUpdate)
-            {
-                contextMenu.Items.RemoveAt(2);
-                contextMenu.Items.RemoveAt(1);
-            }
-            else if (viewModel.CanAdd)
-            {
-                contextMenu.Items.RemoveAt(2);
-                contextMenu.Items.RemoveAt(0);
-            }
-            else
-                userControl.Resources.Remove("contextMenu");
+            //if (viewModel.CanDelete)
+            //    return;
+            //if (viewModel.CanUpdate)
+            //{
+            //    contextMenu.Items.RemoveAt(2);
+            //    contextMenu.Items.RemoveAt(1);
+            //}
+            //else if (viewModel.CanAdd)
+            //{
+            //    contextMenu.Items.RemoveAt(2);
+            //    contextMenu.Items.RemoveAt(0);
+            //}
+            //else
+            //    userControl.Resources.Remove("contextMenu");
         };
     }
 }

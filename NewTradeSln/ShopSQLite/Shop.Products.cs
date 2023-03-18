@@ -38,7 +38,7 @@ namespace ShopSQLite
         public void Update(IProduct product)
         {
             RoleVerifyAccess(Rights.Updating);
-            Product? old = catalog.Products.Find(product.Id) ?? 
+            Product? old = catalog.Products.Find(product.Id) ??
                 throw new ArgumentException("Товара с таким Id нет.", nameof(product));
             var props = typeof(IProduct).GetProperties();
             for (int i = -1; ++i < 12;)
@@ -46,7 +46,7 @@ namespace ShopSQLite
                 var prop = props[i];
                 var oldValue = prop.GetValue(old);
                 var newValue = prop.GetValue(product);
-                if (!Equals(oldValue, newValue)) 
+                if (!Equals(oldValue, newValue))
                     goto update;
             }
             return;
@@ -62,7 +62,7 @@ namespace ShopSQLite
         public void Delete(IProduct product)
         {
             RoleVerifyAccess(Rights.Full);
-            Product? old = catalog.Products.Find(product.Id) ?? 
+            Product? old = catalog.Products.Find(product.Id) ??
                 throw new ArgumentException("Товара с таким Id нет.", nameof(product));
             if (old.OrderProducts.Count is 0)
             {
@@ -80,8 +80,19 @@ namespace ShopSQLite
         private readonly ObservableCollection<Product> products;
         public IEnumerable<IProduct> GetProducts() => products.Select(x => x);
 
-        public bool CanAdd => RoleCheckAccess(Rights.Adding);
-        public bool CanUpdate => RoleCheckAccess(Rights.Updating);
-        public bool CanDelete => RoleCheckAccess(Rights.Full);
+        public bool CanAdd() => RoleCheckAccess(Rights.Adding);
+        public bool CanUpdate() => RoleCheckAccess(Rights.Updating);
+        public bool CanDelete() => RoleCheckAccess(Rights.Full);
+
+        public bool CheckMethodAccess(string methodName)
+        {
+            if (methodName == nameof(Add))
+                return RoleCheckAccess(Rights.Adding);
+            if (methodName == nameof(Update))
+                return RoleCheckAccess(Rights.Updating);
+            if(methodName == nameof(Delete))
+                return RoleCheckAccess(Rights.Full);
+            return false;
+        }
     }
 }

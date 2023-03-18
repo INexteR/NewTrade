@@ -9,9 +9,52 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\B111C5.jpeg" />
+    <None Remove="Images\E112C6.jpg" />
+    <None Remove="Images\K839K3.jpg" />
+    <None Remove="Images\L293S9.jpg" />
+    <None Remove="Images\M112C8.jpg" />
+    <None Remove="Images\M294G9.jpg" />
+    <None Remove="Images\M398S9.jpg" />
+    <None Remove="Images\N283K3.jpg" />
+    <None Remove="Images\S384K2.jpg" />
+    <None Remove="Images\T238C7.jpg" />
     <None Remove="Resources\icon.ico" />
     <None Remove="Resources\logo.png" />
     <None Remove="Resources\picture.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Images\B111C5.jpeg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\E112C6.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\K839K3.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\L293S9.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\M112C8.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\M294G9.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\M398S9.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\N283K3.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\S384K2.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\T238C7.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>

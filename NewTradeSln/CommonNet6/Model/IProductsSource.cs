@@ -22,8 +22,10 @@ namespace Model
         /// <param name="product">Изменяемый товар.</param>
         void Update(IProduct product);
 
-        bool CanAdd { get; }
-        bool CanUpdate { get; }
-        bool CanDelete { get; }
+        /// <summary>Метод разрещения вызовов методов.</summary>
+        /// <param name="methodName">Имя метода.</param>
+        /// <returns><see langword="true"/>, если вызов метода разрешён.</returns>
+        bool CheckMethodAccess(string methodName);
+        
     }
 }

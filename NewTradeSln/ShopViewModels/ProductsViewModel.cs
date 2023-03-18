@@ -15,6 +15,14 @@ namespace ShopViewModels
             _shop = shop;
             _shop.ProductChanged += OnProductChanged;
             _shop.SourcesLoadedChanged += OnSourcesChanged;
+            _shop.AuthorizationChanged += OnAuthorizationChanged; 
+        }
+
+        private void OnAuthorizationChanged(object? sender, AuthorizationChangedArgs e)
+        {
+            AddProduct.RaiseCanExecuteChanged();
+            RemoveProduct.RaiseCanExecuteChanged();
+            UpdateProduct.RaiseCanExecuteChanged();
         }
 
         private void OnProductChanged(object sender, NotifyCollectionChangedAction<IProduct> e)
@@ -49,9 +57,9 @@ namespace ShopViewModels
 
         public string Name => _shop.Name;
       
-        public RelayCommand<IProduct> AddProduct => GetCommand<IProduct>(AddProductExecute);
-        public RelayCommand<IProduct> RemoveProduct => GetCommand<IProduct>(DeleteProductExecute);
-        public RelayCommand<IProduct> UpdateProduct => GetCommand<IProduct>(UpdateProductExecute);
+        public RelayCommand<IProduct> AddProduct => GetCommand<IProduct>(_shop.Add, _ => _shop.CheckMethodAccess(nameof(IShop.Add)));
+        public RelayCommand<IProduct> RemoveProduct => GetCommand<IProduct>(_shop.Delete, _ => _shop.CheckMethodAccess(nameof(IShop.Delete)));
+        public RelayCommand<IProduct> UpdateProduct => GetCommand<IProduct>(_shop.Update, _ => _shop.CheckMethodAccess(nameof(IShop.Update)));
 
         private readonly ObservableCollection<IProduct> products = new();
         public IEnumerable<IProduct> Products => products;
@@ -62,24 +70,5 @@ namespace ShopViewModels
         public IEnumerable<ISupplier> Suppliers { get => Get<IEnumerable<ISupplier>>() ?? Array.Empty<ISupplier>(); private set => Set(value); }
         public IEnumerable<IUnit> Units { get => Get<IEnumerable<IUnit>>() ?? Array.Empty<IUnit>(); private set => Set(value); }
         public IEnumerable<ICategory> Categories { get => Get<IEnumerable<ICategory>>() ?? Array.Empty<ICategory>(); private set => Set(value); }
-
-        private void AddProductExecute(IProduct product)
-        {
-            _shop.Add(product);
-        }
-
-        private void UpdateProductExecute(IProduct product)
-        {
-            _shop.Update(product);
-        }
-
-        private void DeleteProductExecute(IProduct product)
-        {
-            _shop.Delete(product);
-        }
-
-        public bool CanAdd => _shop.CanAdd;
-        public bool CanUpdate => _shop.CanUpdate;
-        public bool CanDelete => _shop.CanDelete;
     }
 }

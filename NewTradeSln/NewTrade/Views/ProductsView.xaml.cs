@@ -1,5 +1,6 @@
 ﻿using System.Windows.Controls.Primitives;
 using System.Collections.Specialized;
+using System.Windows.Input;
 
 namespace NewTrade.Views
 {

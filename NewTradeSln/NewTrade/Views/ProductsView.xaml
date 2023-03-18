@@ -10,8 +10,7 @@
              d:DesignHeight="450"
              d:DesignWidth="800"
              d:Background="White"
-             d:DataContext="{Binding Products, Source={StaticResource locator}}"
-             Loaded="{x:Static root:ViewsHelper.ContextMenuSetup}">
+             d:DataContext="{Binding Products, Source={StaticResource locator}}">
     <UserControl.Resources>
         <root:ProductsViewSource x:Key="productsView"
                                  Source="{Binding Products}"
@@ -23,17 +22,40 @@
                                  ProductCost="{Binding Text, ElementName=cost}"
                                  ProductQuantityInStock="{Binding Text, ElementName=quantityInStock}" />
         <ContextMenu x:Key="contextMenu"
-                     Style="{StaticResource ctrlStyle}">
-            <MenuItem Header="Редактировать"
-                      Click="{x:Static local:ProductsViewHelper.OnUpdateProductClick}" />
+                     Padding="0">
+            <FrameworkElement.Style>
+                <Style BasedOn="{StaticResource ctrlStyle}"
+                       TargetType="ContextMenu">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Items.Count, RelativeSource={RelativeSource Self}}" Value="0">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </FrameworkElement.Style>
+            <FrameworkElement.Resources>
+                <Style TargetType="MenuItem">
+                    <Setter Property="CommandParameter" Value="{Binding}"/>
+                    <Setter Property="CommandTarget" Value="{Binding PlacementTarget, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </FrameworkElement.Resources>
+            <MenuItem x:Name="update" Header="Редактировать" Command="{x:Static local:ProductsViewHelper.Update}"/>
 
-            <MenuItem Header="Копировать"
-                      Click="{x:Static local:ProductsViewHelper.OnCopyProductClick}" />
+            <MenuItem x:Name="add" Header="Копировать" Command="{x:Static local:ProductsViewHelper.Add}"/>
 
-            <MenuItem Header="Удалить"
-                      Click="{x:Static local:ProductsViewHelper.OnDeleteProductClick}" />
+            <MenuItem Name="remove" Header="Удалить" Command="{x:Static local:ProductsViewHelper.Remove}"/>
         </ContextMenu>
     </UserControl.Resources>
+    <UserControl.CommandBindings>
+        <CommandBinding Command="{x:Static local:ProductsViewHelper.Add}"
+                        Executed="{x:Static local:ProductsViewHelper.Executed}"
+                        CanExecute="{x:Static local:ProductsViewHelper.CanExecute}"/>
+    </UserControl.CommandBindings>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -58,7 +80,6 @@
             </Border>
 
             <StackPanel Grid.Column="1"
-                        Loaded="{x:Static root:ViewsHelper.RemoveAddingButton}"
                         Margin="10 3">
                 <Button Command="{Binding Authorization.Exit, Mode=OneWay, Source={StaticResource locator}}"
                         Content="Выход" />
@@ -69,7 +90,7 @@
                     <Run Text="{Binding Products.Count, Mode=OneWay, BindsDirectlyToSource=True}" />
                 </TextBlock>
                 <Button Content="Добавить товар"
-                        Click="{x:Static local:ProductsViewHelper.OnAddProductClick}" />
+                        Command="{x:Static local:ProductsViewHelper.Add}" />
             </StackPanel>
 
             <StackPanel Grid.Column="2"
@@ -111,7 +132,7 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid x:Name="root"
-                          ContextMenu="{DynamicResource contextMenu}">
+                          ContextMenu="{StaticResource contextMenu}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition />
