@@ -95,7 +95,7 @@ namespace NewTrade
         public static RoutedEventHandler RemoveAddingButton { get; } = (s, e) =>
         {
             var panel = (Panel)s;
-            var viewModel = (IProductsViewModel)panel;
+            var viewModel = (IProductsViewModel)panel.DataContext;
             if (!viewModel.CanAdd)
             {
                 panel.Children.RemoveAt(panel.Children.Count - 1);
