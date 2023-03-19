@@ -16,16 +16,13 @@ namespace Model
 
         /// <summary>Удаление товара.</summary>
         /// <param name="product">Удаляемый товар.</param>
-        void Delete(IProduct product);
+        void Remove(IProduct product);
 
         /// <summary>Изменение товара.</summary>
         /// <param name="product">Изменяемый товар.</param>
         void Update(IProduct product);
 
-        /// <summary>Метод разрещения вызовов методов.</summary>
-        /// <param name="methodName">Имя метода.</param>
-        /// <returns><see langword="true"/>, если вызов метода разрешён.</returns>
-        bool CheckMethodAccess(string methodName);
-        
+        bool CanAddAndUpdate { get; }
+        bool CanRemove { get; }
     }
 }

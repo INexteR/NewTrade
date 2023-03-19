@@ -2,13 +2,6 @@
 using System;
 using ViewModels;
 using System.IO;
-using System.Windows.Input;
-using ShopViewModels;
-using System.Windows.Data;
-using System.Globalization;
-using System.Linq;
-using System.Security.AccessControl;
-using System.Runtime.Intrinsics.X86;
 
 namespace NewTrade.Views
 {
@@ -21,16 +14,16 @@ namespace NewTrade.Views
             AddOrUpdateProductDialog.Add(null, viewModel);
         };
 
-        public static RoutedEventHandler OnDeleteProductClick { get; } = (sender, e) =>
+        public static RoutedEventHandler OnRemoveProductClick { get; } = (sender, e) =>
         {
             var (viewModel, product) = GetData(sender);
             string message = $"Действительно удалить выбранный товар?";
-            if (MessageBox.Show(message, "Удаление товара", MessageBoxButton.OKCancel, MessageBoxImage.Question)
+            if (MessageBox.Show(message, "Удаление товара", MessageBoxButton.OKCancel, MessageBoxImage.Question) 
             is MessageBoxResult.OK)
             {
                 viewModel.RemoveProduct.Execute(product);
                 if (product.Path != null)
-                    File.Delete(Path.Combine(ImageNameToPathConverter.ImageFolderPath, product.Path));
+                File.Delete(Path.Combine(ImageNameToPathConverter.ImageFolderPath, product.Path));
             }
         };
 
@@ -44,7 +37,7 @@ namespace NewTrade.Views
             var (viewModel, product) = GetData(sender);
             AddOrUpdateProductDialog.Add(product, viewModel);
         };
-
+        
         private static (IProductsViewModel viewModel, IProduct product) GetData(object sender)
         {
             FrameworkElement element = (FrameworkElement)sender;
@@ -54,65 +47,6 @@ namespace NewTrade.Views
             IProduct product = (IProduct)element.DataContext;
 
             return (viewModel, product);
-        }
-
-        /// <summary>Какое нужно действие - передаётся через параметр команды.</summary>
-        public static RoutedUICommand General { get; } = new RoutedUICommand("Общая команда", nameof(General), typeof(ProductsViewHelper));
-
-        public static ExecutedRoutedEventHandler Executed { get; } = (s, e) =>
-        {
-            FrameworkElement view = (FrameworkElement)s;
-            IProductsViewModel viewModel = (IProductsViewModel)view.DataContext;
-            FrameworkElement source = (FrameworkElement)e.OriginalSource;
-            IProduct? product = source.DataContext as IProduct;
-            string action = e.Parameter?.ToString() ?? string.Empty;
-
-            MessageBox.Show($"view = \"{view}\"\r\nviewModel = \"{viewModel}\r\nsource = \"{source}\"\r\nтовар = \"{product?.Name}\"\r\nдействие = \"{action}");
-        };
-
-        private static readonly TempProduct temp = new();
-
-        public static CanExecuteRoutedEventHandler CanExecute { get; } = (s, e) =>
-        {
-            FrameworkElement view = (FrameworkElement)s;
-            IProductsViewModel viewModel = (IProductsViewModel)view.DataContext;
-            FrameworkElement source = (FrameworkElement)e.OriginalSource;
-            IProduct? product = source.DataContext as IProduct;
-            string commandName = e.Parameter?.ToString() ?? string.Empty;
-
-            if (viewModel is null)
-            {
-                return;
-            }
-
-            e.CanExecute = IsAccessibleCommand(viewModel, commandName);
-        };
-
-        public static bool IsAccessibleCommand(IProductsViewModel viewModel, string commandName)
-        {
-            return commandName?.ToUpper() switch
-            {
-                "ADD" => viewModel.AddProduct.CanExecute(temp),
-                "REMOVE" => viewModel.RemoveProduct.CanExecute(temp),
-                "UPDATE" => viewModel.UpdateProduct.CanExecute(temp),
-                _ => false
-            };
-
-        }
-
-        public static IValueConverter IsMenu { get; } = new IsMenuConverter();
-        private class IsMenuConverter : IValueConverter
-        {
-            public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-            {
-                IProductsViewModel? vm = value as IProductsViewModel;
-                return vm is not null && "Add Remove Update".Split().Any(cn => IsAccessibleCommand(vm, cn));
-            }
-
-            public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-            {
-                throw new NotImplementedException();
-            }
         }
     }
 }

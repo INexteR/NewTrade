@@ -8,19 +8,6 @@ namespace NewTrade
 {
     public class ProductsViewSource : CollectionViewSource
     {
-        public ProductsViewSource()
-        {
-            IsLiveFilteringRequested = true;
-            IsLiveSortingRequested = true;
-            LiveSortingProperties.Add(nameof(IProduct.Cost));
-            LiveFilteringProperties.Add(nameof(IProduct.Name));
-            LiveFilteringProperties.Add(nameof(IProduct.Description));
-            LiveFilteringProperties.Add(nameof(IProduct.Manufacturer));
-            LiveFilteringProperties.Add(nameof(IProduct.ManufacturerId));
-            LiveFilteringProperties.Add(nameof(IProduct.Cost));
-            LiveFilteringProperties.Add(nameof(IProduct.QuantityInStock));
-        }
-
         public ListSortDirection? SortDirection
         {
             get => (ListSortDirection?)GetValue(SortDirectionProperty);

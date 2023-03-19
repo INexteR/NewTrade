@@ -15,14 +15,6 @@ namespace ShopViewModels
             _shop = shop;
             _shop.ProductChanged += OnProductChanged;
             _shop.SourcesLoadedChanged += OnSourcesChanged;
-            _shop.AuthorizationChanged += OnAuthorizationChanged; 
-        }
-
-        private void OnAuthorizationChanged(object? sender, AuthorizationChangedArgs e)
-        {
-            AddProduct.RaiseCanExecuteChanged();
-            RemoveProduct.RaiseCanExecuteChanged();
-            UpdateProduct.RaiseCanExecuteChanged();
         }
 
         private void OnProductChanged(object sender, NotifyCollectionChangedAction<IProduct> e)
@@ -57,9 +49,9 @@ namespace ShopViewModels
 
         public string Name => _shop.Name;
       
-        public RelayCommand<IProduct> AddProduct => GetCommand<IProduct>(_shop.Add, _ => _shop.CheckMethodAccess(nameof(IShop.Add)));
-        public RelayCommand<IProduct> RemoveProduct => GetCommand<IProduct>(_shop.Delete, _ => _shop.CheckMethodAccess(nameof(IShop.Delete)));
-        public RelayCommand<IProduct> UpdateProduct => GetCommand<IProduct>(_shop.Update, _ => _shop.CheckMethodAccess(nameof(IShop.Update)));
+        public RelayCommand<IProduct> AddProduct => GetCommand<IProduct>(_shop.Add);
+        public RelayCommand<IProduct> RemoveProduct => GetCommand<IProduct>(_shop.Remove);
+        public RelayCommand<IProduct> UpdateProduct => GetCommand<IProduct>(_shop.Update);
 
         private readonly ObservableCollection<IProduct> products = new();
         public IEnumerable<IProduct> Products => products;
@@ -70,5 +62,8 @@ namespace ShopViewModels
         public IEnumerable<ISupplier> Suppliers { get => Get<IEnumerable<ISupplier>>() ?? Array.Empty<ISupplier>(); private set => Set(value); }
         public IEnumerable<IUnit> Units { get => Get<IEnumerable<IUnit>>() ?? Array.Empty<IUnit>(); private set => Set(value); }
         public IEnumerable<ICategory> Categories { get => Get<IEnumerable<ICategory>>() ?? Array.Empty<ICategory>(); private set => Set(value); }
+
+        public bool CanAddAndUpdate => _shop.CanAddAndUpdate;
+        public bool CanRemove => _shop.CanRemove;
     }
 }

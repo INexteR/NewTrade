@@ -5,10 +5,8 @@
     {
         /// <summary>Просмотр - гость</summary>
         Viewing,
-        /// <summary>Добавление - клиент</summary>
-        Adding,
-        /// <summary>Редактирование - менеджер</summary>
-        Updating,
+        /// <summary>Добавление и редактирование - клиент</summary>
+        AddingAndUpdating,
         /// <summary>Все права - администратор</summary>
         Full
     }

@@ -1,6 +1,5 @@
 ﻿using System.Windows.Controls.Primitives;
 using System.Collections.Specialized;
-using System.Windows.Input;
 
 namespace NewTrade.Views
 {
@@ -21,7 +20,7 @@ namespace NewTrade.Views
         {
             if (e.Action is NotifyCollectionChangedAction.Add)
             {
-                var container = (FrameworkElement) generator.ContainerFromIndex(e.Position.Index);
+                var container = (FrameworkElement)generator.ContainerFromIndex(e.Position.Index);
                 container.BringIntoView();
             }
         }

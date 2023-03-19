@@ -19,6 +19,9 @@ namespace ViewModels
 
         /// <summary>Команда редактирования товара.</summary>
         RelayCommand<IProduct> UpdateProduct { get; }
+
+        bool CanAddAndUpdate { get; }
+        bool CanRemove { get; }
     }
 
 }

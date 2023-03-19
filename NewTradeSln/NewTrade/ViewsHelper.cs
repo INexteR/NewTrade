@@ -92,35 +92,21 @@ namespace NewTrade
             MessageBox.Show(txt, title, btn, img);
         }
 
-        public static RoutedEventHandler RemoveAddingButton { get; } = (s, e) =>
+        public static RoutedEventHandler LayoutSetup { get; } = (s, e) =>
         {
-            var panel = (Panel)s;
-            var viewModel = (IProductsViewModel)panel.DataContext;
-            //if (!viewModel.CanAdd)
-            //{
-            //    panel.Children.RemoveAt(panel.Children.Count - 1);
-            //}
-        };
-
-        public static RoutedEventHandler ContextMenuSetup { get; } = (s, e) =>
-        {
-            var userControl = (UserControl)s;
-            var contextMenu = (ContextMenu)userControl.Resources["contextMenu"];
-            var viewModel = (IProductsViewModel)userControl.DataContext;
-            //if (viewModel.CanDelete)
-            //    return;
-            //if (viewModel.CanUpdate)
-            //{
-            //    contextMenu.Items.RemoveAt(2);
-            //    contextMenu.Items.RemoveAt(1);
-            //}
-            //else if (viewModel.CanAdd)
-            //{
-            //    contextMenu.Items.RemoveAt(2);
-            //    contextMenu.Items.RemoveAt(0);
-            //}
-            //else
-            //    userControl.Resources.Remove("contextMenu");
+            var element = (FrameworkElement)s;
+            var viewModel = (IProductsViewModel)element.DataContext;
+            var contextMenu = (ContextMenu)element.Resources["contextMenu"];
+            var pnl = (Panel)element.FindName("pnl");
+            if (viewModel.CanRemove)
+                return;
+            if (viewModel.CanAddAndUpdate)
+                contextMenu.Items.RemoveAt(2);
+            else
+            {
+                pnl.Children.Remove(pnl.Children[^1]);
+                element.Resources.Remove(nameof(contextMenu));
+            }
         };
     }
 }
