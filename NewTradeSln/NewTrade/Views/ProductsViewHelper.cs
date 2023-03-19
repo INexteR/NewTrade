@@ -7,6 +7,8 @@ using ShopViewModels;
 using System.Windows.Data;
 using System.Globalization;
 using System.Linq;
+using System.Security.AccessControl;
+using System.Runtime.Intrinsics.X86;
 
 namespace NewTrade.Views
 {
@@ -54,17 +56,18 @@ namespace NewTrade.Views
             return (viewModel, product);
         }
 
-        public static RoutedUICommand Add { get; } = new RoutedUICommand("Добавление", "Add", typeof(ProductsViewHelper));
-        public static RoutedUICommand Remove { get; } = new RoutedUICommand("Добавление", "Remove", typeof(ProductsViewHelper));
-        public static RoutedUICommand Update { get; } = new RoutedUICommand("Добавление", "Update", typeof(ProductsViewHelper));
+        /// <summary>Какое нужно действие - передаётся через параметр команды.</summary>
+        public static RoutedUICommand General { get; } = new RoutedUICommand("Общая команда", nameof(General), typeof(ProductsViewHelper));
 
         public static ExecutedRoutedEventHandler Executed { get; } = (s, e) =>
         {
             FrameworkElement view = (FrameworkElement)s;
             IProductsViewModel viewModel = (IProductsViewModel)view.DataContext;
-            IProduct product = (IProduct)e.Parameter;
+            FrameworkElement source = (FrameworkElement)e.OriginalSource;
+            IProduct? product = source.DataContext as IProduct;
+            string action = e.Parameter?.ToString() ?? string.Empty;
 
-            MessageBox.Show($"view = \"{view}\"\r\nviewModel = \"{viewModel}\"\r\nтовар = \"{product?.Name}\"");
+            MessageBox.Show($"view = \"{view}\"\r\nviewModel = \"{viewModel}\r\nsource = \"{source}\"\r\nтовар = \"{product?.Name}\"\r\nдействие = \"{action}");
         };
 
         private static readonly TempProduct temp = new();
@@ -73,19 +76,43 @@ namespace NewTrade.Views
         {
             FrameworkElement view = (FrameworkElement)s;
             IProductsViewModel viewModel = (IProductsViewModel)view.DataContext;
-            IProduct product = (IProduct)e.Parameter;
+            FrameworkElement source = (FrameworkElement)e.OriginalSource;
+            IProduct? product = source.DataContext as IProduct;
+            string commandName = e.Parameter?.ToString() ?? string.Empty;
 
             if (viewModel is null)
             {
                 return;
             }
 
-            if (e.Command == Add)
-                e.CanExecute = viewModel.AddProduct.CanExecute(product ?? temp);
-            else if (e.Command == Remove)
-                e.CanExecute = viewModel.RemoveProduct.CanExecute(product);
-            else if (e.Command == Update)
-                e.CanExecute = viewModel.UpdateProduct.CanExecute(product);
+            e.CanExecute = IsAccessibleCommand(viewModel, commandName);
         };
+
+        public static bool IsAccessibleCommand(IProductsViewModel viewModel, string commandName)
+        {
+            return commandName?.ToUpper() switch
+            {
+                "ADD" => viewModel.AddProduct.CanExecute(temp),
+                "REMOVE" => viewModel.RemoveProduct.CanExecute(temp),
+                "UPDATE" => viewModel.UpdateProduct.CanExecute(temp),
+                _ => false
+            };
+
+        }
+
+        public static IValueConverter IsMenu { get; } = new IsMenuConverter();
+        private class IsMenuConverter : IValueConverter
+        {
+            public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+            {
+                IProductsViewModel? vm = value as IProductsViewModel;
+                return vm is not null && "Add Remove Update".Split().Any(cn => IsAccessibleCommand(vm, cn));
+            }
+
+            public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+            {
+                throw new NotImplementedException();
+            }
+        }
     }
 }

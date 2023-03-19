@@ -21,7 +21,7 @@ namespace NewTrade.Views
         {
             if (e.Action is NotifyCollectionChangedAction.Add)
             {
-                var container = (ListBoxItem)generator.ContainerFromIndex(e.Position.Index);
+                var container = (FrameworkElement) generator.ContainerFromIndex(e.Position.Index);
                 container.BringIntoView();
             }
         }

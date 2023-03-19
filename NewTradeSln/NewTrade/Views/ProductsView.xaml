@@ -22,37 +22,29 @@
                                  ProductCost="{Binding Text, ElementName=cost}"
                                  ProductQuantityInStock="{Binding Text, ElementName=quantityInStock}" />
         <ContextMenu x:Key="contextMenu"
-                     Padding="0">
-            <FrameworkElement.Style>
-                <Style BasedOn="{StaticResource ctrlStyle}"
-                       TargetType="ContextMenu">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding Items.Count, RelativeSource={RelativeSource Self}}" Value="0">
-                            <Setter Property="Visibility" Value="Collapsed"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </FrameworkElement.Style>
+                     Padding="0"
+                     Style="{StaticResource ctrlStyle}">
             <FrameworkElement.Resources>
                 <Style TargetType="MenuItem">
-                    <Setter Property="CommandParameter" Value="{Binding}"/>
+                    <Setter Property="CommandParameter" Value="{Binding Name, RelativeSource={RelativeSource Self}}"/>
                     <Setter Property="CommandTarget" Value="{Binding PlacementTarget, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}"/>
-                    <Style.Triggers>
+                    <Setter Property="Command" Value="{x:Static local:ProductsViewHelper.General}"/>
+                   <Style.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Visibility" Value="Collapsed"/>
                         </Trigger>
                     </Style.Triggers>
                 </Style>
             </FrameworkElement.Resources>
-            <MenuItem x:Name="update" Header="Редактировать" Command="{x:Static local:ProductsViewHelper.Update}"/>
+            <MenuItem x:Name="Update" Header="Редактировать"/>
 
-            <MenuItem x:Name="add" Header="Копировать" Command="{x:Static local:ProductsViewHelper.Add}"/>
+            <MenuItem x:Name="Add" Header="Копировать"/>
 
-            <MenuItem Name="remove" Header="Удалить" Command="{x:Static local:ProductsViewHelper.Remove}"/>
+            <MenuItem Name="Remove" Header="Удалить"/>
         </ContextMenu>
     </UserControl.Resources>
     <UserControl.CommandBindings>
-        <CommandBinding Command="{x:Static local:ProductsViewHelper.Add}"
+        <CommandBinding Command="{x:Static local:ProductsViewHelper.General}"
                         Executed="{x:Static local:ProductsViewHelper.Executed}"
                         CanExecute="{x:Static local:ProductsViewHelper.CanExecute}"/>
     </UserControl.CommandBindings>
@@ -90,7 +82,8 @@
                     <Run Text="{Binding Products.Count, Mode=OneWay, BindsDirectlyToSource=True}" />
                 </TextBlock>
                 <Button Content="Добавить товар"
-                        Command="{x:Static local:ProductsViewHelper.Add}" />
+                        Command="{x:Static local:ProductsViewHelper.General}"
+                        CommandParameter="Add"/>
             </StackPanel>
 
             <StackPanel Grid.Column="2"
@@ -191,8 +184,11 @@
                                     Property="Background"
                                     Value="Gray" />
                         </DataTrigger>
+                          <DataTrigger Binding="{Binding DataContext, ElementName=list, Converter={x:Static local:ProductsViewHelper.IsMenu}}"
+                                       Value="False">
+                            <Setter TargetName="root" Property="ContextMenu" Value="{x:Null}"/>
+                        </DataTrigger>
                     </DataTemplate.Triggers>
-
                 </DataTemplate>
             </ListBox.ItemTemplate>
 
