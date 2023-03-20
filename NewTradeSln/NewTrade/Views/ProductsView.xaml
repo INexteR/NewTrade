@@ -23,9 +23,36 @@
                                  ProductCost="{Binding Text, ElementName=cost}"
                                  ProductQuantityInStock="{Binding Text, ElementName=quantityInStock}" />
         <ContextMenu x:Key="contextMenu"
-                     Style="{StaticResource ctrlStyle}">
-            <MenuItem Header="Редактировать"
-                      Click="{x:Static local:ProductsViewHelper.OnUpdateProductClick}" />
+                     Padding="0"
+                     Opened="{x:Static local:ProductsViewHelper.ContextMenuOpened}">
+            <ContextMenu.Template>
+                <ControlTemplate>
+                    <Border x:Name="border" BorderBrush="Coral" BorderThickness="2">
+                        <StackPanel x:Name="itemsPanel" IsItemsHost="True"
+                                KeyboardNavigation.DirectionalNavigation="Cycle"
+                                Background="AliceBlue"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                          <DataTrigger Binding="{Binding ActualHeight, ElementName=itemsPanel}"
+                                     Value="0">
+                            <Setter TargetName="border" Property="BorderThickness" Value="0"/>
+                        </DataTrigger>
+                  </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </ContextMenu.Template>
+            <FrameworkElement.Resources>
+                <Style TargetType="MenuItem">
+                    <Setter Property="CommandParameter" Value="{Binding Name, RelativeSource={RelativeSource Self}}"/>
+                    <Setter Property="CommandTarget" Value="{Binding PlacementTarget, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}"/>
+                    <Setter Property="Command" Value="{x:Static local:ProductsViewHelper.General}"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </FrameworkElement.Resources>
+            <MenuItem x:Name="Update" Header="Редактировать"/>
 
             <MenuItem Header="Копировать"
                       Click="{x:Static local:ProductsViewHelper.OnCopyProductClick}" />
@@ -173,6 +200,10 @@
                                     Property="Background"
                                     Value="Gray" />
                         </DataTrigger>
+                        <!--<DataTrigger Binding="{Binding DataContext, ElementName=list, Converter={x:Static local:ProductsViewHelper.IsMenu}}"
+                                       Value="False">
+                            <Setter TargetName="root" Property="ContextMenu" Value="{x:Null}"/>
+                        </DataTrigger>-->
                     </DataTemplate.Triggers>
 
                 </DataTemplate>
