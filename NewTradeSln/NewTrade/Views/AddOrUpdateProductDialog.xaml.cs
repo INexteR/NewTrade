@@ -84,7 +84,7 @@ namespace NewTrade.Views
                         return;
                     }
                 }
-                
+
                 var fileName = Path.GetFileName(dialog.FileName);
                 var newImage = Path.Combine(ImageNameToPathConverter.ImageFolderPath, fileName);                
                 

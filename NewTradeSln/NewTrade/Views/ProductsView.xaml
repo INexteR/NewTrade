@@ -9,6 +9,7 @@
              d:DesignHeight="450"
              d:DesignWidth="800"
              d:Background="White"
+             d:FontSize="18"
              d:DataContext="{Binding Products, Source={StaticResource locator}}"
              Loaded="{x:Static root:ViewsHelper.LayoutSetup}">
     <UserControl.Resources>
@@ -96,7 +97,7 @@
                         </Run.Text>
                     </Run>
                     <LineBreak />
-                    <Run Text="{Binding Role.Name, Mode=OneTime, FallbackValue='', StringFormat=роль: {0}}"/>
+                    <Run Text="{Binding Role.Name, Mode=OneTime, FallbackValue='', StringFormat=роль: {0}}" />
                 </TextBlock>
             </StackPanel>
 
@@ -214,16 +215,21 @@
                                    BasedOn="{StaticResource brush2}" />
                         </StackPanel.Resources>
                         <TextBlock Text="Название" />
-                        <TextBox x:Name="name" />
+                        <TextBox x:Name="name"
+                                 MaxLength="100" />
                         <TextBlock Text="Описание" />
-                        <TextBox x:Name="description" />
+                        <TextBox x:Name="description"
+                                 MaxLength="200" />
                         <TextBlock Text="Производитель" />
-                        <TextBox x:Name="manufacturer" />
+                        <TextBox x:Name="manufacturer"
+                                 MaxLength="100" />
                         <TextBlock Text="Цена (РУБ.)" />
                         <TextBox x:Name="cost"
+                                 MaxLength="11"
                                  PreviewTextInput="{x:Static root:ViewsHelper.OnlyNumbers}" />
                         <TextBlock Text="Наличие на складе" />
                         <TextBox x:Name="quantityInStock"
+                                 MaxLength="10"
                                  PreviewKeyDown="{x:Static root:ViewsHelper.OnlyDigits}" />
                     </StackPanel>
                 </ScrollViewer>

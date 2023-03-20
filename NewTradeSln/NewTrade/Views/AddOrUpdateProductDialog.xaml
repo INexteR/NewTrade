@@ -62,7 +62,8 @@
                                    BasedOn="{StaticResource comboBoxValidationStyle}" />
                         </StackPanel.Resources>
                         <TextBlock Text="Название" />
-                        <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
+                                 MaxLength="100" />
                         <TextBlock Text="Единица измерения" />
                         <ComboBox FontSize="16"
                                   DisplayMemberPath="Name"
@@ -71,7 +72,7 @@
                                   SelectedValue="{Binding UnitId, Converter={x:Static cnvs:IdConverter.Instance}}" />
                         <TextBlock Text="Цена (РУБ.)" />
                         <TextBox Text="{Binding Cost, UpdateSourceTrigger=PropertyChanged,Converter={x:Static cnvs:DecimalConverter.Instance}}"
-                                 MaxLength="10"
+                                 MaxLength="11"
                                  PreviewTextInput="{x:Static root:ViewsHelper.OnlyNumbers}" />
                         <TextBlock Text="Производитель" />
                         <ComboBox FontSize="16"
@@ -101,9 +102,9 @@
                                  MaxLength="2" />
                         <TextBlock Text="Количество на складе" />
                         <TextBox Text="{Binding QuantityInStock, UpdateSourceTrigger=PropertyChanged, Converter={x:Static cnvs:DigitConverter.Instance}}"
-                                 PreviewKeyDown="{x:Static root:ViewsHelper.OnlyDigits}" />
+                                 PreviewKeyDown="{x:Static root:ViewsHelper.OnlyDigits}" MaxLength="10"/>
                         <TextBlock Text="Описание" />
-                        <TextBox Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBox Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" MaxLength="200"/>
                     </StackPanel>
                 </ScrollViewer>
             </Border>

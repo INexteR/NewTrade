@@ -15,11 +15,11 @@ namespace ShopSQLite
         private void RoleVerifyAccess(bool haveAccess, [CallerMemberName] string methodName = "")
         {
             if (!haveAccess)
-                throw new MethodAccessException($"Доступ к методу \"{methodName}\" для роли {CurrentUser?.Role.Name ?? "гость"} запрещён;");
+                throw new MethodAccessException($"Доступ к методу \"{methodName}\" для роли {CurrentUser?.Role.Name ?? "гость"} запрещён");
         }
         private bool RoleCheckAccess(Rights rights)
         {
-            return CurrentUser?.Role.Rights is Rights currentRights && (currentRights & rights) == rights;
+            return CurrentUser?.Role.Rights is Rights currentRights && currentRights >= rights;
         }
 
         public void Add(IProduct product)
