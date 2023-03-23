@@ -107,7 +107,7 @@ namespace ShopViewModels
                 {
                     if (!DiscountAmount.HasValue || (int)newValue! < DiscountAmount.Value)
                     {
-                        AddError(maxDiscountAmountRangeError);
+                        AddError(maxDiscountAmountRangeError, propertyName);
                     }
                     else
                     {
@@ -118,7 +118,7 @@ namespace ShopViewModels
                 {
                     if ((sbyte?)newValue > MaxDiscountAmount)
                     {
-                        AddError(discountAmountRangeError);
+                        AddError(discountAmountRangeError, propertyName);
                     }
                     else if (MaxDiscountAmount != -1)
                         ClearErrors(nameof(MaxDiscountAmount));
