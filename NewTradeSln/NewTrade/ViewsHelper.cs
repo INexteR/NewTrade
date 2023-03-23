@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
 using System.Windows.Input;
+using System.Windows.Markup;
 using System.Windows.Media;
 using ViewModels;
 
@@ -108,5 +109,14 @@ namespace NewTrade
                 element.Resources.Remove(nameof(contextMenu));
             }
         };
+    }
+
+    [MarkupExtensionReturnType(typeof(RoutedEventHandler))]
+    public class CloseWindowExtension : MarkupExtension
+    {
+        public override object ProvideValue(IServiceProvider serviceProvider)
+        {
+            return ViewsHelper.CloseWindow;
+        }
     }
 }

@@ -1,5 +1,8 @@
 ﻿using Model;
+using System.Collections.ObjectModel;
+using System.Runtime.CompilerServices;
 using ViewModels;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ShopViewModels
 {
@@ -22,92 +25,37 @@ namespace ShopViewModels
         public string Name
         {
             get => Get<string>()!;
-            set
-            {
-                ClearErrors();
-                if (string.IsNullOrWhiteSpace(value))
-                {
-                    AddError(nameError);
-                }
-                Set(value);
-            }
+            set => Set(value);
         }
 
         public decimal Cost
         {
             get => Get<decimal>();
-            set
-            {
-                ClearErrors();
-                if (value is -1)
-                {
-                    AddError(costError);
-                }
-                Set(value);
-            }
+            set => Set(value);
         }
 
         public int MaxDiscountAmount
         {
             get => Get<int>();
-            set
-            {
-                ClearErrors();
-                if (value is -1)
-                {
-                    AddError(maxDiscountAmountError);
-                }
-                else if (!DiscountAmount.HasValue || value < DiscountAmount.Value)
-                {
-                    AddError("Максимальная скидка не может быть меньше скидки");
-                }
-                else ClearErrors(nameof(DiscountAmount));
-                Set(value);
-            }
+            set => Set(value);
         }
 
         public sbyte? DiscountAmount
         {
             get => Get<sbyte?>();
-            set
-            {
-                ClearErrors();
-                if (value.HasValue && value.Value > MaxDiscountAmount)
-                {
-                    AddError("Скидка не может быть больше максимальной скидки");
-                }
-                else if (MaxDiscountAmount != -1) 
-                    ClearErrors(nameof(MaxDiscountAmount));
-                Set(value);
-            }
+            set => Set(value);
         }
 
         public int QuantityInStock
         {
             get => Get<int>();
-            set
-            {
-                ClearErrors();
-                if (value is -1)
-                {
-                    AddError(quantityInStockError);
-                }
-                Set(value);
-            }
+            set => Set(value);
         }
 
         public string Description
         {
             get => Get<string>()!;
-            set
-            {
-                ClearErrors();
-                if (string.IsNullOrWhiteSpace(value))
-                {
-                    AddError(descriptionError);
-                }
-                Set(value);
-            }
+            set => Set(value);
         }
 
         public string? Path { get => Get<string>()!; set => Set(value); }
@@ -115,56 +63,70 @@ namespace ShopViewModels
         public int UnitId
         {
             get => Get<int>();
-            set
-            {
-                ClearErrors();
-                if (value is -1)
-                {
-                    AddError(unitError);
-                }
-                Set(value);
-            }
+            set => Set(value);
         }
 
         public int ManufacturerId
         {
             get => Get<int>();
-            set
-            {
-                ClearErrors();
-                if (value is -1)
-                {
-                    AddError(manufacturerError);
-                }
-                Set(value);
-            }
+            set => Set(value);
         }
 
         public int SupplierId
         {
             get => Get<int>();
-            set
-            {
-                ClearErrors();
-                if (value is -1)
-                {
-                    AddError(supplierError);
-                }
-                Set(value);
-            }
+            set => Set(value);
         }
         public int CategoryId
         {
             get => Get<int>();
-            set
+            set => Set(value);
+        }
+
+        protected override void OnPropertyChanged(string propertyName, object? oldValue, object? newValue)
+        {
+            base.OnPropertyChanged(propertyName, oldValue, newValue);
+            if (propertyName is nameof(QuantityInStock) or nameof(UnitId) or nameof(ManufacturerId) or nameof(SupplierId) or nameof(CategoryId)
+                                or nameof(Cost)
+                                or nameof(Name) or nameof(Description)
+                                or nameof(MaxDiscountAmount) or nameof(DiscountAmount))
             {
-                ClearErrors();
-                if (value is -1)
+                ClearErrors(propertyName);
+                bool isError = propertyName is nameof(DiscountAmount)
+                               ? false
+                               : propertyName is nameof(Cost)
+                               ? (decimal)newValue! <= 0
+                               : propertyName is nameof(Name) or nameof(Description)
+                               ? string.IsNullOrWhiteSpace((string?)newValue)
+                               : (int)newValue! <= 0;
+                if (isError)
                 {
-                    AddError(categoryError);
+                    AddError(errors[propertyName], propertyName);
                 }
-                Set(value);
+                else if (propertyName is nameof(MaxDiscountAmount))
+                {
+                    if (!DiscountAmount.HasValue || (int)newValue! < DiscountAmount.Value)
+                    {
+                        AddError(maxDiscountAmountRangeError);
+                    }
+                    else
+                    {
+                        ClearErrors(nameof(DiscountAmount));
+                    }
+                }
+                else if (propertyName is nameof(DiscountAmount))
+                {
+                    if ((sbyte?)newValue > MaxDiscountAmount)
+                    {
+                        AddError(discountAmountRangeError);
+                    }
+                    else if (MaxDiscountAmount != -1)
+                        ClearErrors(nameof(MaxDiscountAmount));
+                }
+
+                Set(newValue, propertyName);
             }
+
         }
 
         public int Id { get; private set; }
@@ -184,5 +146,21 @@ namespace ShopViewModels
         private const string quantityInStockError = "Введите количество на складе";
         private const string descriptionError = "Введите описание";
 
+        private const string maxDiscountAmountRangeError = "Максимальная скидка не может быть меньше скидки";
+        private const string discountAmountRangeError = "Скидка не может быть больше максимальной скидки";
+
+
+        private static ReadOnlyDictionary<string, string> errors = new(new Dictionary<string, string>()
+        {
+            {nameof(Name), nameError},
+            {nameof(UnitId), unitError},
+            {nameof(Cost), costError },
+            {nameof(ManufacturerId), manufacturerError },
+            {nameof(SupplierId), supplierError },
+            {nameof(CategoryId), categoryError },
+            {nameof(MaxDiscountAmount), maxDiscountAmountError },
+            {nameof(QuantityInStock), quantityInStockError },
+            {nameof(Description), descriptionError }
+        });
     }
 }

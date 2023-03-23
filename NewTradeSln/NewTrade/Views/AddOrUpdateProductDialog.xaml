@@ -71,7 +71,7 @@
                                   SelectedValuePath="Id"
                                   SelectedValue="{Binding UnitId, Converter={x:Static cnvs:IdConverter.Instance}}" />
                         <TextBlock Text="Цена (РУБ.)" />
-                        <TextBox Text="{Binding Cost, UpdateSourceTrigger=PropertyChanged,Converter={x:Static cnvs:DecimalConverter.Instance}}"
+                        <TextBox Text="{Binding Cost, UpdateSourceTrigger=PropertyChanged, Converter={cnvs:NumberConverter}}"
                                  MaxLength="11"
                                  PreviewTextInput="{x:Static root:ViewsHelper.OnlyNumbers}" />
                         <TextBlock Text="Производитель" />
@@ -93,15 +93,15 @@
                                   SelectedValuePath="Id"
                                   SelectedValue="{Binding CategoryId, Converter={x:Static cnvs:IdConverter.Instance}}" />
                         <TextBlock Text="Максимально-возможная скидка (%)" />
-                        <TextBox Text="{Binding MaxDiscountAmount, UpdateSourceTrigger=PropertyChanged, Converter={x:Static cnvs:DigitConverter.Instance}}"
+                        <TextBox Text="{Binding MaxDiscountAmount, UpdateSourceTrigger=PropertyChanged, Converter={cnvs:NumberConverter}}"
                                  PreviewKeyDown="{x:Static root:ViewsHelper.OnlyDigits}"
                                  MaxLength="2" />
                         <TextBlock Text="Скидка (%)" />
-                        <TextBox Text="{Binding DiscountAmount, UpdateSourceTrigger=PropertyChanged, Converter={x:Static cnvs:DigitConverter.Instance}}"
+                        <TextBox Text="{Binding DiscountAmount, UpdateSourceTrigger=PropertyChanged, Converter={cnvs:NumberConverter}}"
                                  PreviewKeyDown="{x:Static root:ViewsHelper.OnlyDigits}"
                                  MaxLength="2" />
                         <TextBlock Text="Количество на складе" />
-                        <TextBox Text="{Binding QuantityInStock, UpdateSourceTrigger=PropertyChanged, Converter={x:Static cnvs:DigitConverter.Instance}}"
+                        <TextBox Text="{Binding QuantityInStock, UpdateSourceTrigger=PropertyChanged, Converter={cnvs:NumberConverter}}"
                                  PreviewKeyDown="{x:Static root:ViewsHelper.OnlyDigits}" MaxLength="10"/>
                         <TextBlock Text="Описание" />
                         <TextBox Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" MaxLength="200"/>
@@ -153,7 +153,7 @@
                     Orientation="Horizontal"
                     HorizontalAlignment="Center"
                     Margin="14"
-                    ButtonBase.Click="{x:Static root:ViewsHelper.CloseWindow}">
+                    ButtonBase.Click="{root:CloseWindow}">
             <Button Content="Сохранить"
                     x:Name="button"
                     CommandParameter="{Binding ValidatesOnNotifyDataErrors=False}"
