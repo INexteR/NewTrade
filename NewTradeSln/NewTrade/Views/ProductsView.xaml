@@ -10,8 +10,7 @@
              d:DesignWidth="800"
              d:Background="White"
              d:FontSize="18"
-             d:DataContext="{Binding Products, Source={StaticResource locator}}"
-             Loaded="{x:Static root:ViewsHelper.LayoutSetup}">
+             d:DataContext="{Binding Products, Source={StaticResource locator}}">
     <UserControl.Resources>
         <root:ProductsViewSource x:Key="productsView"
                                  Source="{Binding Products}"
@@ -24,7 +23,7 @@
                                  ProductQuantityInStock="{Binding Text, ElementName=quantityInStock}" />
         <ContextMenu x:Key="contextMenu"
                      Padding="0"
-                     Opened="{x:Static local:ProductsViewHelper.ContextMenuOpened}">
+                     Loaded="{x:Static local:ProductsViewHelper.ContextMenuOpened}">
             <ContextMenu.Template>
                 <ControlTemplate>
                     <Border x:Name="border" BorderBrush="Coral" BorderThickness="2">
@@ -34,17 +33,15 @@
                     </Border>
                     <ControlTemplate.Triggers>
                           <DataTrigger Binding="{Binding ActualHeight, ElementName=itemsPanel}"
-                                     Value="0">
-                            <Setter TargetName="border" Property="BorderThickness" Value="0"/>
+                                       Value="0">
+                              <Setter TargetName="border" Property="BorderThickness" Value="0"/>
                         </DataTrigger>
                   </ControlTemplate.Triggers>
                 </ControlTemplate>
             </ContextMenu.Template>
             <FrameworkElement.Resources>
                 <Style TargetType="MenuItem">
-                    <Setter Property="CommandParameter" Value="{Binding Name, RelativeSource={RelativeSource Self}}"/>
-                    <Setter Property="CommandTarget" Value="{Binding PlacementTarget, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}"/>
-                    <Setter Property="Command" Value="{x:Static local:ProductsViewHelper.General}"/>
+                    <Setter Property="CommandParameter" Value="{Binding RelativeSource={RelativeSource Self}}"/>
                     <Style.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Visibility" Value="Collapsed"/>
@@ -52,13 +49,14 @@
                     </Style.Triggers>
                 </Style>
             </FrameworkElement.Resources>
-            <MenuItem x:Name="Update" Header="Редактировать"/>
+            <MenuItem Header="Редактировать"
+                      Command="{x:Static local:ProductsViewHelper.OnUpdateProductClick}"/>
 
             <MenuItem Header="Копировать"
-                      Click="{x:Static local:ProductsViewHelper.OnCopyProductClick}" />
+                      Command="{x:Static local:ProductsViewHelper.OnCopyProductClick}" />
 
             <MenuItem Header="Удалить"
-                      Click="{x:Static local:ProductsViewHelper.OnRemoveProductClick}" />
+                      Command="{x:Static local:ProductsViewHelper.OnRemoveProductClick}" />
         </ContextMenu>
     </UserControl.Resources>
 
@@ -97,7 +95,8 @@
                     <Run Text="{Binding Products.Count, Mode=OneWay, BindsDirectlyToSource=True}" />
                 </TextBlock>
                 <Button Content="Добавить товар"
-                        Click="{x:Static local:ProductsViewHelper.OnAddProductClick}" />
+                        Command="{x:Static local:ProductsViewHelper.OnAddProductClick}"
+                        CommandParameter="{Binding RelativeSource={RelativeSource Self}}"/>
             </StackPanel>
 
             <StackPanel Grid.Column="2"
