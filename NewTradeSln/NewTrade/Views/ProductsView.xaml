@@ -22,8 +22,7 @@
                                  ProductCost="{Binding Text, ElementName=cost}"
                                  ProductQuantityInStock="{Binding Text, ElementName=quantityInStock}" />
         <ContextMenu x:Key="contextMenu"
-                     Padding="0"
-                     Loaded="{x:Static local:ProductsViewHelper.ContextMenuOpened}">
+                     Opened="{x:Static local:ProductsViewHelper.ContextMenuOpened}">
             <ContextMenu.Template>
                 <ControlTemplate>
                     <Border x:Name="border" BorderBrush="Coral" BorderThickness="2">
@@ -31,17 +30,11 @@
                                 KeyboardNavigation.DirectionalNavigation="Cycle"
                                 Background="AliceBlue"/>
                     </Border>
-                    <ControlTemplate.Triggers>
-                          <DataTrigger Binding="{Binding ActualHeight, ElementName=itemsPanel}"
-                                       Value="0">
-                              <Setter TargetName="border" Property="BorderThickness" Value="0"/>
-                        </DataTrigger>
-                  </ControlTemplate.Triggers>
                 </ControlTemplate>
             </ContextMenu.Template>
             <FrameworkElement.Resources>
-                <Style TargetType="MenuItem">
-                    <Setter Property="CommandParameter" Value="{Binding RelativeSource={RelativeSource Self}}"/>
+                <Style TargetType="MenuItem"
+                       BasedOn="{StaticResource {x:Type MenuItem}}">
                     <Style.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Visibility" Value="Collapsed"/>
@@ -50,13 +43,13 @@
                 </Style>
             </FrameworkElement.Resources>
             <MenuItem Header="Редактировать"
-                      Command="{x:Static local:ProductsViewHelper.OnUpdateProductClick}"/>
+                      Command="{local:ProductCommands Update}"/>
 
             <MenuItem Header="Копировать"
-                      Command="{x:Static local:ProductsViewHelper.OnCopyProductClick}" />
+                      Command="{local:ProductCommands Add}" />
 
             <MenuItem Header="Удалить"
-                      Command="{x:Static local:ProductsViewHelper.OnRemoveProductClick}" />
+                      Command="{local:ProductCommands Remove}" />
         </ContextMenu>
     </UserControl.Resources>
 
@@ -95,8 +88,18 @@
                     <Run Text="{Binding Products.Count, Mode=OneWay, BindsDirectlyToSource=True}" />
                 </TextBlock>
                 <Button Content="Добавить товар"
-                        Command="{x:Static local:ProductsViewHelper.OnAddProductClick}"
-                        CommandParameter="{Binding RelativeSource={RelativeSource Self}}"/>
+                        Command="{local:ProductCommands Add}">
+                    <Button.Style>
+                        <Style TargetType="Button"
+                               BasedOn="{StaticResource {x:Type Button}}">
+                            <Style.Triggers>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
             </StackPanel>
 
             <StackPanel Grid.Column="2"
@@ -199,10 +202,6 @@
                                     Property="Background"
                                     Value="Gray" />
                         </DataTrigger>
-                        <!--<DataTrigger Binding="{Binding DataContext, ElementName=list, Converter={x:Static local:ProductsViewHelper.IsMenu}}"
-                                       Value="False">
-                            <Setter TargetName="root" Property="ContextMenu" Value="{x:Null}"/>
-                        </DataTrigger>-->
                     </DataTemplate.Triggers>
 
                 </DataTemplate>
@@ -213,7 +212,7 @@
                     <Setter Property="Padding"
                             Value="0" />
                     <Setter Property="Background"
-                            Value="{x:Null}" />
+                            Value="Transparent" />
                 </Style>
             </ListBox.ItemContainerStyle>
         </ListBox>

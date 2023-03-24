@@ -1,10 +1,7 @@
 ﻿using Model;
 using ShopSQLite;
 using ShopViewModels;
-using System;
-using System.Threading.Tasks;
-using System.Windows.Data;
-using System.Windows.Media;
+using System.ComponentModel;
 using System.Windows.Threading;
 
 namespace NewTrade
@@ -51,5 +48,7 @@ namespace NewTrade
             border = (Border)PART_EditableTextBox.Parent;
             border.Background = cBox.Background;
         }
+
+        public static bool IsInDesignMode { get; } = DesignerProperties.GetIsInDesignMode(new DependencyObject());
     }
 }

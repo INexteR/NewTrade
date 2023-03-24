@@ -28,6 +28,5 @@ namespace ShopSQLite.Initialization
 8	Симонов	Михаил	Тимурович	iut@gmail.com	gynQMT	3
 9	Павлова	Ксения	Михайловна	e3t@outlook.com	AtnDjr	3
 10	Трифонов	Григорий	Юрьевич	41clb6o2g@yandex.ru	JlFRCZ	3";
-
     }
 }

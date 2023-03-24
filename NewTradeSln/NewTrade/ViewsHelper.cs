@@ -93,22 +93,6 @@ namespace NewTrade
             MessageBox.Show(txt, title, btn, img);
         }
 
-        public static RoutedEventHandler LayoutSetup { get; } = (s, e) =>
-        {
-            var element = (FrameworkElement)s;
-            var viewModel = (IProductsViewModel)element.DataContext;
-            var contextMenu = (ContextMenu)element.Resources["contextMenu"];
-            var pnl = (Panel)element.FindName("pnl");
-            if (viewModel.CanRemove)
-                return;
-            if (viewModel.CanAddAndUpdate)
-                contextMenu.Items.RemoveAt(2);
-            else
-            {
-                pnl.Children.Remove(pnl.Children[^1]);
-                element.Resources.Remove(nameof(contextMenu));
-            }
-        };
     }
 
     [MarkupExtensionReturnType(typeof(RoutedEventHandler))]
