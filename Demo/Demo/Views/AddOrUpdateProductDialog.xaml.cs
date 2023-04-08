@@ -28,10 +28,10 @@
             // Вызов метода VM 
             BigViewModel.Instance.Save((Product)e.Parameter);
         }
-    }
 
-    internal enum DialogMode
-    {
-        Add, Update
+        private void OnChooseImageClick(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

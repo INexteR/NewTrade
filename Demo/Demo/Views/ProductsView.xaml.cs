@@ -68,5 +68,36 @@
 
             source.Filter += filter;
         }
+
+        private void OnAddProductDialog(object sender, RoutedEventArgs e)
+        {
+            var dialog = new AddOrUpdateProductDialog();
+            dialog.Owner = Window.GetWindow(this);
+            dialog.Title = "Добавление нового товара";
+            dialog.ShowDialog();
+        }
+        private void OnUpdateProductDialog(object sender, RoutedEventArgs e)
+        {
+            var dialog = new AddOrUpdateProductDialog();
+            dialog.Owner = Window.GetWindow(this);
+            dialog.Title = "Редактирование товара";
+            Product product = (Product)((Button)sender).CommandParameter;
+            dialog.Resources["product"] = product.Clone();
+            dialog.ShowDialog();
+        }
+    }
+
+    public static class CloneHelper
+    {
+        public static Product Clone(this Product product) 
+        {
+            return new Product()
+            {
+                // Здесь копирование нужных свойств
+                Id = product.Id,
+                Name = product.Name,
+                ManufacturerId = product.ManufacturerId,
+            };
+        }
     }
 }

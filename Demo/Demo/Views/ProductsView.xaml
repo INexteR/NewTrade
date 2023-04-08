@@ -45,7 +45,7 @@
                     <Run Text="из" />
                     <Run Text="{Binding Products.Count, Mode=OneWay, BindsDirectlyToSource=True}" />
                 </TextBlock>
-                <Button Content="Добавить товар" />
+                <Button Content="Добавить товар" Click="OnAddProductDialog"/>
             </StackPanel>
 
             <StackPanel Grid.Column="2"

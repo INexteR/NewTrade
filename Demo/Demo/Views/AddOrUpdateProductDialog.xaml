@@ -12,7 +12,6 @@
         DataContext="{x:Static root:BigViewModel.Instance}">
     <Window.Resources>
         <entities:Product x:Key="product"/>
-        <local:DialogMode x:Key="mode">Add</local:DialogMode>
     </Window.Resources>
     <Window.CommandBindings>
         <CommandBinding Command="Save" CanExecute="OnCanExecuteSave" Executed="OnExecutedSave"/>
