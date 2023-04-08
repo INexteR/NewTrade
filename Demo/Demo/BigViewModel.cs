@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace Demo
+﻿namespace Demo
 {
     public class BigViewModel : BaseInpc
     {
@@ -47,10 +45,13 @@ namespace Demo
             User = null;
         }
 
+        public void Save(Product product)
+        {
+            MessageBox.Show("Сохранить product.");
+        }
+
         public ObservableCollection<Manufacturer> Manufacturers { get; }
 
         public ObservableCollection<Product> Products { get; }
-
-
     }
 }

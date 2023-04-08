@@ -60,5 +60,8 @@
 	  <Resource Include="Resources\logo.png" />
 	  <Resource Include="Resources\picture.png" />
 	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Converters\" />
+	</ItemGroup>
 
 </Project>
