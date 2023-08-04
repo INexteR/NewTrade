@@ -1,0 +1,40 @@
+﻿<Window x:Class="NewTrade.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NewTrade"
+        xmlns:vms="clr-namespace:ShopViewModels;assembly=ShopViewModels"
+        xmlns:vs="clr-namespace:NewTrade.Views"
+        mc:Ignorable="d"
+        Height="485"
+        Width="825"
+        WindowStartupLocation="CenterScreen"
+        DataContext="{Binding Authorization, Source={StaticResource locator}}">
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type vms:AuthorizationViewModel}">
+            <vs:AuthorizationView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vms:ProductsViewModel}">
+            <vs:ProductsView />
+        </DataTemplate>
+    </Window.Resources>
+    <Window.Style>
+        <Style TargetType="Window"
+               BasedOn="{StaticResource wndStyle}">
+            <Setter Property="Title"
+                    Value="Авторизация" />
+            <Setter Property="Content"
+                    Value="{Binding}" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding CurrentStatus}"
+                             Value="Authorized">
+                    <Setter Property="Title"
+                            Value="Каталог" />
+                    <Setter Property="Content"
+                            Value="{Binding Products, Source={StaticResource locator}}" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Style>
+</Window>
